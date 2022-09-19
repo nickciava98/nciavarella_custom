@@ -1,0 +1,48 @@
+<odoo>
+    <record id="nciavarella_documents_action" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="res_model">nciavarella.documents</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No data yet!
+            </p>
+            
+            <p>
+                Start creating documents!
+            </p>
+        </field>
+    </record>
+
+    <record id="monthly_summary_action" model="ir.actions.act_window">
+        <field name="name">Monthly Summary</field>
+        <field name="res_model">nciavarella.documents</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'group_by': 'date:month'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No data yet!
+            </p>
+
+            <p>
+                Start creating documents!
+            </p>
+        </field>
+    </record>
+
+    <record id="yearly_summary_action" model="ir.actions.act_window">
+        <field name="name">Yearly Summary</field>
+        <field name="res_model">nciavarella.documents</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'group_by': 'date:year'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No data yet!
+            </p>
+
+            <p>
+                Start creating documents!
+            </p>
+        </field>
+    </record>
+</odoo>

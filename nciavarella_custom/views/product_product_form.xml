@@ -1,0 +1,13 @@
+<odoo>
+    <record id="product_product_form_inherit" model="ir.ui.view">
+        <field name="name">product.product.form.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="before">
+                <field name="is_hourly_cost"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

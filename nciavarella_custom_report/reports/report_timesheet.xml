@@ -1,0 +1,6 @@
+<odoo>
+    <template id="report_timesheet_inherit" inherit_id="hr_timesheet.report_timesheet">
+        <xpath expr="//table[hasclass('table-sm')]/thead/tr/th[2]" position="replace"/>
+        <xpath expr="//table[hasclass('table-sm')]/tbody/tr/td[2]" position="replace"/>
+    </template>
+</odoo>

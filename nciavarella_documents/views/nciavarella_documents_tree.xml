@@ -1,0 +1,12 @@
+<odoo>
+    <record id="nciavarella_documents_view_tree" model="ir.ui.view">
+        <field name="name">Documents List</field>
+        <field name="model">nciavarella.documents</field>
+        <field name="arch" type="xml">
+            <tree expand="True">
+                <field name="name"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

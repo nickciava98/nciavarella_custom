@@ -1,0 +1,161 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* nciavarella_custom_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-15 09:46+0000\n"
+"PO-Revision-Date: 2022-09-15 09:46+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<b>Account Holder:</b>"
+msgstr "<b>Titolare del conto:</b>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<b>BIC - SWIFT:</b>"
+msgstr ""
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<b>Bank:</b>"
+msgstr "<b>Banca:</b>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<b>IBAN:</b>"
+msgstr ""
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<b>Reason for transfer:</b> Payment of invoice n."
+msgstr "<b>Causale del bonifico:</b> Pagamento della fattura n."
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<b>Terms and conditions:</b> <br/>"
+msgstr "<b>Termini e condizioni:</b> <br/>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<br/> Email:"
+msgstr ""
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<br/> Mobile:"
+msgstr "<br/> Cell:"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<br/> Phone:"
+msgstr "<br/> Tel:"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<br/> Web:"
+msgstr ""
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<span>Payment Info</span>"
+msgstr "<span>Info Pagamento</span>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<span>Quantity</span>"
+msgstr "<span>Quantità</span>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<span>Subtotal</span>"
+msgstr "<span>Imponibile</span>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<span>Taxes</span>"
+msgstr "<span>IVA</span>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<span>Total</span>"
+msgstr "<span>Totale</span>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<span>Unit Price</span>"
+msgstr "<span>Prezzo unitario</span>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<strong>Amount Due</strong>"
+msgstr "<strong>Importo dovuto</strong>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<strong>Subtotal</strong>"
+msgstr "<strong>Imponibile</strong>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "<strong>Total</strong>"
+msgstr "<strong>Totale</strong>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "Cancelled Invoice n."
+msgstr "Fattura cancellata n."
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "Credit Note n."
+msgstr "Nota di credito n."
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "Invoice n."
+msgstr "Fattura n."
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.external_layout_boxed_inherit
+msgid "Logo"
+msgstr ""
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "PRO-FORMA Invoice"
+msgstr "Fattura PRO-FORMA"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "Paid on"
+msgstr "Pagato il"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "Tax ID"
+msgstr "Partita IVA"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "Taxes"
+msgstr "IVA"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "Vendor Bill n."
+msgstr "Fattura fornitore n."
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid "Vendor Credit Note n."
+msgstr "Nota di credito fornitore n."

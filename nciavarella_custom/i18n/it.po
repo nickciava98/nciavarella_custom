@@ -1,0 +1,393 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* nciavarella_custom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-05 12:48+0000\n"
+"PO-Revision-Date: 2022-09-05 12:48+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.actions.act_window,name:nciavarella_custom.activity_costs_action
+#: model:ir.model,name:nciavarella_custom.model_activity_costs
+#: model:ir.ui.menu,name:nciavarella_custom.activity_costs_menu
+msgid "Activity Costs"
+msgstr "Costi attività"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__cash_flow
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__cash_flow
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__cash_flow
+msgid "Cash Flow"
+msgstr "Liquidità"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
+msgid "Costs"
+msgstr "Costi"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__currency_id
+msgid "Currency"
+msgstr "Valuta"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__display_name
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__display_name
+#: model:ir.model.fields,field_description:nciavarella_custom.field_product_product__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_tree_inherit
+msgid "Down Payment"
+msgstr "Acconto"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__id
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__id
+#: model:ir.model.fields,field_description:nciavarella_custom.field_product_product__id
+msgid "ID"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_form_inherit
+msgid "IVA"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__message_needaction
+#: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__message_has_error
+#: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__invoice_down_payment
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__invoice_down_payment
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__invoice_down_payment
+msgid "Invoice Down Payment"
+msgstr "Acconto da fattura"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__is_hourly_cost
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__is_hourly_cost
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__is_hourly_cost
+#: model:ir.model.fields,field_description:nciavarella_custom.field_product_product__is_hourly_cost
+msgid "Is Hourly Cost"
+msgstr "Costo orario"
+
+#. module: nciavarella_custom
+#: model:ir.model,name:nciavarella_custom.model_account_move
+msgid "Journal Entry"
+msgstr "Registrazione contabile"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move____last_update
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs____last_update
+#: model:ir.model.fields,field_description:nciavarella_custom.field_product_product____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__name
+msgid "Name"
+msgstr "Periodo d'imposta"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.actions.act_window,help:nciavarella_custom.activity_costs_action
+msgid "No data yet!"
+msgstr "Nessun dato!"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model,name:nciavarella_custom.model_product_product
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__remaining_balance
+msgid "Remaining Balance"
+msgstr "Saldo rimanente"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.actions.act_window,help:nciavarella_custom.activity_costs_action
+msgid "Start tracking activity costs!"
+msgstr "Inizia a tracciare i costi dell'attività"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_form_inherit
+msgid "Subtotal"
+msgstr "Imponibile"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__tax_id
+msgid "Tax"
+msgstr "Aliquota IRPEF"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
+msgid "Tax Period"
+msgstr "Periodo d'imposta"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__taxes_previous_down_payment
+msgid "Taxes Previous Down Payment"
+msgstr "Acconto IRPEF anno precedente"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_form_inherit
+msgid "Total"
+msgstr "Totale"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_costs
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
+msgid "Total Costs"
+msgstr "Costi totali"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_down_payments
+msgid "Total Down Payments"
+msgstr "Totale acconti"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_invoiced
+msgid "Total Invoiced"
+msgstr "Totale fatturato"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_stamp_taxes
+msgid "Total Stamp Taxes"
+msgstr "Totale imposte di bollo"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_taxable
+msgid "Total Taxable"
+msgstr "Imponibile"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_taxes_due
+msgid "Total Taxes Due"
+msgstr "Totale IRPEF con acconto per anno seguente"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_welfare_due
+msgid "Total Welfare Due"
+msgstr "Totale INPS con acconto per anno seguente"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__welfare_id
+msgid "Welfare"
+msgstr "Aliquota INPS"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__welfare_previous_down_payment
+msgid "Welfare Previous Down Payment"
+msgstr "Acconto INPS anno precedente"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__year_cash_flow
+msgid "Year Cash Flow"
+msgstr "Liquidità annua"

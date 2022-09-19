@@ -1,0 +1,87 @@
+<odoo>
+    <record id="activity_costs_view_form" model="ir.ui.view">
+        <field name="name">Activity Costs</field>
+        <field name="model">activity.costs</field>
+
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Tax Period"/>
+
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+
+                        <label for="total_costs" string="Total Costs"/>
+                        <field name="total_costs" widget="monetary"
+                               options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                    </div>
+
+                    <field name="currency_id" invisible="True"/>
+
+                    <group>
+                        <group>
+                            <field name="total_invoiced" widget="monetary"
+                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                            <field name="total_taxable" widget="monetary"
+                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                            <field name="year_cash_flow" widget="monetary"
+                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                        </group>
+
+                        <group>
+                            <field name="tax_id" widget="percentage"/>
+                            <field name="welfare_id" widget="percentage"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="taxes_previous_down_payment" widget="monetary"
+                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                        </group>
+
+                        <group>
+                            <field name="welfare_previous_down_payment" widget="monetary"
+                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Costs" name="costs">
+                            <group>
+                                <group>
+                                    <field name="total_down_payments" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <field name="remaining_balance" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <field name="total_stamp_taxes" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                </group>
+
+                                <group>
+                                    <group>
+                                        <field name="total_taxes_due" widget="monetary"
+                                               options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    </group>
+
+                                    <group>
+                                        <field name="total_welfare_due" widget="monetary"
+                                               options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    </group>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+</odoo>

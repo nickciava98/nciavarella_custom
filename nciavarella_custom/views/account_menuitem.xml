@@ -1,0 +1,30 @@
+<odoo>
+    <record id="activity_costs_action" model="ir.actions.act_window">
+        <field name="name">Activity Costs</field>
+        <field name="res_model">activity.costs</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'group_by': 'name:year'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No data yet!
+            </p>
+
+            <p>
+                Start tracking activity costs!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="activity_costs_menu" name="Activity Costs"
+              action="activity_costs_action" parent="account.menu_finance_reports"/>
+
+    <delete id="account.account_reports_management_menu" model="ir.ui.menu"/>
+    <delete id="account.menu_action_account_invoice_report_all" model="ir.ui.menu"/>
+    <delete id="account.menu_finance_payables" model="ir.ui.menu"/>
+    <delete id="account.menu_action_move_in_invoice_type" model="ir.ui.menu"/>
+    <delete id="account.menu_action_move_in_refund_type" model="ir.ui.menu"/>
+    <delete id="account.menu_action_move_in_receipt_type" model="ir.ui.menu"/>
+    <delete id="account.menu_action_account_payments_payable" model="ir.ui.menu"/>
+    <delete id="account.product_product_menu_purchasable" model="ir.ui.menu"/>
+    <delete id="account.menu_account_supplier" model="ir.ui.menu"/>
+</odoo>

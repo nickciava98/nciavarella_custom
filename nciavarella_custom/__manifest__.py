@@ -1,0 +1,20 @@
+# -*- coding: utf-8 -*-
+{
+    'name': "nciavarella Custom",
+    'summary': "nciavarella customizations",
+    'license': 'OPL-1',
+    'author': "Niccolò Ciavarella",
+    'category': '',
+    'version': '14.0.1',
+    'website': "http://www.nciavarella.me",
+    'depends': ['account'],
+    'data': ['security/ir.model.access.csv',
+             'views/account_menuitem.xml',
+             'views/account_move_form.xml',
+             'views/account_move_tree.xml',
+             'views/product_product_form.xml',
+             'views/activity_costs_form.xml',
+             'views/activity_costs_tree.xml'],
+    'application': False,
+    'installable': True,
+}
