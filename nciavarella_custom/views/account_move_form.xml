@@ -25,9 +25,9 @@
                 <attribute name="string">Subtotal</attribute>
             </xpath>
 
-            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']"
-                   position="after">
-                <field name="price_total" string="Total" optional="show"/>
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_total']"
+                   position="attributes">
+                <attribute name="optional">show</attribute>
             </xpath>
 
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_uom_id']"
