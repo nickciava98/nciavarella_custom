@@ -51,6 +51,23 @@ class ActivityCosts(models.Model):
     )
     taxes_previous_down_payment = fields.Float()
     welfare_previous_down_payment = fields.Float()
+    gross_tax = fields.Float(
+        compute = "_compute_gross_tax"
+    )
+    net_tax = fields.Float(
+        compute = "_compute_net_tax"
+    )
+
+    @api.depends("total_down_payments", "remaining_balance")
+    def _compute_gross_tax(self):
+        for line in self:
+            line.gross_tax = line.total_down_payments - line.remaining_balance
+
+    @api.depends("gross_tax", "taxes_previous_down_payment",
+                 "welfare_previous_down_payment")
+    def _compute_net_tax(self):
+        for line in self:
+            line.net_tax = line.gross_tax - line.taxes_previous_down_payment - line.welfare_previous_down_payment
 
     def _compute_currency_id(self):
         for line in self:
