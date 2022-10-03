@@ -12,10 +12,6 @@
                         <h1>
                             <field name="name"/>
                         </h1>
-
-                        <label for="total_costs" string="Total Costs"/>
-                        <field name="total_costs" widget="monetary"
-                               options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                     </div>
 
                     <field name="currency_id" invisible="True"/>

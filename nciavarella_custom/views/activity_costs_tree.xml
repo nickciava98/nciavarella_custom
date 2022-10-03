@@ -8,7 +8,7 @@
                 <field name="currency_id" invisible="True"/>
                 <field name="total_invoiced" widget="monetary"
                        options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                <field name="total_costs" widget="monetary"
+                <field name="net_tax" widget="monetary"
                        options="{'currency_field': 'currency_id', 'field_digits': True}"/>
             </tree>
         </field>
