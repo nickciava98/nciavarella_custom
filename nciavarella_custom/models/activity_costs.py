@@ -16,9 +16,6 @@ class ActivityCosts(models.Model):
     total_taxable = fields.Float(
         compute = "_compute_total_taxable"
     )
-    total_costs = fields.Float(
-        compute = "_compute_total_costs"
-    )
     total_down_payments = fields.Float(
         compute = "_compute_total_down_payments",
     )
@@ -84,7 +81,7 @@ class ActivityCosts(models.Model):
                      ("invoice_date", ">=", str(line.name) + "-01-01"),
                      ("invoice_date", "<=", str(line.name) + "-12-31")]
             ):
-                line.total_invoiced += invoice.amount_total_signed
+                line.total_invoiced += invoice.amount_total
 
     @api.depends("total_invoiced")
     def _compute_total_taxable(self):
@@ -140,8 +137,3 @@ class ActivityCosts(models.Model):
     def _compute_year_cash_flow(self):
         for line in self:
             line.year_cash_flow = line.total_invoiced - line.total_down_payments + line.remaining_balance
-
-    @api.depends("total_down_payments", "remaining_balance", "total_invoiced")
-    def _compute_total_costs(self):
-        for line in self:
-            line.total_costs = line.total_invoiced - line.year_cash_flow
