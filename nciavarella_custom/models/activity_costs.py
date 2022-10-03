@@ -133,7 +133,7 @@ class ActivityCosts(models.Model):
             line.total_welfare_due = line.welfare_id * 1.34 * line.total_invoiced \
                                      - line.welfare_previous_down_payment
 
-    @api.depends("total_costs", "total_invoiced")
+    @api.depends("total_invoiced")
     def _compute_year_cash_flow(self):
         for line in self:
             line.year_cash_flow = line.total_invoiced - line.total_down_payments + line.remaining_balance
