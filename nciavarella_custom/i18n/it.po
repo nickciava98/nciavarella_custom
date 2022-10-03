@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-05 12:48+0000\n"
-"PO-Revision-Date: 2022-09-05 12:48+0000\n"
+"POT-Creation-Date: 2022-10-03 15:40+0000\n"
+"PO-Revision-Date: 2022-10-03 15:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -112,6 +112,11 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__gross_tax
+msgid "Gross Tax"
+msgstr "Imposta lorda"
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__id
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__id
 #: model:ir.model.fields,field_description:nciavarella_custom.field_product_product__id
@@ -213,6 +218,11 @@ msgid "Name"
 msgstr "Periodo d'imposta"
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__net_tax
+msgid "Net Tax"
+msgstr "Imposta netta"
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -310,11 +320,6 @@ msgstr "Periodo d'imposta"
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__taxes_previous_down_payment
 msgid "Taxes Previous Down Payment"
 msgstr "Acconto IRPEF anno precedente"
-
-#. module: nciavarella_custom
-#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_form_inherit
-msgid "Total"
-msgstr "Totale"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_costs

@@ -61,13 +61,14 @@ class ActivityCosts(models.Model):
     @api.depends("total_down_payments", "remaining_balance")
     def _compute_gross_tax(self):
         for line in self:
-            line.gross_tax = line.total_down_payments - line.remaining_balance
+            line.gross_tax = line.total_down_payments + line.remaining_balance
 
     @api.depends("gross_tax", "taxes_previous_down_payment",
                  "welfare_previous_down_payment")
     def _compute_net_tax(self):
         for line in self:
-            line.net_tax = line.gross_tax - line.taxes_previous_down_payment - line.welfare_previous_down_payment
+            line.net_tax = line.gross_tax - \
+                           line.taxes_previous_down_payment - line.welfare_previous_down_payment
 
     def _compute_currency_id(self):
         for line in self:
@@ -106,9 +107,9 @@ class ActivityCosts(models.Model):
                  "total_stamp_taxes", "total_welfare_due")
     def _compute_remaining_balance(self):
         for line in self:
-            line.remaining_balance = -(
+            line.remaining_balance = \
                 (line.total_taxes_due + line.total_stamp_taxes + line.total_welfare_due) \
-                - line.total_down_payments)
+                - line.total_down_payments
 
     @api.depends("tax_id", "total_invoiced")
     def _compute_total_taxes_due(self):
