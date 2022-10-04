@@ -131,4 +131,4 @@ class ActivityCosts(models.Model):
     @api.depends("total_invoiced")
     def _compute_year_cash_flow(self):
         for line in self:
-            line.year_cash_flow = line.total_invoiced - line.total_down_payments + line.remaining_balance
+            line.year_cash_flow = line.total_invoiced - line.net_tax
