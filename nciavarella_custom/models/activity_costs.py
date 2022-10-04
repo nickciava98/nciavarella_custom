@@ -76,8 +76,7 @@ class ActivityCosts(models.Model):
             line.total_invoiced = 0
 
             for invoice in self.env["account.move"].search(
-                    ["&", "&",
-                     ("payment_state", "=", "paid"),
+                    ["&",
                      ("invoice_date", ">=", str(line.name) + "-01-01"),
                      ("invoice_date", "<=", str(line.name) + "-12-31")]
             ):
