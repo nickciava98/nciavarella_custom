@@ -110,8 +110,7 @@ class ActivityCosts(models.Model):
     @api.depends("tax_id", "total_invoiced")
     def _compute_total_taxes_due(self):
         for line in self:
-            line.total_taxes_due = line.tax_id * 1.34 * line.total_invoiced \
-                                   - line.taxes_previous_down_payment
+            line.total_taxes_due = line.tax_id * 1.34 * line.total_invoiced
 
     def _compute_total_stamp_taxes(self):
         for line in self:
@@ -129,8 +128,7 @@ class ActivityCosts(models.Model):
     @api.depends("welfare_id", "total_invoiced")
     def _compute_total_welfare_due(self):
         for line in self:
-            line.total_welfare_due = line.welfare_id * 1.34 * line.total_invoiced \
-                                     - line.welfare_previous_down_payment
+            line.total_welfare_due = 1.206 * line.welfare_id * line.total_invoiced
 
     @api.depends("total_invoiced")
     def _compute_year_cash_flow(self):
