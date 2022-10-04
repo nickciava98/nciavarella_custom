@@ -58,7 +58,7 @@ class ActivityCosts(models.Model):
     @api.depends("total_down_payments", "remaining_balance")
     def _compute_gross_tax(self):
         for line in self:
-            line.gross_tax = line.total_down_payments + line.remaining_balance
+            line.gross_tax = 0.3833338 * line.total_invoiced
 
     @api.depends("gross_tax", "taxes_previous_down_payment",
                  "welfare_previous_down_payment")
