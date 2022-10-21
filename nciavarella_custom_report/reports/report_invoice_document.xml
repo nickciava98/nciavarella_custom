@@ -74,6 +74,12 @@
                 <span t-if="o.move_type == 'in_invoice'">Vendor Bill n.</span>
                 <span t-if="o.name != '/'" t-field="o.name"/>
             </h2>
+
+            <i>
+                Document without fiscal value pursuant to art. 21 Dpr 633/72.
+                The original is available at the telematic address provided by you
+                or in your reserved area of the Agenzia delle Entrate.
+            </i>
         </xpath>
 
         <xpath expr="//th[@name='th_quantity']" position="replace">
