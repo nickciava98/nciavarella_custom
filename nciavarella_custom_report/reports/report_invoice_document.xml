@@ -135,7 +135,7 @@
         <xpath expr="//t[@name='account_invoice_line_accountable']/td[3]" position="replace">
             <td class="text-center">
                 <t t-if="o.is_hourly_cost">
-                    <span t-esc="'%.1f'%(line.quantity)"/>
+                    <span t-esc="str('%.1f'%(line.quantity)).replace('.', ',')"/>
                 </t>
 
                 <t t-else="">
