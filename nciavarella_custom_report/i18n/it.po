@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-15 09:46+0000\n"
-"PO-Revision-Date: 2022-09-15 09:46+0000\n"
+"POT-Creation-Date: 2022-11-04 07:40+0000\n"
+"PO-Revision-Date: 2022-11-04 07:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr ""
 #. module: nciavarella_custom_report
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
 msgid "<b>Reason for transfer:</b> Payment of invoice n."
-msgstr "<b>Causale del bonifico:</b> Pagamento della fattura n."
+msgstr "<b>Causale del bonifico:</b> Saldo fattura n."
 
 #. module: nciavarella_custom_report
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
@@ -64,6 +64,21 @@ msgstr "<br/> Tel:"
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
 msgid "<br/> Web:"
 msgstr ""
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid ""
+"<i>\n"
+"                Document without fiscal value pursuant to art. 21 Dpr 633/72.\n"
+"                The original is available at the telematic address provided by you\n"
+"                or in your reserved area of the Agenzia delle Entrate.\n"
+"            </i>"
+msgstr ""
+"<i>\n"
+"                Documento privo di valenza fiscale ai sensi dell’art. 21 Dpr 633/72. \n"
+"L’originale è disponibile all’indirizzo telematico da Lei fornito \n"
+"oppure nella Sua area riservata dell’Agenzia delle Entrate.\n"
+"            </i>"
 
 #. module: nciavarella_custom_report
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit

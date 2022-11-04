@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-27 14:54+0000\n"
-"PO-Revision-Date: 2022-08-27 14:54+0000\n"
+"POT-Creation-Date: 2022-11-04 07:39+0000\n"
+"PO-Revision-Date: 2022-11-04 07:39+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -52,47 +52,47 @@ msgstr ""
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Azione necessaria"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Attività"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Decorazione eccezione attività"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Stato attività"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Icona tipo attività"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Numero allegati"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__company_id
 msgid "Company"
-msgstr ""
+msgstr "Azienda"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creato da"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creato il"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__date
@@ -118,22 +118,22 @@ msgstr "Documenti"
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Follower"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_channel_ids
 msgid "Followers (Channels)"
-msgstr ""
+msgstr "Follower (canali)"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Follower (contatti)"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,help:nciavarella_documents.field_nciavarella_documents__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
+msgstr "Icona font awesome es. fa-tasks"
 
 #. module: nciavarella_documents
 #: model:ir.ui.menu,name:nciavarella_documents.nciavarella_documents_general_summary_menu
@@ -143,53 +143,53 @@ msgstr "Riepilogo generale"
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__id
 msgid "ID"
-msgstr ""
+msgstr "Id:"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "Icona"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,help:nciavarella_documents.field_nciavarella_documents__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "Icona per indicare un'eccezione attività."
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,help:nciavarella_documents.field_nciavarella_documents__message_needaction
 #: model:ir.model.fields,help:nciavarella_documents.field_nciavarella_documents__message_unread
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Se selezionato, nuovi messaggi richiedono attenzione."
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,help:nciavarella_documents.field_nciavarella_documents__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Se selezionato, alcuni messaggi hanno un errore d'invio."
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Follower"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modifica il"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultimo aggiornamento da"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultimo aggiornamento il"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_main_attachment_id
 msgid "Main Attachment"
-msgstr ""
+msgstr "Allegato principale"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message
@@ -200,7 +200,7 @@ msgstr "Messaggio"
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Errore invio messaggio"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_ids
@@ -220,7 +220,7 @@ msgstr "Riepilogo mensile"
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
+msgstr "Scadenza attività"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__name
@@ -230,12 +230,12 @@ msgstr "Nome"
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr ""
+msgstr "Prossima scadenza attività"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__activity_summary
 msgid "Next Activity Summary"
-msgstr ""
+msgstr "Riepilogo prossima attività"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__activity_type_id
@@ -252,27 +252,27 @@ msgstr "Nessun dato!"
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Numero di azioni"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Numero di errori"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,help:nciavarella_documents.field_nciavarella_documents__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr ""
+msgstr "Numero di messaggi che richiedono un'azione"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,help:nciavarella_documents.field_nciavarella_documents__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Numero di messaggi con errore d'invio"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,help:nciavarella_documents.field_nciavarella_documents__message_unread_counter
 msgid "Number of unread messages"
-msgstr ""
+msgstr "Numero di messaggi non letti"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__partner_id
@@ -282,7 +282,7 @@ msgstr "Destinatario"
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Responsabile"
 
 #. module: nciavarella_documents
 #: model_terms:ir.ui.view,arch_db:nciavarella_documents.nciavarella_documents_report_template
@@ -304,6 +304,10 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Stato basato su attività\n"
+"Scaduto: Data superata\n"
+"Oggi: Data attività oggi\n"
+"Pianificato: Attività future."
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__subject
@@ -323,17 +327,17 @@ msgstr "Partita IVA"
 #. module: nciavarella_documents
 #: model:ir.model.fields,help:nciavarella_documents.field_nciavarella_documents__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Tipo di eccezione attività su record."
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_unread
 msgid "Unread Messages"
-msgstr ""
+msgstr "Messaggi non letti"
 
 #. module: nciavarella_documents
 #: model:ir.model.fields,field_description:nciavarella_documents.field_nciavarella_documents__message_unread_counter
 msgid "Unread Messages Counter"
-msgstr ""
+msgstr "Numero di messaggi non letti"
 
 #. module: nciavarella_documents
 #: model:ir.actions.act_window,name:nciavarella_documents.yearly_summary_action
