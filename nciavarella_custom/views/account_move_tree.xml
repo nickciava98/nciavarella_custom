@@ -6,8 +6,9 @@
 
         <field name="arch" type="xml">
             <xpath expr="//field[@name='amount_residual_signed']" position="after">
-                <field name="invoice_down_payment" optional="show" sum="Down Payment"/>
-                <field name="cash_flow" optional="show"/>
+                <field name="invoice_down_payment" optional="show" sum="Down Payment"
+                       groups="nciavarella_custom.group_admin"/>
+                <field name="cash_flow" optional="show" groups="nciavarella_custom.group_admin"/>
             </xpath>
 
             <xpath expr="//tree" position="attributes">

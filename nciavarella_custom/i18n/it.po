@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-04 07:39+0000\n"
-"PO-Revision-Date: 2022-11-04 07:39+0000\n"
+"POT-Creation-Date: 2022-11-04 09:14+0000\n"
+"PO-Revision-Date: 2022-11-04 09:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,24 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/xml/apps.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/apps.xml:0
+#, python-format
+msgid "#menu_id=#{app.menuID}&action_id=#{app.actionID}"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_needaction
 msgid "Action Needed"
+msgstr ""
+
+#. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/xml/views.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/views.xml:0
+#, python-format
+msgid "Actions"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -48,6 +64,21 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:res.groups,name:nciavarella_custom.group_admin
+msgid "Administrator"
+msgstr "Amministratore"
+
+#. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/xml/shortcuts.xml:0
+#: code:addons/muk_web_theme/static/src/xml/shortcuts.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/shortcuts.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/shortcuts.xml:0
+#, python-format
+msgid "Alt"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
@@ -60,9 +91,43 @@ msgid "Cash Flow"
 msgstr "Liquidità"
 
 #. module: nciavarella_custom
+#: code:addons/auto_backup/models/db_backup.py:0
+#: code:addons/nciavarella_custom/auto_backup/models/db_backup.py:0
+#, python-format
+msgid "Connection Test Failed!"
+msgstr ""
+
+#. module: nciavarella_custom
+#: code:addons/auto_backup/models/db_backup.py:0
+#: code:addons/nciavarella_custom/auto_backup/models/db_backup.py:0
+#, python-format
+msgid ""
+"Connection Test Succeeded!\n"
+"Everything seems properly set up for FTP back-ups!"
+msgstr ""
+
+#. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/xml/shortcuts.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/shortcuts.xml:0
+#, python-format
+msgid "Control"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
 msgid "Costs"
 msgstr "Costi"
+
+#. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/xml/views.xml:0
+#: code:addons/muk_web_theme/static/src/xml/views.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/views.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/views.xml:0
+#, python-format
+msgid "Create"
+msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__create_uid
@@ -80,6 +145,16 @@ msgid "Currency"
 msgstr "Valuta"
 
 #. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/xml/views.xml:0
+#: code:addons/muk_web_theme/static/src/xml/views.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/views.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/views.xml:0
+#, python-format
+msgid "Discard"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__display_name
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__display_name
 #: model:ir.model.fields,field_description:nciavarella_custom.field_product_product__display_name
@@ -90,6 +165,22 @@ msgstr "Nome visualizzato"
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_tree_inherit
 msgid "Down Payment"
 msgstr "Acconto"
+
+#. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/xml/views.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/views.xml:0
+#, python-format
+msgid "Edit"
+msgstr ""
+
+#. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/xml/views.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/views.xml:0
+#, python-format
+msgid "Favorites"
+msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_follower_ids
@@ -115,6 +206,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__gross_tax
 msgid "Gross Tax"
 msgstr "Imposta lorda"
+
+#. module: nciavarella_custom
+#: code:addons/auto_backup/models/db_backup.py:0
+#: code:addons/nciavarella_custom/auto_backup/models/db_backup.py:0
+#, python-format
+msgid "Here is what we got instead:\n"
+msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__id
@@ -205,7 +303,7 @@ msgstr ""
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_ids
 msgid "Messages"
-msgstr ""
+msgstr "Messaggi"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__my_activity_date_deadline
@@ -268,6 +366,14 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/xml/shortcuts.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/shortcuts.xml:0
+#, python-format
+msgid "Open the apps menu"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model,name:nciavarella_custom.model_product_product
 msgid "Product"
 msgstr "Prodotto"
@@ -285,6 +391,16 @@ msgstr ""
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_has_sms_error
 msgid "SMS Delivery error"
+msgstr ""
+
+#. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/xml/views.xml:0
+#: code:addons/muk_web_theme/static/src/xml/views.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/views.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/views.xml:0
+#, python-format
+msgid "Save"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -357,6 +473,14 @@ msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/js/views/kanban_renderer.js:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/js/views/kanban_renderer.js:0
+#, python-format
+msgid "Undefined"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_unread
 msgid "Unread Messages"
 msgstr ""
@@ -364,6 +488,19 @@ msgstr ""
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_unread_counter
 msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:res.groups,name:nciavarella_custom.group_users
+msgid "Users"
+msgstr "Utenti"
+
+#. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/components/control_panel.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/components/control_panel.xml:0
+#, python-format
+msgid "View switcher"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -390,3 +527,11 @@ msgstr "Acconto INPS anno precedente"
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__year_cash_flow
 msgid "Year Cash Flow"
 msgstr "Liquidità annua"
+
+#. module: nciavarella_custom
+#. openerp-web
+#: code:addons/muk_web_theme/static/src/xml/apps.xml:0
+#: code:addons/nciavarella_custom/muk_web_theme/static/src/xml/apps.xml:0
+#, python-format
+msgid "fa fa-th"
+msgstr ""

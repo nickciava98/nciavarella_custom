@@ -26,3 +26,6 @@ class NciavarellaDocuments(models.Model):
         "res.company",
         default = lambda self: self.env.company.id
     )
+    is_fiscal_document = fields.Boolean(
+        default = False
+    )

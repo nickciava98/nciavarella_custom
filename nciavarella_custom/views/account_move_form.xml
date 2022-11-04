@@ -45,8 +45,9 @@
             </xpath>
 
             <xpath expr="//field[@name='amount_residual']" position="after">
-                <field name="invoice_down_payment" readonly="False"/>
-                <field name="cash_flow"/>
+                <field name="invoice_down_payment" groups="nciavarella_custom.group_admin"
+                       readonly="False"/>
+                <field name="cash_flow" groups="nciavarella_custom.group_admin"/>
             </xpath>
         </field>
     </record>
