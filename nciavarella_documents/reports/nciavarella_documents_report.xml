@@ -77,8 +77,6 @@
                         <t t-if="doc.is_fiscal_document">
                             <i style="font-size: 11pt;">
                                 Document without fiscal value pursuant to art. 21 Dpr 633/72.
-                                The original is available at the telematic address provided by you
-                                or in your reserved area of the Agenzia delle Entrate.
                             </i>
                         </t>
 
