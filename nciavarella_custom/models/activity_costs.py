@@ -111,11 +111,13 @@ class ActivityCosts(models.Model):
                 line.total_down_payments += invoice.invoice_down_payment
 
     @api.depends("total_down_payments", "total_taxes_due",
+                 "total_taxes_down_payment", "total_welfare_down_payment",
                  "total_stamp_taxes", "total_welfare_due")
     def _compute_remaining_balance(self):
         for line in self:
             line.remaining_balance = \
-                (line.total_taxes_due + line.total_stamp_taxes + line.total_welfare_due) \
+                (line.total_taxes_due + line.total_taxes_down_payment
+                 + line.total_stamp_taxes + line.total_welfare_due + line.total_welfare_down_payment) \
                 - line.total_down_payments
 
     @api.depends("tax_id", "total_taxable")
