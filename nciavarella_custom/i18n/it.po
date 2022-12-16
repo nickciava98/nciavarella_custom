@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-04 09:14+0000\n"
-"PO-Revision-Date: 2022-11-04 09:14+0000\n"
+"POT-Creation-Date: 2022-12-16 08:07+0000\n"
+"PO-Revision-Date: 2022-12-16 08:07+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -274,6 +274,11 @@ msgid "Journal Entry"
 msgstr "Registrazione contabile"
 
 #. module: nciavarella_custom
+#: model:ir.model.constraint,message:nciavarella_custom.constraint_activity_costs_unique_name
+msgid "L'anno deve essere univoco!"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move____last_update
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs____last_update
 #: model:ir.model.fields,field_description:nciavarella_custom.field_product_product____last_update
@@ -458,14 +463,24 @@ msgid "Total Taxable"
 msgstr "Imponibile"
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_taxes_down_payment
+msgid "Total Taxes Down Payment"
+msgstr "Totale IRPEF (Saldo)"
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_taxes_due
 msgid "Total Taxes Due"
-msgstr "Totale IRPEF con acconto per anno seguente"
+msgstr "Totale IRPEF (Acconto)"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_welfare_down_payment
+msgid "Total Welfare Down Payment"
+msgstr "Totale INPS (Acconto)"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_welfare_due
 msgid "Total Welfare Due"
-msgstr "Totale INPS con acconto per anno seguente"
+msgstr "Totale INPS (Saldo)"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__activity_exception_decoration
@@ -527,6 +542,20 @@ msgstr "Acconto INPS anno precedente"
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__year_cash_flow
 msgid "Year Cash Flow"
 msgstr "Liquidità annua"
+
+#. module: nciavarella_custom
+#: code:addons/nciavarella_custom/models/activity_costs.py:0
+#: code:addons/nciavarella_custom/nciavarella_custom/models/activity_costs.py:0
+#, python-format
+msgid "Year must be filled!"
+msgstr "L'anno deve essere riempito!"
+
+#. module: nciavarella_custom
+#: code:addons/nciavarella_custom/models/activity_costs.py:0
+#: code:addons/nciavarella_custom/nciavarella_custom/models/activity_costs.py:0
+#, python-format
+msgid "Year must be unique!"
+msgstr "L'anno deve essere univoco!"
 
 #. module: nciavarella_custom
 #. openerp-web

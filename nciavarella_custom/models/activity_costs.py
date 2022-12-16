@@ -1,5 +1,6 @@
-from odoo import models, fields, api
-from datetime import datetime
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
+
 
 class ActivityCosts(models.Model):
     _name = "activity.costs"
@@ -7,8 +8,9 @@ class ActivityCosts(models.Model):
     _description = "Activity Costs"
 
     name = fields.Char(
-        required = True,
-        tracking = True
+        size = 4,
+        tracking = True,
+        copy = False
     )
     total_invoiced = fields.Float(
         compute = "_compute_total_invoiced"
@@ -24,20 +26,28 @@ class ActivityCosts(models.Model):
     )
     tax_id = fields.Float(
         required = True,
-        tracking = True
+        tracking = True,
+        copy = True
     )
     total_taxes_due = fields.Float(
         compute = "_compute_total_taxes_due"
+    )
+    total_taxes_down_payment = fields.Float(
+        compute = "_compute_total_taxes_down_payment"
     )
     total_stamp_taxes = fields.Float(
         compute = "_compute_total_stamp_taxes"
     )
     welfare_id = fields.Float(
         required = True,
-        tracking = True
+        tracking = True,
+        copy = True
     )
     total_welfare_due = fields.Float(
         compute = "_compute_total_welfare_due"
+    )
+    total_welfare_down_payment = fields.Float(
+        compute = "_compute_total_welfare_down_payment"
     )
     year_cash_flow = fields.Float(
         compute = "_compute_year_cash_flow"
@@ -55,10 +65,12 @@ class ActivityCosts(models.Model):
         compute = "_compute_net_tax"
     )
 
-    @api.depends("total_down_payments", "remaining_balance")
+    @api.depends("total_taxes_due", "total_taxes_down_payment",
+                 "total_welfare_due", "total_welfare_down_payment")
     def _compute_gross_tax(self):
         for line in self:
-            line.gross_tax = 0.3833338 * line.total_invoiced
+            line.gross_tax = line.total_taxes_due + line.total_taxes_down_payment \
+                             + line.total_welfare_due + line.total_welfare_down_payment
 
     @api.depends("gross_tax", "taxes_previous_down_payment",
                  "welfare_previous_down_payment")
@@ -106,10 +118,15 @@ class ActivityCosts(models.Model):
                 (line.total_taxes_due + line.total_stamp_taxes + line.total_welfare_due) \
                 - line.total_down_payments
 
-    @api.depends("tax_id", "total_invoiced")
+    @api.depends("tax_id", "total_taxable")
     def _compute_total_taxes_due(self):
         for line in self:
-            line.total_taxes_due = line.tax_id * 1.34 * line.total_invoiced
+            line.total_taxes_due = line.tax_id * line.total_taxable
+
+    @api.depends("total_taxes_due")
+    def _compute_total_taxes_down_payment(self):
+        for line in self:
+            line.total_taxes_down_payment = line.total_taxes_due
 
     def _compute_total_stamp_taxes(self):
         for line in self:
@@ -123,12 +140,29 @@ class ActivityCosts(models.Model):
                 if invoice.amount_total > 79.47:
                     line.total_stamp_taxes += 2
 
-    @api.depends("welfare_id", "total_invoiced")
+    @api.depends("welfare_id", "total_taxable")
     def _compute_total_welfare_due(self):
         for line in self:
-            line.total_welfare_due = 1.206 * line.welfare_id * line.total_invoiced
+            line.total_welfare_due = line.welfare_id * line.total_taxable
+
+    @api.depends("total_welfare_due")
+    def _compute_total_welfare_down_payment(self):
+        for line in self:
+            line.total_welfare_down_payment = 0.8 * line.total_welfare_due
 
     @api.depends("total_invoiced")
     def _compute_year_cash_flow(self):
         for line in self:
             line.year_cash_flow = line.total_invoiced - line.net_tax
+
+    @api.constrains("name")
+    def _constrains_name(self):
+        for line in self:
+            if not line.name:
+                raise ValidationError(
+                    _("Year must be filled!")
+                )
+
+    _sql_constraints = [
+        ("unique_name", "unique(name)", _("Year must be unique!"))
+    ]

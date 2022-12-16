@@ -50,26 +50,28 @@
 
                     <notebook>
                         <page string="Costs" name="costs">
-                            <group>
-                                <group>
-                                    <field name="total_down_payments" widget="monetary"
+                            <group col="1" colspan="1">
+                                <field name="total_down_payments" widget="monetary"
+                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                <field name="remaining_balance" widget="monetary"
+                                       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                <field name="total_stamp_taxes" widget="monetary"
+                                       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                            </group>
+
+                            <group col="4" colspan="4">
+                                <group col="2" colspan="2">
+                                    <field name="total_taxes_due" widget="monetary"
                                            options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                                    <field name="remaining_balance" widget="monetary"
-                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                                    <field name="total_stamp_taxes" widget="monetary"
+                                    <field name="total_taxes_down_payment" widget="monetary"
                                            options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                 </group>
 
-                                <group>
-                                    <group>
-                                        <field name="total_taxes_due" widget="monetary"
-                                               options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                                    </group>
-
-                                    <group>
-                                        <field name="total_welfare_due" widget="monetary"
-                                               options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                                    </group>
+                                <group col="2" colspan="2">
+                                    <field name="total_welfare_due" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <field name="total_welfare_down_payment" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                 </group>
                             </group>
                         </page>

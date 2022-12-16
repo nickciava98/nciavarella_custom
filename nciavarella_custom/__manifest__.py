@@ -5,7 +5,7 @@
     'license': 'OPL-1',
     'author': "Niccolò Ciavarella",
     'category': '',
-    'version': '14.0.1',
+    'version': '14.0.2',
     'website': "http://www.nciavarella.me",
     'depends': ['account'],
     'data': ['security/ir.model.access.csv',
