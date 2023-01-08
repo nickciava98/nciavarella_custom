@@ -1,6 +1,7 @@
 <odoo>
     <template id="external_layout_standard_inherit" inherit_id="web.external_layout_standard">
         <xpath expr="//div[hasclass('col-3')]" position="replace"/>
+        <xpath expr="//div[@name='moto']" position="replace"/>
 
         <xpath expr="//div[hasclass('row')][3]" position="replace">
             <div class="row">
