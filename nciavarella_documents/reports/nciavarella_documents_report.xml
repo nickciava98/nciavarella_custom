@@ -3,69 +3,73 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
-                    <t t-set="address">
-                        <t t-if="doc.partner_id.title">
-                            <span t-field="doc.partner_id.title.shortcut"/>
-                        </t>
+                    <div class="address row">
+                        <div name="information_block" class="col-6"/>
 
-                        <span t-field="doc.partner_id.name"/>
+                        <div class="col-5 offset-1">
+                            <t t-if="doc.partner_id.title">
+                                <span t-field="doc.partner_id.title.shortcut"/>
+                            </t>
 
-                        <br/>
+                            <span t-field="doc.partner_id.name"/>
 
-                        <t t-if="doc.partner_id.category_id">
-                            <t t-foreach="doc.partner_id.category_id" t-as="category">
-                                <span t-field="category.name"/>
+                            <br/>
+
+                            <t t-if="doc.partner_id.category_id">
+                                <t t-foreach="doc.partner_id.category_id" t-as="category">
+                                    <span t-field="category.name"/>
+                                </t>
+
+                                <br/>
+                            </t>
+
+                            <t t-if="doc.partner_id.street">
+                                <span t-field="doc.partner_id.street"/>
+                            </t>
+
+                            <t t-if="doc.partner_id.street2">
+                                <br/> <span t-field="doc.partner_id.street2"/>
                             </t>
 
                             <br/>
-                        </t>
 
-                        <t t-if="doc.partner_id.street">
-                            <span t-field="doc.partner_id.street"/>
-                        </t>
+                            <t t-if="doc.partner_id.zip">
+                                <span t-field="doc.partner_id.zip"/>,
+                            </t>
 
-                        <t t-if="doc.partner_id.street2">
-                            <br/> <span t-field="doc.partner_id.street2"/>
-                        </t>
+                            <t t-if="doc.partner_id.city">
+                                <span t-field="doc.partner_id.city"/>
+                            </t>
 
-                        <br/>
+                            <t t-if="doc.partner_id.state_id and doc.partner_id.state_id.code != 'RM'">
+                                (<span t-field="doc.partner_id.state_id.code"/>)
+                            </t>
 
-                        <t t-if="doc.partner_id.zip">
-                            <span t-field="doc.partner_id.zip"/>,
-                        </t>
+                            <t t-if="doc.partner_id.website">
+                                <br/> Web: <span t-field="doc.partner_id.website"/>
+                            </t>
 
-                        <t t-if="doc.partner_id.city">
-                            <span t-field="doc.partner_id.city"/>
-                        </t>
+                            <t t-if="doc.partner_id.phone">
+                                <br/> Phone: <span t-field="doc.partner_id.phone"/>
+                            </t>
 
-                        <t t-if="doc.partner_id.state_id and doc.partner_id.state_id.code != 'RM'">
-                            (<span t-field="doc.partner_id.state_id.code"/>)
-                        </t>
+                            <t t-if="doc.partner_id.mobile">
+                                <br/> Mobile: <span t-field="doc.partner_id.mobile"/>
+                            </t>
 
-                        <t t-if="doc.partner_id.website">
-                            <br/> Web: <span t-field="doc.partner_id.website"/>
-                        </t>
+                            <t t-if="doc.partner_id.email">
+                                <br/> Email: <span t-field="doc.partner_id.email"/>
+                            </t>
 
-                        <t t-if="doc.partner_id.phone">
-                            <br/> Phone: <span t-field="doc.partner_id.phone"/>
-                        </t>
+                            <t t-if="doc.partner_id.vat">
+                                <br/>
 
-                        <t t-if="doc.partner_id.mobile">
-                            <br/> Mobile: <span t-field="doc.partner_id.mobile"/>
-                        </t>
-
-                        <t t-if="doc.partner_id.email">
-                            <br/> Email: <span t-field="doc.partner_id.email"/>
-                        </t>
-
-                        <t t-if="doc.partner_id.vat">
-                            <br/>
-                    
-                            <t t-if="doc.company_id.country_id.vat_label" t-esc="doc.company_id.country_id.vat_label"
-                               id="inv_tax_id_label"/>
-                            <t t-else="">Tax ID</t>: <span t-field="doc.partner_id.vat"/>
-                        </t>
-                    </t>
+                                <t t-if="doc.company_id.country_id.vat_label" t-esc="doc.company_id.country_id.vat_label"
+                                   id="inv_tax_id_label"/>
+                                <t t-else="">Tax ID</t>: <span t-field="doc.partner_id.vat"/>
+                            </t>
+                        </div>
+                    </div>
                     
                     <div class="page" style="page-break-inside: auto; font-size: 14pt;">
                         <strong>
