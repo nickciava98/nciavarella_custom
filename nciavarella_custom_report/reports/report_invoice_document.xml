@@ -8,28 +8,16 @@
 
                 <span t-field="o.partner_id.name"/>
 
-                <br/>
-
-                <t t-if="o.partner_id.category_id">
-                    <t t-foreach="o.partner_id.category_id" t-as="category">
-                        <span t-field="category.name"/>
-                    </t>
-
-                    <br/>
-                </t>
-
                 <t t-if="o.partner_id.street">
-                    <span t-field="o.partner_id.street"/>
+                    <br/> <span t-field="o.partner_id.street"/>
                 </t>
 
                 <t t-if="o.partner_id.street2">
                     <br/> <span t-field="o.partner_id.street2"/>
                 </t>
 
-                <br/>
-
                 <t t-if="o.partner_id.zip">
-                    <span t-field="o.partner_id.zip"/>,
+                    <br/> <span t-field="o.partner_id.zip"/>,
                 </t>
 
                 <t t-if="o.partner_id.city">
@@ -38,10 +26,6 @@
 
                 <t t-if="o.partner_id.state_id and o.partner_id.state_id.code != 'RM'">
                     (<span t-field="o.partner_id.state_id.code"/>)
-                </t>
-
-                <t t-if="o.partner_id.website">
-                    <br/> Web: <span t-field="o.partner_id.website"/>
                 </t>
 
                 <t t-if="o.partner_id.phone">
@@ -76,18 +60,18 @@
             </h2>
 	    
             <t t-if="o.move_type == 'out_invoice' and o.state == 'draft'">
-	        <i>
-		    Document without fiscal value pursuant to art. 21 Dpr 633/72.
-		</i>
- 	    </t>
+                <i>
+                    Document without fiscal value pursuant to art. 21 Dpr 633/72.
+                </i>
+            </t>
 
-	    <t t-else="">
+            <t t-else="">
                 <i>
                     Document without fiscal value pursuant to art. 21 Dpr 633/72.
                     The original is available at the telematic address provided by you
                     or in your reserved area of the Agenzia delle Entrate.
                 </i>
-	    </t>
+            </t>
         </xpath>
 
         <xpath expr="//th[@name='th_description']" position="before">
@@ -185,17 +169,16 @@
         <xpath expr="//p[@name='comment']" position="replace"/>
 
         <xpath expr="//div[hasclass('clearfix')]" position="after">
-            <p t-if="o.narration" name="comment"
-               style="page-break-after: auto;">
-                <b>Terms and conditions:</b> <br/>
-                <span t-field="o.narration"/>
+            <p t-if="o.narration" name="comment" style="page-break-inside: avoid;">
+                <b>Terms and conditions:</b>
+                <br/> <span t-field="o.narration"/>
             </p>
         </xpath>
 
         <xpath expr="//p[@name='payment_communication']" position="replace"/>
 
         <xpath expr="//div[hasclass('clearfix')]" position="replace">
-            <div class="clearfix" style="page-break-inside: auto;">
+            <div class="clearfix" style="page-break-inside: avoid;">
                 <div style="float: left; width: 45%;">
                     <t t-if="o.payment_state != 'paid'">
                         <h2>
