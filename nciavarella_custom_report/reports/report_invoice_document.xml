@@ -49,6 +49,7 @@
         </xpath>
 
         <xpath expr="//div[hasclass('page')]/h2" position="replace">
+            <br/> <br/>
             <h2>
                 <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">Invoice n.</span>
                 <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">PRO-FORMA Invoice</span>

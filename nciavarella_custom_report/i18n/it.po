@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-30 17:11+0000\n"
-"PO-Revision-Date: 2022-11-30 17:11+0000\n"
+"POT-Creation-Date: 2023-01-08 15:21+0000\n"
+"PO-Revision-Date: 2023-01-08 15:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -42,8 +42,12 @@ msgstr "<b>Causale del bonifico:</b> Saldo fattura n."
 
 #. module: nciavarella_custom_report
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
-msgid "<b>Terms and conditions:</b> <br/>"
-msgstr "<b>Termini e condizioni:</b> <br/>"
+msgid ""
+"<b>Terms and conditions:</b>\n"
+"                    <br/>"
+msgstr ""
+"<b>Termini e condizioni:</b>\n"
+"                    <br/>"
 
 #. module: nciavarella_custom_report
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
@@ -62,22 +66,6 @@ msgstr "<br/> Tel:"
 
 #. module: nciavarella_custom_report
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
-msgid "<br/> Web:"
-msgstr ""
-
-#. module: nciavarella_custom_report
-#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
-msgid ""
-"<i>\n"
-"\t\t    Document without fiscal value pursuant to art. 21 Dpr 633/72.\n"
-"\t\t</i>"
-msgstr ""
-"<i>\n"
-"\t\t    Documento privo di valenza fiscale ai sensi dell’art. 21 Dpr 633/72.\n"
-"\t\t</i>"
-
-#. module: nciavarella_custom_report
-#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
 msgid ""
 "<i>\n"
 "                    Document without fiscal value pursuant to art. 21 Dpr 633/72.\n"
@@ -90,6 +78,17 @@ msgstr ""
 "L’originale è disponibile all’indirizzo telematico da Lei fornito \n"
 "oppure nella Sua area riservata dell’Agenzia delle Entrate.\n"
 "            </i>"
+
+#. module: nciavarella_custom_report
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
+msgid ""
+"<i>\n"
+"                    Document without fiscal value pursuant to art. 21 Dpr 633/72.\n"
+"                </i>"
+msgstr ""
+"<i>\n"
+"                    Documento privo di valenza fiscale ai sensi dell'art. 21 Dpr 633/72.\n"
+"                </i>"
 
 #. module: nciavarella_custom_report
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom_report.account_invoice_document_inherit
