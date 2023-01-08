@@ -70,8 +70,8 @@
                             </t>
                         </div>
                     </div>
-                    
-                    <div class="page" style="page-break-inside: auto; font-size: 14pt;">
+
+                    <div class="page" style="page-break-inside: avoid; font-size: 14pt;">
                         <strong>
                             SUBJECT: <span t-field="doc.subject"/>
                         </strong>
