@@ -1,56 +1,58 @@
 <odoo>
     <template id="account_invoice_document_inherit" inherit_id="account.report_invoice_document">
         <xpath expr="//t[@t-set='address']" position="replace">
-            <t t-set="address">
-                <t t-if="o.partner_id.title">
-                    <span t-field="o.partner_id.title.shortcut"/>
-                </t>
+            <div class="address row">
+                <div name="information_block" class="col-6"/>
 
-                <span t-field="o.partner_id.name"/>
+                <div class="col-5 offset-1">
+                    <t t-if="o.partner_id.title">
+                        <span t-field="o.partner_id.title.shortcut"/>
+                    </t>
 
-                <t t-if="o.partner_id.street">
-                    <br/> <span t-field="o.partner_id.street"/>
-                </t>
+                    <span t-field="o.partner_id.name"/>
 
-                <t t-if="o.partner_id.street2">
-                    <br/> <span t-field="o.partner_id.street2"/>
-                </t>
+                    <t t-if="o.partner_id.street">
+                        <br/> <span t-field="o.partner_id.street"/>
+                    </t>
 
-                <t t-if="o.partner_id.zip">
-                    <br/> <span t-field="o.partner_id.zip"/>,
-                </t>
+                    <t t-if="o.partner_id.street2">
+                        <br/> <span t-field="o.partner_id.street2"/>
+                    </t>
 
-                <t t-if="o.partner_id.city">
-                    <span t-field="o.partner_id.city"/>
-                </t>
+                    <t t-if="o.partner_id.zip">
+                        <br/> <span t-field="o.partner_id.zip"/>,
+                    </t>
 
-                <t t-if="o.partner_id.state_id and o.partner_id.state_id.code != 'RM'">
-                    (<span t-field="o.partner_id.state_id.code"/>)
-                </t>
+                    <t t-if="o.partner_id.city">
+                        <span t-field="o.partner_id.city"/>
+                    </t>
 
-                <t t-if="o.partner_id.phone">
-                    <br/> Phone: <span t-field="o.partner_id.phone"/>
-                </t>
+                    <t t-if="o.partner_id.state_id and o.partner_id.state_id.code != 'RM'">
+                        (<span t-field="o.partner_id.state_id.code"/>)
+                    </t>
 
-                <t t-if="o.partner_id.mobile">
-                    <br/> Mobile: <span t-field="o.partner_id.mobile"/>
-                </t>
+                    <t t-if="o.partner_id.phone">
+                        <br/> Phone: <span t-field="o.partner_id.phone"/>
+                    </t>
 
-                <t t-if="o.partner_id.email">
-                    <br/> Email: <span t-field="o.partner_id.email"/>
-                </t>
+                    <t t-if="o.partner_id.mobile">
+                        <br/> Mobile: <span t-field="o.partner_id.mobile"/>
+                    </t>
 
-                <div t-if="o.partner_id.vat" class="mt16">
-                    <t t-if="o.company_id.country_id.vat_label" t-esc="o.company_id.country_id.vat_label"
-                       id="inv_tax_id_label"/>
-                    <t t-else="">Tax ID</t>: <span t-field="o.partner_id.vat"/>
+                    <t t-if="o.partner_id.email">
+                        <br/> Email: <span t-field="o.partner_id.email"/>
+                    </t>
+
+                    <div t-if="o.partner_id.vat" class="mt16">
+                        <t t-if="o.company_id.country_id.vat_label" t-esc="o.company_id.country_id.vat_label"
+                           id="inv_tax_id_label"/>
+                        <t t-else="">Tax ID</t>: <span t-field="o.partner_id.vat"/>
+                    </div>
                 </div>
-            </t>
+            </div>
         </xpath>
 
         <xpath expr="//div[hasclass('page')]/h2" position="replace">
-            <br/> <br/> <br/>
-
             <h2>
                 <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">Invoice n.</span>
                 <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">PRO-FORMA Invoice</span>
@@ -116,7 +118,7 @@
             <td class="text-left">
                 <img t-if="line.product_id.image_1920"
                      t-att-src="'data:image/png;base64,%s' % to_text(line.product_id.image_1920)"
-                     style="width: 128px;"/>
+                     style="width: 80px;"/>
             </td>
         </xpath>
 

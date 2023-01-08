@@ -1,49 +1,43 @@
 <odoo>
     <template id="external_layout_standard_inherit" inherit_id="web.external_layout_standard">
-        <xpath expr="//div[hasclass('zero_min_height')]" position="replace">
-            <div class="row zero_min_height">
-                <div class="col-12">
-                    <div style="border-bottom: 1px solid black;"/>
+        <xpath expr="//div" position="replace">
+            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <div class="row zero_min_height">
+                    <div class="col-12">
+                        <div style="border-bottom: 1px solid black;"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div name="company_address" class="col-6">
+                        <strong>
+                            <span t-field="company.partner_id.name"/>
+                        </strong>
+
+                        <t t-if="company.partner_id.street">
+                            <br/> <span t-field="company.partner_id.street"/>
+                        </t>
+
+                        <t t-if="company.partner_id.street2">
+                            <br/> <span t-field="company.partner_id.street2"/>
+                        </t>
+
+                        <t t-if="company.partner_id.zip">
+                            <br/> <span t-field="company.partner_id.zip"/>,
+                        </t>
+
+                        <t t-if="company.partner_id.city">
+                            <span t-field="company.partner_id.city"/>
+                        </t>
+
+                        <t t-if="company.partner_id.state_id">
+                            (<span t-field="company.partner_id.state_id.code"/>)
+                        </t>
+                    </div>
                 </div>
             </div>
         </xpath>
 
-        <xpath expr="//t[@t-call='web.address_layout']" position="replace"/>
-
-        <xpath expr="//div[hasclass('row')][3]" position="replace">
-            <div class="row">
-                <div name="company_address" class="col-6">
-                    <strong>
-                        <span t-field="company.partner_id.name"/>
-                    </strong>
-
-                    <t t-if="company.partner_id.street">
-                        <br/> <span t-field="company.partner_id.street"/>
-                    </t>
-
-                    <t t-if="company.partner_id.street2">
-                        <br/> <span t-field="company.partner_id.street2"/>
-                    </t>
-
-                    <t t-if="company.partner_id.zip">
-                        <br/> <span t-field="company.partner_id.zip"/>,
-                    </t>
-
-                    <t t-if="company.partner_id.city">
-                        <span t-field="company.partner_id.city"/>
-                    </t>
-
-                    <t t-if="company.partner_id.state_id">
-                        (<span t-field="company.partner_id.state_id.code"/>)
-                    </t>
-                </div>
-            </div>
-
-            <div>
-                <div>
-                    <t t-call="web.address_layout"/>
-                </div>
-            </div>
-        </xpath>
+        <xpath expr="//div[hasclass('pt-5')]" position="replace"/>
     </template>
 </odoo>

@@ -8,10 +8,12 @@
     'version': '14.0.1',
     'website': "http://www.nciavarella.me",
     'depends': ['hr_timesheet', 'account', 'nciavarella_custom'],
-    'data': ['reports/external_layout_boxed.xml',
-             'reports/external_layout_standard.xml',
-             'reports/report_timesheet.xml',
-             'reports/report_invoice_document.xml'],
+    'data': [
+        'reports/external_layout_boxed.xml',
+        'reports/external_layout_standard.xml',
+        'reports/report_timesheet.xml',
+        'reports/report_invoice_document.xml'
+    ],
     'application': False,
     'installable': True,
 }
