@@ -169,17 +169,19 @@
         <xpath expr="//p[@name='comment']" position="replace"/>
 
         <xpath expr="//div[hasclass('clearfix')]" position="after">
-            <p t-if="o.narration" name="comment" style="page-break-inside: avoid;">
-                <b>Terms and conditions:</b>
-                <br/> <span t-field="o.narration"/>
-            </p>
+            <div style="page-break-inside: avoid;">
+                <p t-if="o.narration" name="comment" style="page-break-inside: avoid;">
+                    <b>Terms and conditions:</b>
+                    <br/> <span t-field="o.narration"/>
+                </p>
+            </div>
         </xpath>
 
         <xpath expr="//p[@name='payment_communication']" position="replace"/>
 
         <xpath expr="//div[hasclass('clearfix')]" position="replace">
             <div class="clearfix" style="page-break-inside: avoid;">
-                <div style="float: left; width: 45%;">
+                <div style="float: left; width: 45%; page-break-inside: avoid;">
                     <t t-if="o.payment_state != 'paid'">
                         <h2>
                             <span>Payment Info</span>
@@ -209,7 +211,7 @@
                     </t>
                 </div>
 
-                <div style="float: right; width: 50%;">
+                <div style="float: right; width: 50%; page-break-inside: avoid;">
                     <div id="total" class="row">
                         <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
                             <table class="table table-sm" style="page-break-inside: avoid;">
