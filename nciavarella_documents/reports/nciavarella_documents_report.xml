@@ -71,7 +71,7 @@
                         </div>
                     </div>
 
-                    <div class="page" style="page-break-inside: avoid; font-size: 14pt;">
+                    <div class="page" style="font-size: 14pt;">
                         <strong>
                             SUBJECT: <span t-field="doc.subject"/>
                         </strong>
@@ -97,7 +97,7 @@
 
                         <br/>
 
-                        <div style="float: right;">
+                        <div style="float: right; page-break-inside: avoid;">
                             <strong>
                                 <span t-field="doc.create_uid.name"/>
 
