@@ -218,6 +218,18 @@
                 <div style="float: right; width: 50%; page-break-inside: avoid;">
                     <div id="total" class="row">
                         <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                            <t t-if="o.amount_untaxed &gt; 79.47 or o.amount_untaxed == 79.47">
+                                <i style="font-size: 10pt;">
+                                    Stamp duty paid virtually in accordance with Ministerial Decree 17.06.2014
+                                </i>
+                            </t>
+
+<!--                            <t t-elif="o.amount_untaxed = 79.47">-->
+<!--                                <i style="font-size: 9pt;">-->
+<!--                                    Stamp duty paid virtually in accordance with Ministerial Decree 17.06.2014-->
+<!--                                </i>-->
+<!--                            </t>-->
+
                             <table class="table table-sm" style="page-break-inside: avoid;">
                                 <tr class="border-black o_subtotal" style="">
                                     <td><strong>Subtotal</strong></td>
