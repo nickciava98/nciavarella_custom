@@ -9,7 +9,7 @@
     'website': "http://www.nciavarella.me",
     'depends': ['hr_timesheet', 'account', 'nciavarella_custom'],
     'data': [
-        'reports/external_layout_boxed.xml',
+        'data/assets.xml',
         'reports/external_layout_standard.xml',
         'reports/report_timesheet.xml',
         'reports/report_invoice_document.xml'
