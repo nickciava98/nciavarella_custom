@@ -164,17 +164,19 @@
 
                             <br/>
 
-                            <i style="font-size: 10.5pt;">
-                                <t t-if="o.move_type == 'out_invoice' and o.state == 'draft'">
+                            <t t-if="o.move_type == 'out_invoice' and o.state == 'draft'">
+                                <i style="font-size: 10.5pt;">
                                     Documento privo di valenza fiscale ai sensi dell’art. 21 Dpr 633/72.
-                                </t>
+                                </i>
+                            </t>
 
-                                <t else="">
+                            <t t-else="">
+                                <i style="font-size: 10.5pt;">
                                     Documento privo di valenza fiscale ai sensi dell’art. 21 Dpr 633/72.
                                     L’originale è disponibile all’indirizzo telematico da
                                     Lei fornito oppure nella Sua area riservata dell’Agenzia delle Entrate.
-                                </t>
-                            </i>
+                                </i>
+                            </t>
                         </td>
                     </tr>
                     <tr>
@@ -302,7 +304,7 @@
                     </tbody>
                 </table>
 
-                <i t-if="o.amount_untaxed &gt; 79.47 or o.amount_untaxed == 79.47" style="font-size: 10.5pt;">
+                <i t-if="o.amount_untaxed &gt; 79.47 or o.amount_untaxed == 79.47">
                     Imposta di bollo pagata in modo virtuale
                     ai sensi del decreto ministeriale 17.06.2014
                 </i>
@@ -353,207 +355,33 @@
                             </t>
                         </t>
                     </t>
+                    <t t-if="o.payment_state != 'paid'">
+                        <tr>
+                            <td colspan="2">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td>
+                                            <strong>PAGAMENTO</strong>
+                                            <br/>MP05 - Bonifico
+                                        </td>
+                                        <td>
+                                            <strong>DETTAGLI</strong>
+                                            <br/>IBAN: <span t-field="o.partner_bank_id.acc_number"/>
+                                            <br/>BIC-SWIFT: <span t-field="o.partner_bank_id.bank_id.bic"/>
+                                        </td>
+                                        <td>
+                                            <strong>SCADENZA</strong>
+                                            <br/><span t-field="o.invoice_date_due"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </t>
                 </table>
             </div>
 
-            <t t-set="div_footer">
-                <div class="text-right" style="font-family: 'Courier Prime', serif;">
-                    <div t-if="report_type == 'pdf'" style="font-size: 10.5pt;">
-                        Pag.: <span class="page"/> / <span class="topage"/>
-                    </div>
-                </div>
-            </t>
+            <t t-set="div_footer"> </t>
         </xpath>
-
-<!--        <xpath expr="//div[hasclass('page')]/h2" position="replace">-->
-<!--            <h2>-->
-<!--                <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">Invoice n.</span>-->
-<!--                <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">PRO-FORMA Invoice</span>-->
-<!--                <span t-if="o.move_type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice n.</span>-->
-<!--                <span t-if="o.move_type == 'out_refund'">Credit Note n.</span>-->
-<!--                <span t-if="o.move_type == 'in_refund'">Vendor Credit Note n.</span>-->
-<!--                <span t-if="o.move_type == 'in_invoice'">Vendor Bill n.</span>-->
-<!--                <span t-if="o.name != '/'" t-field="o.name"/>-->
-<!--            </h2>-->
-<!--	    -->
-<!--            <t t-if="o.move_type == 'out_invoice' and o.state == 'draft'">-->
-<!--                <i>-->
-<!--                    Document without fiscal value pursuant to art. 21 Dpr 633/72.-->
-<!--                </i>-->
-<!--            </t>-->
-
-<!--            <t t-else="">-->
-<!--                <i>-->
-<!--                    Document without fiscal value pursuant to art. 21 Dpr 633/72.-->
-<!--                    The original is available at the telematic address provided by you-->
-<!--                    or in your reserved area of the Agenzia delle Entrate.-->
-<!--                </i>-->
-<!--            </t>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//th[@name='th_description']" position="before">-->
-<!--            <th name="th_image" class="text-left">-->
-<!--                <span/>-->
-<!--            </th>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//th[@name='th_quantity']" position="replace">-->
-<!--            <th name="th_quantity" class="text-left">-->
-<!--                <span>Quantity</span>-->
-<!--            </th>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//th[@name='th_priceunit']" position="replace">-->
-<!--            <th name="th_priceunit"-->
-<!--                t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">-->
-<!--                <span>Unit Price</span>-->
-<!--            </th>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//th[@name='th_taxes']" position="replace">-->
-<!--            <th name="th_taxes"-->
-<!--                t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">-->
-<!--                <span>Taxes</span>-->
-<!--            </th>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//th[@name='th_subtotal']" position="replace">-->
-<!--            <th name="th_subtotal" class="text-left">-->
-<!--                <span>Subtotal</span>-->
-<!--            </th>-->
-
-<!--            <th name="th_total" class="text-left">-->
-<!--                <span>Total</span>-->
-<!--            </th>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//t[@name='account_invoice_line_accountable']/td[1]" position="before">-->
-<!--            <td class="text-left">-->
-<!--                <img t-if="line.product_id.image_1920"-->
-<!--                     t-att-src="'data:image/png;base64,%s' % to_text(line.product_id.image_1920)"-->
-<!--                     style="width: 80px;"/>-->
-<!--            </td>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//t[@name='account_invoice_line_accountable']/td[2]" position="replace">-->
-<!--            <td name="account_invoice_line_name" style="width: 40%;">-->
-<!--                <span t-field="line.name" t-options="{'widget': 'text'}"/>-->
-<!--            </td>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//t[@name='account_invoice_line_accountable']/td[3]" position="replace">-->
-<!--            <td class="text-left">-->
-<!--                <t t-if="o.is_hourly_cost">-->
-<!--                    <span t-esc="str('%.1f'%(line.quantity)).replace('.', ',')"/>-->
-<!--                </t>-->
-
-<!--                <t t-else="">-->
-<!--                    <span t-esc="'%.0f'%(line.quantity)"/>-->
-<!--                </t>-->
-<!--            </td>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//t[@name='account_invoice_line_accountable']/td[4]" position="replace">-->
-<!--            <td t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">-->
-<!--                <span class="text-nowrap" t-field="line.price_unit"/>-->
-<!--                <span class="text-nowrap" t-field="o.currency_id.symbol"/>-->
-<!--            </td>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//t[@name='account_invoice_line_accountable']/td[5]" position="replace">-->
-<!--            <td t-if="display_discount" t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">-->
-<!--                <span class="text-nowrap" t-field="line.discount"/>-->
-<!--            </td>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//t[@name='account_invoice_line_accountable']/td[6]" position="replace">-->
-<!--            <td t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">-->
-<!--                <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"-->
-<!--                      id="line_tax_ids"/>-->
-<!--            </td>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//t[@name='account_invoice_line_accountable']/td[7]" position="replace">-->
-<!--            <td class="text-left o_price_total">-->
-<!--                <span class="text-nowrap" t-field="line.price_subtotal"/>-->
-<!--            </td>-->
-
-<!--            <td class="text-left o_price_total">-->
-<!--                <span class="text-nowrap" t-field="line.price_total"/>-->
-<!--            </td>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//p[@name='comment']" position="replace"/>-->
-
-<!--        <xpath expr="//div[hasclass('clearfix')]" position="after">-->
-<!--            <div style="page-break-inside: avoid;">-->
-<!--                <p t-if="o.narration" name="comment" style="page-break-inside: avoid;">-->
-<!--                    <b>Terms and conditions:</b>-->
-<!--                    <br/> <span t-field="o.narration"/>-->
-<!--                </p>-->
-<!--            </div>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//p[@name='payment_communication']" position="replace"/>-->
-
-<!--        <xpath expr="//div[hasclass('clearfix')]" position="replace">-->
-<!--            <div class="clearfix" style="page-break-inside: avoid;">-->
-<!--                <div style="float: left; width: 45%; page-break-inside: avoid;">-->
-<!--                    <t t-if="o.payment_state != 'paid'">-->
-<!--                        <h2>-->
-<!--                            <span>Payment Info</span>-->
-<!--                        </h2>-->
-
-<!--                        <p name="payment_communication">-->
-<!--                            <t t-if="o.partner_bank_id.bank_id.name">-->
-<!--                                <b>Bank:</b> <span t-field="o.partner_bank_id.bank_id.name"/> <br/>-->
-<!--                            </t>-->
-
-<!--                            <t t-if="o.partner_bank_id.acc_holder_name">-->
-<!--                                <b>Account Holder:</b> <span t-field="o.partner_bank_id.acc_holder_name"/> <br/>-->
-<!--                            </t>-->
-
-<!--                            <t t-if="o.partner_bank_id.acc_number">-->
-<!--                                <b>IBAN:</b> <span t-field="o.partner_bank_id.acc_number"/> <br/>-->
-<!--                            </t>-->
-
-<!--                            <t t-if="o.partner_bank_id.bank_id.bic">-->
-<!--                                <b>BIC - SWIFT:</b> <span t-field="o.partner_bank_id.bank_id.bic"/> <br/>-->
-<!--                            </t>-->
-
-<!--                            <t t-if="o.payment_reference">-->
-<!--                                <b>Reason for transfer:</b> Payment of invoice n. <span t-field="o.name"/> <br/>-->
-<!--                            </t>-->
-<!--                        </p>-->
-<!--                    </t>-->
-<!--                </div>-->
-
-<!--                <div style="float: right; width: 50%; page-break-inside: avoid;">-->
-<!--                    <div id="total" class="row">-->
-<!--                        <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">-->
-<!--                            <t t-if="o.amount_untaxed &gt; 79.47 or o.amount_untaxed == 79.47">-->
-<!--                                <i style="font-size: 10pt;">-->
-<!--                                    Stamp duty paid virtually in accordance with Ministerial Decree 17.06.2014-->
-<!--                                </i>-->
-<!--                            </t>-->
-
-<!--                            <t t-elif="o.amount_untaxed = 79.47">-->
-<!--                                <i style="font-size: 9pt;">-->
-<!--                                    Stamp duty paid virtually in accordance with Ministerial Decree 17.06.2014-->
-<!--                                </i>-->
-<!--                            </t>-->
-
-<!--                            <table class="table table-sm" style="page-break-inside: avoid;">-->
-
-<!--                            </table>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <p style="page-break-after: auto;"/>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//p[@name='payment_term']" position="replace"/>-->
     </template>
 </odoo>
