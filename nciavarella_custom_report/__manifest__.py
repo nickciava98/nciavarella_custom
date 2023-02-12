@@ -5,11 +5,10 @@
     'license': 'OPL-1',
     'author': "Niccolò Ciavarella",
     'category': '',
-    'version': '14.0.1',
+    'version': '15.0.1',
     'website': "http://www.nciavarella.me",
     'depends': ['hr_timesheet', 'account', 'nciavarella_custom'],
     'data': [
-        'data/assets.xml',
         'reports/external_layout_standard.xml',
         'reports/report_timesheet.xml',
         'reports/report_invoice_document.xml'
