@@ -17,7 +17,10 @@
              'views/account_invoice_tree.xml',
              'views/product_product_form.xml',
              'views/activity_costs_form.xml',
-             'views/activity_costs_tree.xml'],
+             'views/activity_costs_tree.xml',
+             'views/res_partner_form.xml',
+             'views/res_partner_tree.xml',
+             'report/report_invoice_document.xml'],
     'application': False,
     'installable': True,
 }

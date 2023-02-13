@@ -1,0 +1,35 @@
+<odoo>
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="//t[@t-set='address']" position="replace">
+            <t t-set="address">
+                <address t-field="o.partner_id"
+                         t-options="{&quot;widget&quot;: &quot;contact&quot;,
+                                     &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;],
+                                     &quot;no_marker&quot;: True}"/>
+
+                <t t-if="o.partner_id.pec_mail">
+                    PEC:
+                    <span t-field="o.partner_id.pec_mail"/>
+                </t>
+
+                <t t-if="o.partner_id.codice_destinatario">
+                    <br/>Codice Destinatario:
+                    <span t-field="o.partner_id.codice_destinatario"/>
+                </t>
+
+                <t t-if="o.partner_id.vat">
+                    <br/>
+                    <t t-if="o.company_id.account_fiscal_country_id.vat_label"
+                       t-esc="o.company_id.account_fiscal_country_id.vat_label" id="inv_tax_id_label"/>
+                    <t t-else="">Tax ID</t>:
+                    <span t-field="o.partner_id.vat"/>
+                </t>
+
+                <t t-if="o.partner_id.codice_fiscale">
+                    <br/>Codice Fiscale:
+                    <span t-field="o.partner_id.codice_fiscale"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+</odoo>
