@@ -14,6 +14,28 @@ class AccountMove(models.Model):
         compute = "_compute_cash_flow",
         store = True
     )
+    tax_ids = fields.Many2many(
+        "account.tax",
+        "tax_present_rel",
+        compute = "_compute_tax_ids",
+        store = True
+    )
+
+    @api.depends("invoice_line_ids")
+    def _compute_tax_ids(self):
+        for line in self:
+            line.tax_ids = False
+
+            if len(line.invoice_line_ids) > 0:
+                tax_ids = []
+
+                for inv_line in line.invoice_line_ids:
+                    for tax in inv_line.tax_ids:
+                        if tax.id not in tax_ids:
+                            tax_ids.append(tax.id)
+
+                if len(tax_ids) > 0:
+                    line.tax_ids = [(6, 0, tax_ids)]
 
     @api.onchange("invoice_line_ids")
     def _compute_is_hourly_cost(self):
