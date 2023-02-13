@@ -11,6 +11,7 @@
     'data': ['security/ir.model.access.csv',
              'security/groups.xml',
              'data/account_menuitem_delete.xml',
+             'views/account_tax_form.xml',
              'views/account_menuitem.xml',
              'views/account_move_form.xml',
              'views/account_move_tree.xml',
