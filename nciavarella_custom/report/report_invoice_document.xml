@@ -73,7 +73,7 @@
         </xpath>
 
         <xpath expr="//t[@t-call='account.document_tax_totals']" position="replace">
-            <p>
+            <p style="word-break: break-all;">
                 <t t-call="account.document_tax_totals"/>
             </p>
         </xpath>
