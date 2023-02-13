@@ -3,7 +3,7 @@
         <field name="name">Activity Costs</field>
         <field name="model">activity.costs</field>
         <field name="arch" type="xml">
-            <tree expand="True">
+            <tree expand="True" default_order="name desc">
                 <field name="name"/>
                 <field name="currency_id" invisible="True"/>
                 <field name="total_invoiced" widget="monetary"
