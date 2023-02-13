@@ -72,6 +72,12 @@
             <attribute name="style">width: 10% !important;</attribute>
         </xpath>
 
+        <xpath expr="//t[@t-call='account.document_tax_totals']" position="replace">
+            <p>
+                <t t-call="account.document_tax_totals"/>
+            </p>
+        </xpath>
+
         <xpath expr="//p[@name='payment_communication']" position="replace">
             <p t-if="o.move_type in ('out_invoice', 'in_refund') and o.partner_bank_id" name="payment_communication">
                 Payment Mode: Bank Transfer
