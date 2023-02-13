@@ -74,7 +74,9 @@
 
         <xpath expr="//p[@name='payment_communication']" position="replace">
             <div>
-                <p t-field="o.narration" class="text-muted"/>
+                <p class="text-muted">
+                    <span t-field="o.narration"/>
+                </p>
 
                 <p t-if="o.amount_untaxed &gt; 77.47 or amount_untaxed == 77.47" class="text-muted">
                     Bollo assolto ai sensi del decreto MEF 17 Giugno 2014 (Art. 6)
