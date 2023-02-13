@@ -89,15 +89,18 @@
             <br/>
 
             <p class="text-muted">
+                <div t-field="o.narration"/>
+
+                <div t-if="o.amount_untaxed &gt; 77.47 or amount_untaxed == 77.47">
+                    Bollo assolto ai sensi del decreto MEF 17 Giugno 2014 (Art. 6)
+                </div>
+
                 Documento privo di valenza fiscale ai sensi dell’art. 21 Dpr 633/72.
                 L’originale è disponibile all’indirizzo telematico da Lei fornito oppure
                 nella Sua area riservata dell’Agenzia delle Entrate.
             </p>
-
-            <p t-if="o.amount_untaxed &gt; 77.47 or amount_untaxed == 77.47"
-               name="stamp_tax_description" class="text-muted">
-                <br/>Bollo assolto ai sensi del decreto MEF 17 Giugno 2014 (Art. 6)
-            </p>
         </xpath>
+
+        <xpath expr="//div[@name='comment']" position="replace"/>
     </template>
 </odoo>
