@@ -11,9 +11,6 @@
 
             <xpath expr="//field[@name='vat']" position="after">
                 <field name="codice_destinatario"/>
-            </xpath>
-
-            <xpath expr="//field[@name='email']" position="after">
                 <field name="pec_mail"/>
             </xpath>
         </field>
