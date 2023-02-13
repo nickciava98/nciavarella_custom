@@ -6,14 +6,34 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-12 19:25+0000\n"
-"PO-Revision-Date: 2023-02-12 19:25+0000\n"
+"POT-Creation-Date: 2023-02-13 13:59+0000\n"
+"PO-Revision-Date: 2023-02-13 13:59+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "<br/>Codice Destinatario:"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "<br/>Codice Fiscale:"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "<br/>PEC:"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "<br/>VAT Number:"
+msgstr "<br/>Partita IVA:"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_needaction
@@ -63,6 +83,39 @@ msgstr ""
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__cash_flow
 msgid "Cash Flow"
 msgstr "Liquidità"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_res_partner__codice_destinatario
+#: model:ir.model.fields,field_description:nciavarella_custom.field_res_users__codice_destinatario
+msgid "Codice Destinatario SDI"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_res_partner__codice_fiscale
+#: model:ir.model.fields,field_description:nciavarella_custom.field_res_users__codice_fiscale
+msgid "Codice Fiscale"
+msgstr ""
+
+#. module: nciavarella_custom
+#: code:addons/auto_backup/models/db_backup.py:0
+#: code:addons/nciavarella_custom/auto_backup/models/db_backup.py:0
+#, python-format
+msgid "Connection Test Failed!"
+msgstr ""
+
+#. module: nciavarella_custom
+#: code:addons/auto_backup/models/db_backup.py:0
+#: code:addons/nciavarella_custom/auto_backup/models/db_backup.py:0
+#, python-format
+msgid ""
+"Connection Test Succeeded!\n"
+"Everything seems properly set up for FTP back-ups!"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model,name:nciavarella_custom.model_res_partner
+msgid "Contact"
+msgstr "Contatto"
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
@@ -117,6 +170,13 @@ msgstr "Imposta lorda"
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__has_message
 msgid "Has Message"
+msgstr ""
+
+#. module: nciavarella_custom
+#: code:addons/auto_backup/models/db_backup.py:0
+#: code:addons/nciavarella_custom/auto_backup/models/db_backup.py:0
+#, python-format
+msgid "Here is what we got instead:\n"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -175,11 +235,6 @@ msgstr "Costo orario"
 #: model:ir.model,name:nciavarella_custom.model_account_move
 msgid "Journal Entry"
 msgstr "Registrazione contabile"
-
-#. module: nciavarella_custom
-#: model:ir.model.constraint,message:nciavarella_custom.constraint_activity_costs_unique_name
-msgid "L'anno deve essere univoco!"
-msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs____last_update
@@ -269,6 +324,12 @@ msgstr ""
 #. module: nciavarella_custom
 #: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__message_unread_counter
 msgid "Number of unread messages"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_res_partner__pec_mail
+#: model:ir.model.fields,field_description:nciavarella_custom.field_res_users__pec_mail
+msgid "PEC"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -420,6 +481,7 @@ msgstr "L'anno deve essere riempito!"
 #. module: nciavarella_custom
 #: code:addons/nciavarella_custom/models/activity_costs.py:0
 #: code:addons/nciavarella_custom/nciavarella_custom/models/activity_costs.py:0
+#: model:ir.model.constraint,message:nciavarella_custom.constraint_activity_costs_unique_name
 #, python-format
 msgid "Year must be unique!"
 msgstr "L'anno deve essere univoco!"
