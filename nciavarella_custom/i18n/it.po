@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-13 13:59+0000\n"
-"PO-Revision-Date: 2023-02-13 13:59+0000\n"
+"POT-Creation-Date: 2023-02-13 14:16+0000\n"
+"PO-Revision-Date: 2023-02-13 14:16+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,12 +17,22 @@ msgstr ""
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "<br/>Bank:"
+msgstr "<br/>Banca:"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
 msgid "<br/>Codice Destinatario:"
 msgstr ""
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
 msgid "<br/>Codice Fiscale:"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "<br/>IBAN:"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -331,6 +341,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:nciavarella_custom.field_res_users__pec_mail
 msgid "PEC"
 msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid ""
+"Payment Mode: Bank Transfer\n"
+"                <br/>Recipient:"
+msgstr ""
+"Modalità di pagamento: Bonifico bancario\n"
+"                <br/>Beneficiario:"
 
 #. module: nciavarella_custom
 #: model:ir.model,name:nciavarella_custom.model_product_product
