@@ -53,7 +53,7 @@
         </xpath>
 
         <xpath expr="//th[@name='th_description']" position="attributes">
-            <attribute name="style">width: 60% !important;</attribute>
+            <attribute name="style">width: 40% !important;</attribute>
         </xpath>
 
         <xpath expr="//th[@name='th_quantity']" position="attributes">
@@ -65,7 +65,7 @@
         </xpath>
 
         <xpath expr="//th[@name='th_taxes']" position="attributes">
-            <attribute name="style">width: 10% !important;</attribute>
+            <attribute name="style">width: 30% !important;</attribute>
         </xpath>
 
         <xpath expr="//th[@name='th_subtotal']" position="attributes">
