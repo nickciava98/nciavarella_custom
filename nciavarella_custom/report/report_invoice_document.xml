@@ -73,21 +73,6 @@
         </xpath>
 
         <xpath expr="//p[@name='payment_communication']" position="replace">
-            <p name="tax_description">
-                <t t-foreach="o.tax_ids" t-as="tax">
-                    <span t-raw="tax.tax_description"/><br/>
-                </t>
-            </p>
-
-            <p t-if="o.move_type in ('out_invoice', 'in_refund') and o.partner_bank_id" name="payment_communication">
-                Payment Mode: Bank Transfer
-                <br/>Recipient: <span t-field="o.partner_bank_id.partner_id"/>
-                <br/>IBAN: <span t-field="o.partner_bank_id.acc_number"/>
-                <br/>Bank: <span t-field="o.partner_bank_id.bank_id"/>
-            </p>
-
-            <br/>
-
             <div>
                 <p t-field="o.narration" class="text-muted"/>
 
@@ -101,6 +86,19 @@
                     nella Sua area riservata dell’Agenzia delle Entrate.
                 </p>
             </div>
+
+            <p name="tax_description">
+                <t t-foreach="o.tax_ids" t-as="tax">
+                    <span t-raw="tax.tax_description"/><br/>
+                </t>
+            </p>
+
+            <p t-if="o.move_type in ('out_invoice', 'in_refund') and o.partner_bank_id" name="payment_communication">
+                Payment Mode: Bank Transfer
+                <br/>Recipient: <span t-field="o.partner_bank_id.partner_id"/>
+                <br/>IBAN: <span t-field="o.partner_bank_id.acc_number"/>
+                <br/>Bank: <span t-field="o.partner_bank_id.bank_id"/>
+            </p>
         </xpath>
 
         <xpath expr="//div[@name='comment']" position="replace"/>
