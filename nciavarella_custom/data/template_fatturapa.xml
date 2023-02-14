@@ -17,5 +17,37 @@
         <xpath expr="//Allegati" position="replace"/>
 
         <xpath expr="//CodicePagamento" position="replace"/>
+
+        <xpath expr="//CessionarioCommittente" position="replace">
+            <CessionarioCommittente>
+                <DatiAnagrafici>
+                    <IdFiscaleIVA t-if="buyer.vat and in_eu(buyer)">
+                        <IdPaese t-esc="get_vat_country(buyer.vat)"/>
+                        <IdCodice t-esc="get_vat_number(buyer.vat)"/>
+                    </IdFiscaleIVA>
+                    <IdFiscaleIVA t-if="buyer.vat and not in_eu(buyer)">
+                        <IdPaese t-esc="buyer.country_id.code"/>
+                        <IdCodice t-esc="get_vat_number(buyer.vat)"/>
+                    </IdFiscaleIVA>
+                    <IdFiscaleIVA t-if="not buyer.vat and buyer.country_id.code != 'IT'">
+                        <IdPaese t-esc="buyer.country_id.code"/>
+                        <IdCodice t-esc="'0000000'"/>
+                    </IdFiscaleIVA>
+                    <CodiceFiscale t-if="buyer.l10n_it_codice_fiscale" t-esc="normalize_codice_fiscale(buyer.l10n_it_codice_fiscale)"/>
+                    <Anagrafica>
+                        <t t-if="buyer_is_company">
+                            <Denominazione t-esc="format_alphanumeric(buyer.display_name[:80])"/>
+                        </t>
+                        <t t-else="">
+                            <Nome t-esc="format_alphanumeric(' '.join(buyer.name.split()[:1])[:60])"/>
+                            <Cognome t-esc="format_alphanumeric(' '.join(buyer.name.split()[1:])[:60])"/>
+                        </t>
+                    </Anagrafica>
+                </DatiAnagrafici>
+                <t t-call="l10n_it_edi.account_invoice_it_FatturaPA_sede">
+                    <t t-set="partner" t-value="buyer_partner"/>
+                </t>
+            </CessionarioCommittente>
+        </xpath>
     </template>
 </odoo>
