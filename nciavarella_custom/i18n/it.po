@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-13 15:09+0000\n"
-"PO-Revision-Date: 2023-02-13 15:09+0000\n"
+"POT-Creation-Date: 2023-02-14 18:58+0000\n"
+"PO-Revision-Date: 2023-02-14 18:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -100,15 +100,8 @@ msgid "Cash Flow"
 msgstr "Liquidità"
 
 #. module: nciavarella_custom
-#: model:ir.model.fields,field_description:nciavarella_custom.field_res_partner__codice_destinatario
-#: model:ir.model.fields,field_description:nciavarella_custom.field_res_users__codice_destinatario
-msgid "Codice Destinatario SDI"
-msgstr ""
-
-#. module: nciavarella_custom
-#: model:ir.model.fields,field_description:nciavarella_custom.field_res_partner__codice_fiscale
-#: model:ir.model.fields,field_description:nciavarella_custom.field_res_users__codice_fiscale
-msgid "Codice Fiscale"
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.res_partner_form_inherit
+msgid "Codice Destinatario"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -126,11 +119,6 @@ msgid ""
 "Connection Test Succeeded!\n"
 "Everything seems properly set up for FTP back-ups!"
 msgstr ""
-
-#. module: nciavarella_custom
-#: model:ir.model,name:nciavarella_custom.model_res_partner
-msgid "Contact"
-msgstr "Contatto"
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
@@ -169,6 +157,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_tree_inherit
 msgid "Down Payment"
 msgstr "Acconto"
+
+#. module: nciavarella_custom
+#: model:ir.model,name:nciavarella_custom.model_account_edi_format
+msgid "EDI format"
+msgstr "Formato EDI"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_form_edi_inherit
+msgid "FE State"
+msgstr "Stato FE"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_follower_ids
@@ -350,12 +348,6 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: nciavarella_custom
-#: model:ir.model.fields,field_description:nciavarella_custom.field_res_partner__pec_mail
-#: model:ir.model.fields,field_description:nciavarella_custom.field_res_users__pec_mail
-msgid "PEC"
-msgstr ""
-
-#. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
 msgid ""
 "Payment Mode: Bank Transfer\n"
@@ -383,6 +375,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__send_sequence
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__send_sequence
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__send_sequence
+msgid "Send Sequence FE"
+msgstr "Progressivo Invio FE"
 
 #. module: nciavarella_custom
 #: model_terms:ir.actions.act_window,help:nciavarella_custom.activity_costs_action
