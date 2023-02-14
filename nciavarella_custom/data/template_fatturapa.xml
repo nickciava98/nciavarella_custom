@@ -49,5 +49,9 @@
                 </t>
             </CessionarioCommittente>
         </xpath>
+
+        <xpath expr="//EsigibilitaIVA" position="replace">
+            <EsigibilitaIVA t-esc="tax.l10n_it_vat_due_date"/>
+        </xpath>
     </template>
 </odoo>
