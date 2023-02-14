@@ -52,4 +52,33 @@
             </xpath>
         </field>
     </record>
+
+    <record id="account_move_form_l10n_it_inherit" model="ir.ui.view">
+        <field name="name">account.move.form.l10n.it.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_it_edi.account_invoice_form_l10n_it"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='l10n_it_stamp_duty']" position="before">
+                <field name="send_sequence" required="1" force_save="1"
+                       attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='l10n_it_ddt_id']" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_move_form_edi_inherit" model="ir.ui.view">
+        <field name="name">account.move.form.edi.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account_edi.view_move_form_inherit"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='edi_document_ids']/tree/field[@name='state']" position="attributes">
+                <attribute name="string">FE State</attribute>
+            </xpath>
+        </field>
+    </record>
 </odoo>

@@ -1,0 +1,23 @@
+<odoo>
+    <template id="template_fatturapa_simplified_inherit"
+              inherit_id="l10n_it_edi.account_invoice_it_simplified_FatturaPA_export">
+        <xpath expr="//ProgressivoInvio" position="replace">
+            <ProgressivoInvio t-esc="record.send_sequence"/>
+        </xpath>
+
+        <xpath expr="//Allegati" position="replace"/>
+
+        <xpath expr="//CodicePagamento" position="replace"/>
+    </template>
+
+    <template id="template_fatturapa_simplified_inherit"
+              inherit_id="l10n_it_edi.account_invoice_it_FatturaPA_export">
+        <xpath expr="//ProgressivoInvio" position="replace">
+            <ProgressivoInvio t-esc="record.send_sequence"/>
+        </xpath>
+
+        <xpath expr="//Allegati" position="replace"/>
+
+        <xpath expr="//CodicePagamento" position="replace"/>
+    </template>
+</odoo>

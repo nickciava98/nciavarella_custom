@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 
+
 class AccountMove(models.Model):
     _inherit = "account.move"
 
@@ -19,6 +20,9 @@ class AccountMove(models.Model):
         "tax_present_rel",
         compute = "_compute_tax_ids",
         store = True
+    )
+    send_sequence = fields.Char(
+        string = "Send Sequence FE"
     )
 
     @api.depends("invoice_line_ids")
@@ -61,3 +65,6 @@ class AccountMove(models.Model):
     def _compute_cash_flow(self):
         for line in self:
             line.cash_flow = line.amount_total - line.invoice_down_payment
+
+    def send_pec_mail(self):
+        pass

@@ -2,16 +2,11 @@
     <record id="res_partner_form_inherit" model="ir.ui.view">
         <field name="name">res.partner.form.inherit</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="inherit_id" ref="l10n_it_edi.res_partner_form_l10n_it"/>
 
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='vat']" position="before">
-                <field name="codice_fiscale"/>
-            </xpath>
-
-            <xpath expr="//field[@name='vat']" position="after">
-                <field name="codice_destinatario"/>
-                <field name="pec_mail"/>
+            <xpath expr="//field[@name='l10n_it_pa_index']" position="attributes">
+                <attribute name="string">Codice Destinatario</attribute>
             </xpath>
         </field>
     </record>

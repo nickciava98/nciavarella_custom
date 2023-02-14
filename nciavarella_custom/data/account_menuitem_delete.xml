@@ -9,5 +9,6 @@
         <delete id="account.menu_action_account_payments_payable" model="ir.ui.menu"/>
         <delete id="account.product_product_menu_purchasable" model="ir.ui.menu"/>
         <delete id="account.menu_account_supplier" model="ir.ui.menu"/>
+        <delete id="l10n_it_edi.menu_action_ddt_account" model="ir.ui.menu"/>
     </data>
 </odoo>
