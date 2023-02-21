@@ -1,7 +1,43 @@
 <odoo>
     <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
         <xpath expr="//t[@t-set='address']" position="replace">
+            <t t-set="document_info">
+                <div style="width: 100%;">
+                    <div style="width: 50%; float: left;">
+                        Nr. Documento <br/>
+                        Tipo Documento <br/>
+                        Data <br/>
+                    </div>
+
+                    <div style="width: 50%; float: right;">
+                        <span t-field="o.name"/>
+                        <br/>
+                        <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">
+                            Fattura elettronica
+                        </span>
+                        <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">
+                            Fattura in bozza
+                        </span>
+                        <span t-if="o.move_type == 'out_invoice' and o.state == 'cancel'">
+                            Fattura cancellata
+                        </span>
+                        <span t-if="o.move_type == 'out_refund'">
+                            Nota di credito
+                        </span>
+                        <br/><span t-field="o.invoice_date"/>
+                    </div>
+                </div>
+                <br/>
+                <p class="text-muted" style="font-size: 10pt;">
+                    Documento privo di valenza fiscale ai sensi dell’art. 21 Dpr 633/72.
+                    L’originale è disponibile all’indirizzo telematico da Lei fornito oppure
+                    nella Sua area riservata dell’Agenzia delle Entrate.
+                </p>
+            </t>
+
             <t t-set="address">
+                <div style="height: 35px;"/>
+
                 <div class="mt16">
                     <span t-field="o.partner_id.name"/>
 
@@ -49,8 +85,14 @@
                         <span t-field="o.partner_id.l10n_it_codice_fiscale"/>
                     </t>
                 </div>
+
+                <div style="height: 35px;"/>
             </t>
         </xpath>
+
+        <xpath expr="//h2" position="replace"/>
+
+        <xpath expr="//div[@id='informations']" position="replace"/>
 
         <xpath expr="//th[@name='th_description']" position="attributes">
             <attribute name="style">width: 60% !important;</attribute>
@@ -73,33 +115,32 @@
         </xpath>
 
         <xpath expr="//p[@name='payment_communication']" position="replace">
-            <div>
-                <p class="text-muted">
-                    <span t-field="o.narration"/>
-                </p>
+            <div style="height: 20px;"/>
 
-                <p t-if="o.amount_untaxed &gt; 77.47 or amount_untaxed == 77.47" class="text-muted">
-                    Bollo assolto ai sensi del decreto MEF 17 Giugno 2014 (Art. 6)
-                </p>
-
-                <p class="text-muted">
-                    Documento privo di valenza fiscale ai sensi dell’art. 21 Dpr 633/72.
-                    L’originale è disponibile all’indirizzo telematico da Lei fornito oppure
-                    nella Sua area riservata dell’Agenzia delle Entrate.
-                </p>
-            </div>
+            <t t-if="o.narration">
+                <strong>Causale:</strong>
+                <span t-field="o.narration"/>
+            </t>
 
             <p name="tax_description">
+                <strong t-if="o.amount_tax == 0">Esenzione IVA:</strong>
+                <br/>
                 <t t-foreach="o.tax_ids" t-as="tax">
                     <span t-raw="tax.tax_description"/><br/>
                 </t>
             </p>
 
+            <p t-if="o.l10n_it_stamp_duty != 0.00">
+                <strong>Assolvimento imposta di bollo:</strong>
+                <br/>Imposta di bollo assolta in modo virtuale ai sensi del decreto MEF 17 Giugno 2014 (Art. 6)
+            </p>
+
             <p t-if="o.move_type in ('out_invoice', 'in_refund') and o.partner_bank_id" name="payment_communication">
-                Payment Mode: Bank Transfer
-                <br/>Recipient: <span t-field="o.partner_bank_id.partner_id"/>
+                <strong>Termini di pagamento:</strong>
+                <br/>Scadenza: <span t-field="o.invoice_date_due"/>
+                <br/>Modalità: Bonifico bancario
                 <br/>IBAN: <span t-field="o.partner_bank_id.acc_number"/>
-                <br/>Bank: <span t-field="o.partner_bank_id.bank_id"/>
+                <br/>Banca: <span t-field="o.partner_bank_id.bank_id"/>
             </p>
         </xpath>
 

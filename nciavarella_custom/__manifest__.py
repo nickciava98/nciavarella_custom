@@ -22,6 +22,7 @@
              'views/activity_costs_tree.xml',
              'views/res_company_form.xml',
              'views/res_partner_form.xml',
+             'report/external_layout_standard.xml',
              'report/report_invoice_document.xml'],
     'application': False,
     'installable': True,

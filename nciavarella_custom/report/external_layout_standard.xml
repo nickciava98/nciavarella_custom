@@ -1,0 +1,17 @@
+<odoo>
+    <template id="external_layout_standard_inherit" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[@name='company_address']" position="replace">
+            <div style="width: 100%;">
+                <div style="width: 50%; float: left;">
+                    <div class="col-10" name="company_address">
+                        <span t-if="company.company_details" t-field="company.company_details"/>
+                    </div>
+                </div>
+
+                <div style="width: 50%; float: right;">
+                    <t t-if="document_info" t-esc="document_info"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
