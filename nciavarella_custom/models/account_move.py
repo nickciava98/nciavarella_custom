@@ -68,3 +68,7 @@ class AccountMove(models.Model):
 
     def send_pec_mail(self):
         pass
+
+    _sql_constraints = [
+        ("unique_send_sequence", "unique(send_sequence)", "Il progressivo invio deve essere univoco!")
+    ]
