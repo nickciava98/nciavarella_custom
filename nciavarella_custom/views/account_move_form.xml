@@ -7,6 +7,12 @@
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_invoice_sent']" position="replace"/>
 
+            <xpath expr="//button[@name='action_post']" position="attributes">
+                <attribute name="confirm">
+                    Verrà generato il file XML della fattura elettronica. Il progressivo invio è corretto?
+                </attribute>
+            </xpath>
+
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']"
                    position="attributes">
                 <attribute name="widget">monetary</attribute>
