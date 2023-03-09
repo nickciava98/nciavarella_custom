@@ -83,32 +83,34 @@ class ActivityCosts(models.Model):
         for line in self:
             line.currency_id = self.env.ref('base.main_company').currency_id
 
+    @api.depends("name")
     def _compute_total_invoiced(self):
         for line in self:
             line.total_invoiced = 0
 
-            for invoice in self.env["account.move"].search(
-                    ["&",
-                     ("invoice_date", ">=", str(line.name) + "-01-01"),
-                     ("invoice_date", "<=", str(line.name) + "-12-31")]
-            ):
-                line.total_invoiced += invoice.amount_total
+            if line.name:
+                for invoice in self.env["account.move"].search(
+                        ["&",
+                         ("invoice_date", ">=", str(line.name) + "-01-01"),
+                         ("invoice_date", "<=", str(line.name) + "-12-31")]):
+                    line.total_invoiced += invoice.amount_total
 
     @api.depends("total_invoiced")
     def _compute_total_taxable(self):
         for line in self:
             line.total_taxable = line.total_invoiced * 0.67
 
+    @api.depends("name")
     def _compute_total_down_payments(self):
         for line in self:
             line.total_down_payments = 0
 
-            for invoice in self.env["account.move"].search(
-                    ["&",
-                     ("invoice_date", ">=", str(line.name) + "-01-01"),
-                     ("invoice_date", "<=", str(line.name) + "-12-31")]
-            ):
-                line.total_down_payments += invoice.invoice_down_payment
+            if line.name:
+                for invoice in self.env["account.move"].search(
+                        ["&",
+                         ("invoice_date", ">=", str(line.name) + "-01-01"),
+                         ("invoice_date", "<=", str(line.name) + "-12-31")]):
+                    line.total_down_payments += invoice.invoice_down_payment
 
     @api.depends("total_down_payments", "total_taxes_due",
                  "total_taxes_down_payment", "total_welfare_down_payment",
@@ -130,17 +132,17 @@ class ActivityCosts(models.Model):
         for line in self:
             line.total_taxes_down_payment = line.total_taxes_due
 
+    @api.depends("name")
     def _compute_total_stamp_taxes(self):
         for line in self:
             line.total_stamp_taxes = 0
 
-            for invoice in self.env["account.move"].search(
-                    ["&",
-                     ("invoice_date", ">=", str(line.name) + "-01-01"),
-                     ("invoice_date", "<=", str(line.name) + "-12-31")]
-            ):
-                if invoice.amount_total > 79.47:
-                    line.total_stamp_taxes += 2
+            if line.name:
+                for invoice in self.env["account.move"].search(
+                        ["&",
+                         ("invoice_date", ">=", str(line.name) + "-01-01"),
+                         ("invoice_date", "<=", str(line.name) + "-12-31")]):
+                    line.total_stamp_taxes += invoice.l10n_it_stamp_duty
 
     @api.depends("welfare_id", "total_taxable")
     def _compute_total_welfare_due(self):
