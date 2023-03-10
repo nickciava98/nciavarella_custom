@@ -38,6 +38,8 @@
             <t t-set="address">
                 <div style="height: 35px;"/>
 
+                <address/>
+
                 <div class="mt16">
                     <span t-field="o.partner_id.name"/>
 

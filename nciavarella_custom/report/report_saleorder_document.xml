@@ -1,0 +1,162 @@
+<odoo>
+    <template id="report_quotation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="sale.report_saleorder_document" t-lang="doc.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//t[@t-set='address']" position="replace">
+            <t t-set="document_info">
+                <div style="width: 100%;">
+                    <div style="width: 50%; float: left;">
+                        Nr. Documento <br/>
+                        Tipo Documento <br/>
+                        Data <br/>
+                        <t t-if="doc.state in ['draft', 'sent']">Scadenza</t>
+                    </div>
+
+                    <div style="width: 50%; float: right;">
+                        <span t-field="doc.name"/>
+                        <br/>
+                        <span t-if="env.context.get('proforma', False) or is_pro_forma">
+                            Fattura PRO-Forma
+                        </span>
+                        <span t-else="">Quotazione</span>
+                        <br/><span t-field="doc.date_order" t-options='{"format": "dd/MM/yyyy"}'/>
+                        <t t-if="doc.state in ['draft', 'sent']">
+                            <br/><span t-field="doc.validity_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                        </t>
+                    </div>
+                </div>
+                <br/>
+                <p class="text-muted" style="font-size: 10pt;">
+                    Documento privo di valenza fiscale ai sensi dell’art. 21 Dpr 633/72.
+                </p>
+            </t>
+
+            <t t-set="address">
+                <div style="height: 35px;"/>
+
+                <address/>
+
+                <div class="mt16">
+                    <span t-field="doc.partner_id.name"/>
+
+                    <t t-if="doc.partner_id.street">
+                        <br/><span t-field="doc.partner_id.street"/>
+                    </t>
+
+                    <t t-if="doc.partner_id.street2">
+                        <br/><span t-field="doc.partner_id.street2"/>
+                    </t>
+
+                    <t t-if="doc.partner_id.city">
+                        <br/><span t-field="doc.partner_id.city"/>
+                    </t>
+
+                    <t t-if="doc.partner_id.state_id">
+                        <span t-field="doc.partner_id.state_id"/>
+                    </t>
+
+                    <t t-if="doc.partner_id.zip">
+                        <span t-field="doc.partner_id.zip"/>
+                    </t>
+
+                    <t t-if="doc.partner_id.country_id">
+                        <span t-field="doc.partner_id.country_id"/>
+                    </t>
+
+                    <t t-if="doc.partner_id.l10n_it_pec_email">
+                        <br/>PEC:
+                        <span t-field="doc.partner_id.l10n_it_pec_email"/>
+                    </t>
+
+                    <t t-if="doc.partner_id.l10n_it_pa_index">
+                        <br/>Codice Destinatario:
+                        <span t-field="doc.partner_id.l10n_it_pa_index"/>
+                    </t>
+
+                    <t t-if="doc.partner_id.vat">
+                        <br/>Partita IVA:
+                        <span t-field="doc.partner_id.vat"/>
+                    </t>
+
+                    <t t-if="doc.partner_id.l10n_it_codice_fiscale">
+                        <br/>Codice Fiscale:
+                        <span t-field="doc.partner_id.l10n_it_codice_fiscale"/>
+                    </t>
+                </div>
+
+                <div style="height: 35px;"/>
+            </t>
+        </xpath>
+
+        <xpath expr="//h2" position="replace"/>
+
+        <xpath expr="//div[@id='informations']" position="replace">
+            <div class="row mt32 mb32" id="informations">
+                <div t-if="doc.client_order_ref" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Riferimento Cliente/Progetto:</strong>
+                    <p class="m-0" t-field="doc.client_order_ref"/>
+                </div>
+
+                <t t-set="is_only_hours" t-value="True"/>
+                <t t-foreach="doc.order_line" t-as="line">
+                    <t t-if="line.product_uom.id != 6">
+                        <t t-set="is_only_hours" t-value="False"/>
+                    </t>
+                </t>
+
+                <div t-if="is_only_hours" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Totale:</strong>
+                    <t t-set="tot_hours" t-value="0"/>
+                    <t t-foreach="doc.order_line" t-as="line">
+                        <t t-set="tot_hours" t-value="tot_hours + line.product_uom_qty"/>
+                    </t>
+                    <p class="m-0">
+                        <span t-esc="tot_hours" t-options='{"widget": "float", "precision": 1}'/>
+                        <span t-field="doc.order_line.product_uom"/>
+                    </p>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//th[@name='th_description']" position="attributes">
+            <attribute name="style">width: 60% !important;</attribute>
+        </xpath>
+
+        <xpath expr="//th[@name='th_quantity']" position="attributes">
+            <attribute name="style">width: 10% !important;</attribute>
+        </xpath>
+
+        <xpath expr="//th[@name='th_priceunit']" position="attributes">
+            <attribute name="style">width: 10% !important;</attribute>
+        </xpath>
+
+        <xpath expr="//th[@name='th_taxes']" position="attributes">
+            <attribute name="style">width: 10% !important;</attribute>
+        </xpath>
+
+        <xpath expr="//th[@name='th_subtotal']" position="attributes">
+            <attribute name="style">width: 10% !important;</attribute>
+        </xpath>
+
+        <xpath expr="//p[@t-field='doc.note']" position="replace"/>
+
+        <xpath expr="//p[@t-if='not is_html_empty(doc.payment_term_id.note)']" position="replace"/>
+    </template>
+
+    <record id="action_report_quotation" model="ir.actions.report">
+        <field name="name">Quotazione</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">nciavarella_custom.report_quotation</field>
+        <field name="report_file">nciavarella_custom.report_quotation</field>
+        <field name="print_report_name">'Quotazione - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
