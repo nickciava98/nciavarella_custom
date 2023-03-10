@@ -5,11 +5,11 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
 
         <field name="arch" type="xml">
-            <xpath expr="//button[@name='643'][1]" position="attributes">
+            <xpath expr="//button[@name='640'][1]" position="attributes">
                 <attribute name="invisible">True</attribute>
             </xpath>
 
-            <xpath expr="//button[@name='643'][2]" position="attributes">
+            <xpath expr="//button[@name='640'][2]" position="attributes">
                 <attribute name="invisible">True</attribute>
             </xpath>
 
