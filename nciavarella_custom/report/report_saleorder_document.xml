@@ -106,24 +106,20 @@
         </xpath>
 
         <xpath expr="//th[@name='th_description']" position="attributes">
-            <attribute name="style">width: 60% !important;</attribute>
+            <attribute name="style">width: 90% !important;</attribute>
         </xpath>
 
         <xpath expr="//th[@name='th_quantity']" position="attributes">
             <attribute name="style">width: 10% !important;</attribute>
         </xpath>
 
-        <xpath expr="//th[@name='th_priceunit']" position="attributes">
-            <attribute name="style">width: 10% !important;</attribute>
-        </xpath>
+        <xpath expr="//th[@name='th_priceunit']" position="replace"/>
 
-        <xpath expr="//th[@name='th_taxes']" position="attributes">
-            <attribute name="style">width: 10% !important;</attribute>
-        </xpath>
+        <xpath expr="//th[@name='th_taxes']" position="replace"/>
 
-        <xpath expr="//th[@name='th_subtotal']" position="attributes">
-            <attribute name="style">width: 10% !important;</attribute>
-        </xpath>
+        <xpath expr="//th[@name='th_subtotal']" position="replace"/>
+
+        <xpath expr="//div[@name='so_total_summary']" position="replace"/>
 
         <xpath expr="//p[@t-if='not is_html_empty(doc.payment_term_id.note)']" position="replace"/>
     </template>
