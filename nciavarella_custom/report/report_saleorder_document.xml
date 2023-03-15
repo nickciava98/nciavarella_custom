@@ -102,25 +102,6 @@
                     <strong>Riferimento Cliente/Progetto:</strong>
                     <p class="m-0" t-field="doc.client_order_ref"/>
                 </div>
-
-                <t t-set="is_only_hours" t-value="True"/>
-                <t t-foreach="doc.order_line" t-as="line">
-                    <t t-if="line.product_uom.id != 6">
-                        <t t-set="is_only_hours" t-value="False"/>
-                    </t>
-                </t>
-
-                <div t-if="is_only_hours" class="col-auto col-3 mw-100 mb-2">
-                    <strong>Totale:</strong>
-                    <t t-set="tot_hours" t-value="0"/>
-                    <t t-foreach="doc.order_line" t-as="line">
-                        <t t-set="tot_hours" t-value="tot_hours + line.product_uom_qty"/>
-                    </t>
-                    <p class="m-0">
-                        <span t-esc="tot_hours" t-options='{"widget": "float", "precision": 1}'/>
-                        <span t-field="doc.order_line.product_uom"/>
-                    </p>
-                </div>
             </div>
         </xpath>
 
@@ -143,8 +124,6 @@
         <xpath expr="//th[@name='th_subtotal']" position="attributes">
             <attribute name="style">width: 10% !important;</attribute>
         </xpath>
-
-        <xpath expr="//p[@t-field='doc.note']" position="replace"/>
 
         <xpath expr="//p[@t-if='not is_html_empty(doc.payment_term_id.note)']" position="replace"/>
     </template>
