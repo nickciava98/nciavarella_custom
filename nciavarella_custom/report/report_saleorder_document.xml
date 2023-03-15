@@ -119,6 +119,14 @@
 
         <xpath expr="//th[@name='th_subtotal']" position="replace"/>
 
+        <xpath expr="//td[@name='td_priceunit']" position="replace"/>
+
+        <xpath expr="//td[@name='td_taxes']" position="replace"/>
+
+        <xpath expr="//td[@name='td_subtotal']" position="replace"/>
+
+        <xpath expr="//tbody/t[2]/t[3]" position="replace"/>
+
         <xpath expr="//div[@name='so_total_summary']" position="replace"/>
 
         <xpath expr="//p[@t-if='not is_html_empty(doc.payment_term_id.note)']" position="replace"/>
