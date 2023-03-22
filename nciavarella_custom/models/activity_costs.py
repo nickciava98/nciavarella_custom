@@ -1,3 +1,5 @@
+import datetime
+
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
@@ -70,7 +72,7 @@ class ActivityCosts(models.Model):
     def _compute_gross_tax(self):
         for line in self:
             line.gross_tax = line.total_taxes_due + line.total_taxes_down_payment \
-                             + line.total_welfare_due + line.total_welfare_down_payment
+                             + line.total_welfare_due + line.total_welfare_down_payment + line.total_stamp_taxes
 
     @api.depends("gross_tax", "taxes_previous_down_payment",
                  "welfare_previous_down_payment")
@@ -81,7 +83,7 @@ class ActivityCosts(models.Model):
 
     def _compute_currency_id(self):
         for line in self:
-            line.currency_id = self.env.ref('base.main_company').currency_id
+            line.currency_id = self.env.ref("base.main_company").currency_id
 
     @api.depends("name")
     def _compute_total_invoiced(self):
@@ -89,11 +91,12 @@ class ActivityCosts(models.Model):
             line.total_invoiced = 0
 
             if line.name:
-                for invoice in self.env["account.move"].search(
-                        ["&",
-                         ("invoice_date", ">=", str(line.name) + "-01-01"),
-                         ("invoice_date", "<=", str(line.name) + "-12-31")]):
-                    line.total_invoiced += invoice.amount_total
+                domain = ["&", "&", ("invoice_date", ">=", str(line.name) + "-01-01"),
+                          ("invoice_date", "<=", str(line.name) + "-12-31"), ("payment_state", "=", "paid")]
+                for invoice in self.env["account.move"].search(domain):
+                    for payment in invoice.payment_ids:
+                        if payment.date <= datetime.date(int(line.name), 12, 31):
+                            line.total_invoiced += payment.amount
 
     @api.depends("total_invoiced")
     def _compute_total_taxable(self):
@@ -106,10 +109,9 @@ class ActivityCosts(models.Model):
             line.total_down_payments = 0
 
             if line.name:
-                for invoice in self.env["account.move"].search(
-                        ["&",
-                         ("invoice_date", ">=", str(line.name) + "-01-01"),
-                         ("invoice_date", "<=", str(line.name) + "-12-31")]):
+                domain = ["&", "&", ("invoice_date", ">=", str(line.name) + "-01-01"),
+                          ("invoice_date", "<=", str(line.name) + "-12-31"), ("payment_state", "=", "paid")]
+                for invoice in self.env["account.move"].search(domain):
                     line.total_down_payments += invoice.invoice_down_payment
 
     @api.depends("total_down_payments", "total_taxes_due",
@@ -138,11 +140,13 @@ class ActivityCosts(models.Model):
             line.total_stamp_taxes = 0
 
             if line.name:
-                for invoice in self.env["account.move"].search(
-                        ["&",
-                         ("invoice_date", ">=", str(line.name) + "-01-01"),
-                         ("invoice_date", "<=", str(line.name) + "-12-31")]):
-                    line.total_stamp_taxes += invoice.l10n_it_stamp_duty
+                domain = ["&", "&", ("invoice_date", ">=", str(line.name) + "-01-01"),
+                          ("invoice_date", "<=", str(line.name) + "-12-31"), ("payment_state", "=", "paid")]
+                for invoice in self.env["account.move"].search(domain):
+                    for payment in invoice.payment_ids:
+                        if payment.date <= datetime.date(int(line.name), 12, 31):
+                            line.total_stamp_taxes += invoice.l10n_it_stamp_duty
+                            break
 
     @api.depends("welfare_id", "total_taxable")
     def _compute_total_welfare_due(self):

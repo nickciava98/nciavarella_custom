@@ -19,6 +19,10 @@
                 </attribute>
             </xpath>
 
+            <xpath expr="//group[@id='header_left_group']" position="inside">
+                <field name="payment_ids" invisible="0"/>
+            </xpath>
+
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']"
                    position="attributes">
                 <attribute name="widget">monetary</attribute>

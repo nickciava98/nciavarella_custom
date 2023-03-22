@@ -20,10 +20,30 @@ class AccountMove(models.Model):
         compute = "_compute_tax_ids",
         store = True
     )
+    payment_ids = fields.Many2many(
+        "account.payment",
+        "account_payment_invoice_rel",
+        compute = "_compute_payment_ids"
+    )
     send_sequence = fields.Char(
         copy = False,
         string = "Send Sequence FE"
     )
+
+    @api.depends("payment_state")
+    def _compute_payment_ids(self):
+        for line in self:
+            line.payment_ids = False
+
+            if line.payment_state == "paid":
+                payment_ids = []
+
+                for payment in self.env["account.payment"].search([]):
+                    if line.id in payment.reconciled_invoice_ids.ids and payment.id not in payment_ids:
+                        payment_ids.append(payment.id)
+
+                if len(payment_ids) > 0:
+                    line.payment_ids = [(6, 0, payment_ids)]
 
     @api.depends("invoice_line_ids")
     def _compute_tax_ids(self):
