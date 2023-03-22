@@ -20,7 +20,7 @@
             </xpath>
 
             <xpath expr="//group[@id='header_left_group']" position="inside">
-                <field name="payment_ids" invisible="0"/>
+                <field name="payment_ids" invisible="True"/>
             </xpath>
 
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']"
