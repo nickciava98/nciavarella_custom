@@ -29,6 +29,13 @@ class AccountMove(models.Model):
         copy = False,
         string = "Send Sequence FE"
     )
+    is_move_sent = fields.Boolean(
+        readonly = True,
+        default = True,
+        copy = False,
+        tracking = True,
+        help = "It indicates that the invoice/payment has been sent."
+    )
 
     @api.depends("payment_state")
     def _compute_payment_ids(self):

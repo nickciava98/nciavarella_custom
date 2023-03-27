@@ -5,7 +5,15 @@
         <field name="inherit_id" ref="account.view_move_form"/>
 
         <field name="arch" type="xml">
-            <xpath expr="//button[@name='action_invoice_sent']" position="replace"/>
+            <xpath expr="//button[@name='action_invoice_sent'][1]" position="attributes">
+                <attribute name="attrs"/>
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_invoice_sent'][2]" position="attributes">
+                <attribute name="attrs"/>
+                <attribute name="invisible">True</attribute>
+            </xpath>
 
             <xpath expr="//button[@name='action_post'][1]" position="attributes">
                 <attribute name="confirm">
