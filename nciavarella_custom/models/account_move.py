@@ -68,7 +68,7 @@ class AccountMove(models.Model):
                 if len(tax_ids) > 0:
                     line.tax_ids = [(6, 0, tax_ids)]
 
-    @api.depends("amount_total")
+    @api.depends("amount_total", "l10n_it_stamp_duty")
     def _compute_invoice_down_payment(self):
         for line in self:
             line.invoice_down_payment = 0.00
