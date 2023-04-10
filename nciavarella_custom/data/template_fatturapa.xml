@@ -5,11 +5,14 @@
             <ProgressivoInvio t-esc="record.send_sequence"/>
         </xpath>
 
+        <xpath expr="//DatiGeneraliDocumento" position="inside">
+            <Causale t-esc="record.narration"/>
+        </xpath>
+
         <xpath expr="//Allegati" position="replace"/>
     </template>
 
-    <template id="template_fatturapa_simplified_inherit"
-              inherit_id="l10n_it_edi.account_invoice_it_FatturaPA_export">
+    <template id="template_fatturapa_inherit" inherit_id="l10n_it_edi.account_invoice_it_FatturaPA_export">
         <xpath expr="//ProgressivoInvio" position="replace">
             <ProgressivoInvio t-esc="record.send_sequence"/>
         </xpath>
@@ -33,7 +36,8 @@
                         <IdPaese t-esc="buyer.country_id.code"/>
                         <IdCodice t-esc="'0000000'"/>
                     </IdFiscaleIVA>
-                    <CodiceFiscale t-if="buyer.l10n_it_codice_fiscale" t-esc="normalize_codice_fiscale(buyer.l10n_it_codice_fiscale)"/>
+                    <CodiceFiscale t-if="buyer.l10n_it_codice_fiscale"
+                                   t-esc="normalize_codice_fiscale(buyer.l10n_it_codice_fiscale)"/>
                     <Anagrafica>
                         <t t-if="buyer_is_company">
                             <Denominazione t-esc="format_alphanumeric(buyer.display_name[:80])"/>
@@ -50,8 +54,48 @@
             </CessionarioCommittente>
         </xpath>
 
+        <xpath expr="//DatiGeneraliDocumento" position="inside">
+            <Causale t-esc="record.narration"/>
+        </xpath>
+
+        <xpath expr="//BIC" position="replace">
+            <BIC t-if="partner_bank.bank_id.bic" t-esc="partner_bank.bank_id.bic"/>
+        </xpath>
+
         <xpath expr="//EsigibilitaIVA" position="replace">
             <EsigibilitaIVA t-esc="tax.l10n_it_vat_due_date"/>
+        </xpath>
+    </template>
+
+    <template id="account_invoice_line_it_FatturaPA_inherit" inherit_id="l10n_it_edi.account_invoice_line_it_FatturaPA">
+        <xpath expr="//DettaglioLinee" position="replace">
+            <DettaglioLinee>
+                <NumeroLinea t-esc="line_dict['line_number']"/>
+                <Descrizione t-esc="format_alphanumeric(line_dict['description'])[:1000]"/>
+                <Quantita t-esc="format_numbers(abs(line.quantity))"/>
+                <UnitaMisura
+                        t-if="line.product_uom_id and line.product_uom_id.category_id != env.ref('uom.product_uom_categ_unit')"
+                        t-esc="format_alphanumeric(line.product_uom_id.name)[:10]"/>
+                <PrezzoUnitario t-esc="'%.06f' % (line_dict['unit_price'])"/>
+                <ScontoMaggiorazione t-if="line.discount != 0">
+                    <Tipo t-esc="discount_type(line.discount)"/>
+                    <Percentuale t-esc="format_numbers(abs(line.discount))"/>
+                </ScontoMaggiorazione>
+                <PrezzoTotale t-esc="format_monetary(line_dict['subtotal_price'], currency)"/>
+                <AliquotaIVA t-if="line.tax_ids.amount_type == 'percent'" t-esc="format_numbers(line.tax_ids.amount)"/>
+                <AliquotaIVA t-elif="line.tax_ids.amount_type != 'percent'" t-esc="'0.00'"/>
+                <Natura t-if="line.tax_ids.l10n_it_has_exoneration" t-esc="line.tax_ids.l10n_it_kind_exoneration"/>
+                <AltriDatiGestionali t-if="conversion_rate">
+                    <TipoDato>Currency</TipoDato>
+                    <RiferimentoTesto t-esc="format_alphanumeric(record.currency_id.name)"/>
+                    <RiferimentoNumero t-esc="'%.06f' % line.price_subtotal"/>
+                </AltriDatiGestionali>
+                <AltriDatiGestionali t-if="conversion_rate">
+                    <TipoDato>Exch.Rate</TipoDato>
+                    <RiferimentoNumero t-esc="conversion_rate"/>
+                    <RiferimentoData t-esc="format_date(record.invoice_date)"/>
+                </AltriDatiGestionali>
+            </DettaglioLinee>
         </xpath>
     </template>
 </odoo>

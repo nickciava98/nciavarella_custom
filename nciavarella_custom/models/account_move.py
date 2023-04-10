@@ -78,8 +78,10 @@ class AccountMove(models.Model):
                     line.invoice_down_payment = 56.00
                 elif line.invoice_date <= datetime.date(2023, 3, 1):
                     line.invoice_down_payment = 0.4 * line.amount_total + line.l10n_it_stamp_duty
-                elif line.invoice_date > datetime.date(2023, 3, 1):
+                elif line.invoice_date > datetime.date(2023, 3, 1) and line.invoice_date <= datetime.date(2023, 4, 1):
                     line.invoice_down_payment = 0.35 * line.amount_total + line.l10n_it_stamp_duty
+                elif line.invoice_date > datetime.date(2023, 4, 1):
+                    line.invoice_down_payment = 0.345 * line.amount_total + line.l10n_it_stamp_duty
 
     @api.depends("invoice_down_payment")
     def _compute_cash_flow(self):
