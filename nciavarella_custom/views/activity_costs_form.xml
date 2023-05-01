@@ -31,9 +31,9 @@
                         </group>
 
                         <group>
-                            <field name="tax_id" widget="percentage"/>
-                            <field name="welfare_id" widget="percentage"/>
-                            <field name="profitability_coefficient" widget="percentage"/>
+                            <field name="tax_id" widget="percentage" required="1"/>
+                            <field name="welfare_id" widget="percentage" required="1"/>
+                            <field name="profitability_coefficient" widget="percentage" required="1"/>
                         </group>
                     </group>
 

@@ -18,12 +18,14 @@ class AccountMove(models.Model):
         "account.tax",
         "tax_present_rel",
         compute = "_compute_tax_ids",
-        store = True
+        store = True,
+        string = "Taxes"
     )
     payment_ids = fields.Many2many(
         "account.payment",
         "account_payment_invoice_rel",
-        compute = "_compute_payment_ids"
+        compute = "_compute_payment_ids",
+        string = "Payments"
     )
     send_sequence = fields.Char(
         copy = False,

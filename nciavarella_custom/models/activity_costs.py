@@ -1,7 +1,5 @@
-import datetime
-
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
+import datetime
 
 
 class ActivityCosts(models.Model):
@@ -27,7 +25,6 @@ class ActivityCosts(models.Model):
         compute = "_compute_remaining_balance"
     )
     tax_id = fields.Float(
-        required = True,
         tracking = True,
         copy = True
     )
@@ -41,7 +38,6 @@ class ActivityCosts(models.Model):
         compute = "_compute_total_stamp_taxes"
     )
     welfare_id = fields.Float(
-        required = True,
         tracking = True,
         copy = True
     )
@@ -67,8 +63,7 @@ class ActivityCosts(models.Model):
         compute = "_compute_net_tax"
     )
     profitability_coefficient = fields.Float(
-        copy = True,
-        required = True
+        copy = True
     )
 
     @api.depends("total_taxes_due", "total_taxes_down_payment",
