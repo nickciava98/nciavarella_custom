@@ -7,7 +7,7 @@
     'category': '',
     'version': '15.0.3',
     'website': "http://www.nciavarella.me",
-    'depends': ['sale_management', 'account', 'l10n_it_edi'],
+    'depends': ['sale_management', 'account'],
     'data': [
         'data/account_menuitem_delete.xml',
         'data/template_fatturapa.xml',

@@ -8,7 +8,8 @@
             <xpath expr="//field[@name='amount_residual_signed']" position="after">
                 <field name="invoice_down_payment" optional="show" sum="Down Payment"
                        groups="nciavarella_custom.group_admin"/>
-                <field name="cash_flow" optional="show" groups="nciavarella_custom.group_admin"/>
+                <field name="cash_flow" optional="show" sum="Cash Flow"
+                       groups="nciavarella_custom.group_admin"/>
             </xpath>
 
             <xpath expr="//tree" position="attributes">

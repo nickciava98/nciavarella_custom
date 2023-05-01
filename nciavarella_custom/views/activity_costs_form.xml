@@ -10,7 +10,7 @@
                         <label for="name" string="Tax Period"/>
 
                         <h1>
-                            <field name="name"/>
+                            <field name="name" required="1"/>
                         </h1>
                     </div>
 
@@ -33,6 +33,7 @@
                         <group>
                             <field name="tax_id" widget="percentage"/>
                             <field name="welfare_id" widget="percentage"/>
+                            <field name="profitability_coefficient" widget="percentage"/>
                         </group>
                     </group>
 

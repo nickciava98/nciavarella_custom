@@ -66,6 +66,10 @@ class ActivityCosts(models.Model):
     net_tax = fields.Float(
         compute = "_compute_net_tax"
     )
+    profitability_coefficient = fields.Float(
+        copy = True,
+        required = True
+    )
 
     @api.depends("total_taxes_due", "total_taxes_down_payment",
                  "total_welfare_due", "total_welfare_down_payment")
@@ -93,15 +97,20 @@ class ActivityCosts(models.Model):
             if line.name:
                 domain = ["&", "&", ("invoice_date", ">=", str(line.name) + "-01-01"),
                           ("invoice_date", "<=", str(line.name) + "-12-31"), ("payment_state", "=", "paid")]
-                for invoice in self.env["account.move"].search(domain):
-                    for payment in invoice.payment_ids:
-                        if payment.date <= datetime.date(int(line.name), 12, 31):
-                            line.total_invoiced += payment.amount
+                payment_ids = []
 
-    @api.depends("total_invoiced")
+                for invoice in self.env["account.move"].search(domain):
+                    if len(invoice.payment_ids) > 0:
+                        for payment in invoice.payment_ids:
+                            if datetime.date(int(line.name), 1, 1) <= payment.date <= datetime.date(int(line.name), 12, 31) \
+                                    and payment.id not in payment_ids:
+                                line.total_invoiced += payment.amount
+                                payment_ids.append(payment.id)
+
+    @api.depends("total_invoiced", "profitability_coefficient")
     def _compute_total_taxable(self):
         for line in self:
-            line.total_taxable = line.total_invoiced * 0.67
+            line.total_taxable = line.total_invoiced * line.profitability_coefficient
 
     @api.depends("name")
     def _compute_total_down_payments(self):
@@ -114,15 +123,10 @@ class ActivityCosts(models.Model):
                 for invoice in self.env["account.move"].search(domain):
                     line.total_down_payments += invoice.invoice_down_payment
 
-    @api.depends("total_down_payments", "total_taxes_due",
-                 "total_taxes_down_payment", "total_welfare_down_payment",
-                 "total_stamp_taxes", "total_welfare_due")
+    @api.depends("net_tax", "total_stamp_taxes", "total_down_payments")
     def _compute_remaining_balance(self):
         for line in self:
-            line.remaining_balance = \
-                (line.total_taxes_due + line.total_taxes_down_payment
-                 + line.total_stamp_taxes + line.total_welfare_due + line.total_welfare_down_payment) \
-                - line.total_down_payments
+            line.remaining_balance = line.net_tax + line.total_stamp_taxes - line.total_down_payments
 
     @api.depends("tax_id", "total_taxable")
     def _compute_total_taxes_due(self):
@@ -162,14 +166,6 @@ class ActivityCosts(models.Model):
     def _compute_year_cash_flow(self):
         for line in self:
             line.year_cash_flow = line.total_invoiced - line.net_tax
-
-    @api.constrains("name")
-    def _constrains_name(self):
-        for line in self:
-            if not line.name:
-                raise ValidationError(
-                    _("Year must be filled!")
-                )
 
     _sql_constraints = [
         ("unique_name", "unique(name)", _("Year must be unique!"))

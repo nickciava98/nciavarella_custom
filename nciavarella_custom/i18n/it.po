@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-14 18:58+0000\n"
-"PO-Revision-Date: 2023-02-14 18:58+0000\n"
+"POT-Creation-Date: 2023-05-01 07:49+0000\n"
+"PO-Revision-Date: 2023-05-01 07:49+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,34 +16,73 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: nciavarella_custom
-#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
-msgid "<br/>Bank:"
-msgstr "<br/>Banca:"
+#: model:ir.actions.report,print_report_name:nciavarella_custom.action_report_quotation
+msgid "'Quotazione - %s' % (object.name)"
+msgstr ""
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "<br/>Banca:"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_saleorder_document_inherit
 msgid "<br/>Codice Destinatario:"
 msgstr ""
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_saleorder_document_inherit
 msgid "<br/>Codice Fiscale:"
 msgstr ""
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
-msgid "<br/>IBAN:"
+msgid ""
+"<br/>Modalità: Bonifico bancario\n"
+"                <br/>IBAN:"
 msgstr ""
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_saleorder_document_inherit
 msgid "<br/>PEC:"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_saleorder_document_inherit
+msgid "<br/>Partita IVA:"
 msgstr ""
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
 msgid "<br/>VAT Number:"
 msgstr "<br/>Partita IVA:"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid ""
+"<strong>Assolvimento imposta di bollo:</strong>\n"
+"                <br/>Imposta di bollo assolta in modo virtuale ai sensi del decreto MEF 17 Giugno 2014 (Art. 6)"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "<strong>Causale:</strong>"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_saleorder_document_inherit
+msgid "<strong>Riferimento Cliente/Progetto:</strong>"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid ""
+"<strong>Termini di pagamento:</strong>\n"
+"                <br/>Scadenza:"
+msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_needaction
@@ -88,36 +127,16 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: nciavarella_custom
-#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
-msgid "Bollo assolto ai sensi del decreto MEF 17 Giugno 2014 (Art. 6)"
-msgstr ""
-
-#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__cash_flow
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__cash_flow
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__cash_flow
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_tree_inherit
 msgid "Cash Flow"
 msgstr "Liquidità"
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.res_partner_form_inherit
 msgid "Codice Destinatario"
-msgstr ""
-
-#. module: nciavarella_custom
-#: code:addons/auto_backup/models/db_backup.py:0
-#: code:addons/nciavarella_custom/auto_backup/models/db_backup.py:0
-#, python-format
-msgid "Connection Test Failed!"
-msgstr ""
-
-#. module: nciavarella_custom
-#: code:addons/auto_backup/models/db_backup.py:0
-#: code:addons/nciavarella_custom/auto_backup/models/db_backup.py:0
-#, python-format
-msgid ""
-"Connection Test Succeeded!\n"
-"Everything seems properly set up for FTP back-ups!"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -137,6 +156,7 @@ msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__currency_id
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_invoice_line_it_FatturaPA_inherit
 msgid "Currency"
 msgstr "Valuta"
 
@@ -144,6 +164,11 @@ msgstr "Valuta"
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__display_name
 msgid "Display Name"
 msgstr "Nome visualizzato"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_saleorder_document_inherit
+msgid "Documento privo di valenza fiscale ai sensi dell’art. 21 Dpr 633/72."
+msgstr ""
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
@@ -164,9 +189,39 @@ msgid "EDI format"
 msgstr "Formato EDI"
 
 #. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "Esenzione IVA:"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_invoice_line_it_FatturaPA_inherit
+msgid "Exch.Rate"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_form_edi_inherit
 msgid "FE State"
 msgstr "Stato FE"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_saleorder_document_inherit
+msgid "Fattura PRO-Forma"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "Fattura cancellata"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "Fattura elettronica"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "Fattura in bozza"
+msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_follower_ids
@@ -191,13 +246,6 @@ msgstr "Imposta lorda"
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__has_message
 msgid "Has Message"
-msgstr ""
-
-#. module: nciavarella_custom
-#: code:addons/auto_backup/models/db_backup.py:0
-#: code:addons/nciavarella_custom/auto_backup/models/db_backup.py:0
-#, python-format
-msgid "Here is what we got instead:\n"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -233,6 +281,11 @@ msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:ir.model.constraint,message:nciavarella_custom.constraint_account_move_unique_send_sequence
+msgid "Il progressivo invio deve essere univoco!"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__invoice_down_payment
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__invoice_down_payment
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__invoice_down_payment
@@ -245,12 +298,18 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: nciavarella_custom
-#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__is_hourly_cost
-#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__is_hourly_cost
-#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__is_hourly_cost
-#: model:ir.model.fields,field_description:nciavarella_custom.field_product_product__is_hourly_cost
-msgid "Is Hourly Cost"
-msgstr "Costo orario"
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__is_move_sent
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__is_move_sent
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__is_move_sent
+msgid "Is Move Sent"
+msgstr "Movimento inviato"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,help:nciavarella_custom.field_account_bank_statement_line__is_move_sent
+#: model:ir.model.fields,help:nciavarella_custom.field_account_move__is_move_sent
+#: model:ir.model.fields,help:nciavarella_custom.field_account_payment__is_move_sent
+msgid "It indicates that the invoice/payment has been sent."
+msgstr "Indica che la fattura o il pagamento sono stati inviati."
 
 #. module: nciavarella_custom
 #: model:ir.model,name:nciavarella_custom.model_account_move
@@ -303,6 +362,11 @@ msgid "Net Tax"
 msgstr "Imposta netta"
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -321,6 +385,20 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:nciavarella_custom.activity_costs_action
 msgid "No data yet!"
 msgstr "Nessun dato!"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "Nota di credito"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_saleorder_document_inherit
+msgid ""
+"Nr. Documento <br/>\n"
+"                        Tipo Documento <br/>\n"
+"                        Data <br/>"
+msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_needaction_counter
@@ -348,18 +426,21 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: nciavarella_custom
-#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
-msgid ""
-"Payment Mode: Bank Transfer\n"
-"                <br/>Recipient:"
-msgstr ""
-"Modalità di pagamento: Bonifico bancario\n"
-"                <br/>Beneficiario:"
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__payment_ids
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__payment_ids
+msgid "Payment"
+msgstr "Pagamento"
 
 #. module: nciavarella_custom
-#: model:ir.model,name:nciavarella_custom.model_product_product
-msgid "Product"
-msgstr "Prodotto"
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__profitability_coefficient
+msgid "Profitability Coefficient"
+msgstr "Coefficiente di redditività"
+
+#. module: nciavarella_custom
+#: model:ir.actions.report,name:nciavarella_custom.action_report_quotation
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_saleorder_document_inherit
+msgid "Quotazione"
+msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__remaining_balance
@@ -374,6 +455,11 @@ msgstr ""
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_has_sms_error
 msgid "SMS Delivery error"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_saleorder_document_inherit
+msgid "Scadenza"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -487,6 +573,13 @@ msgid "Users"
 msgstr "Utenti"
 
 #. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_form_inherit
+msgid ""
+"Verrà generato il file XML della fattura elettronica. Il progressivo invio è"
+" corretto?"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__website_message_ids
 msgid "Website Messages"
 msgstr ""
@@ -513,14 +606,6 @@ msgstr "Liquidità annua"
 
 #. module: nciavarella_custom
 #: code:addons/nciavarella_custom/models/activity_costs.py:0
-#: code:addons/nciavarella_custom/nciavarella_custom/models/activity_costs.py:0
-#, python-format
-msgid "Year must be filled!"
-msgstr "L'anno deve essere riempito!"
-
-#. module: nciavarella_custom
-#: code:addons/nciavarella_custom/models/activity_costs.py:0
-#: code:addons/nciavarella_custom/nciavarella_custom/models/activity_costs.py:0
 #: model:ir.model.constraint,message:nciavarella_custom.constraint_activity_costs_unique_name
 #, python-format
 msgid "Year must be unique!"
