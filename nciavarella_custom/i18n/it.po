@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-01 07:49+0000\n"
-"PO-Revision-Date: 2023-05-01 07:49+0000\n"
+"POT-Creation-Date: 2023-05-20 15:53+0000\n"
+"PO-Revision-Date: 2023-05-20 15:53+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -122,9 +122,19 @@ msgid "Administrator"
 msgstr "Amministratore"
 
 #. module: nciavarella_custom
+#: model:ir.model,name:nciavarella_custom.model_account_analytic_line
+msgid "Analytic Line"
+msgstr "Riga analitica"
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.link_invoice_timesheet_view_form
+msgid "Cancel"
+msgstr "Annulla"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__cash_flow
@@ -140,17 +150,24 @@ msgid "Codice Destinatario"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.link_invoice_timesheet_view_form
+msgid "Confirm"
+msgstr "Conferma"
+
+#. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
 msgid "Costs"
 msgstr "Costi"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__create_uid
+#: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__create_date
+#: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__create_date
 msgid "Created on"
 msgstr ""
 
@@ -162,6 +179,7 @@ msgstr "Valuta"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__display_name
+#: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__display_name
 msgid "Display Name"
 msgstr "Nome visualizzato"
 
@@ -250,6 +268,7 @@ msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__id
+#: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__id
 msgid "ID"
 msgstr ""
 
@@ -286,11 +305,22 @@ msgid "Il progressivo invio deve essere univoco!"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_analytic_line__invoice_id
+#: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__invoice_id
+msgid "Invoice"
+msgstr "Fattura"
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__invoice_down_payment
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__invoice_down_payment
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__invoice_down_payment
 msgid "Invoice Down Payment"
 msgstr "Acconto da fattura"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_analytic_line__is_invoiced
+msgid "Invoiced?"
+msgstr "Fatturato?"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_is_follower
@@ -317,19 +347,39 @@ msgid "Journal Entry"
 msgstr "Registrazione contabile"
 
 #. module: nciavarella_custom
+#: model:ir.model.constraint,message:nciavarella_custom.constraint_activity_costs_unique_name
+msgid "L'anno deve essere univoco!"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs____last_update
+#: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet____last_update
 msgid "Last Modified on"
 msgstr "Ultima modifica il"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__write_uid
+#: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__write_date
+#: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__write_date
 msgid "Last Updated on"
 msgstr ""
+
+#. module: nciavarella_custom
+#: code:addons/nciavarella_custom/models/account_analytic_line.py:0
+#: model:ir.actions.server,name:nciavarella_custom.link_invoice_timesheet_action
+#, python-format
+msgid "Link Invoice"
+msgstr "Collega Fattura"
+
+#. module: nciavarella_custom
+#: model:ir.model,name:nciavarella_custom.model_link_invoice_timesheet
+msgid "Link Invoice Timesheet"
+msgstr "Collega Fattura Fogli Ore"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_main_attachment_id
@@ -428,8 +478,8 @@ msgstr ""
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__payment_ids
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__payment_ids
-msgid "Payment"
-msgstr "Pagamento"
+msgid "Payments"
+msgstr "Pagamenti"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__profitability_coefficient
@@ -463,6 +513,11 @@ msgid "Scadenza"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.link_invoice_timesheet_view_form
+msgid "Select Invoice..."
+msgstr "Seleziona Fattura..."
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__send_sequence
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__send_sequence
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__send_sequence
@@ -490,9 +545,6 @@ msgstr "Imponibile"
 
 #. module: nciavarella_custom
 #: model:ir.model,name:nciavarella_custom.model_account_tax
-#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__tax_ids
-#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__tax_ids
-#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__tax_ids
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__tax_id
 msgid "Tax"
 msgstr "Imposta"
@@ -508,9 +560,34 @@ msgid "Tax Period"
 msgstr "Periodo d'imposta"
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__tax_ids
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__tax_ids
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__tax_ids
+msgid "Taxes"
+msgstr "Imposte"
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__taxes_previous_down_payment
 msgid "Taxes Previous Down Payment"
 msgstr "Acconto IRPEF anno precedente"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__analytic_line_ids
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__analytic_line_ids
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__analytic_line_ids
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_form_inherit
+msgid "Timesheet Entries"
+msgstr "Registrazioni Fogli Ore"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__analytic_line_ids
+msgid "Timesheet Entry"
+msgstr "Registrazione Foglio Ore"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_form_inherit
+msgid "Total"
+msgstr "Totale"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__total_down_payments
@@ -606,7 +683,6 @@ msgstr "Liquidità annua"
 
 #. module: nciavarella_custom
 #: code:addons/nciavarella_custom/models/activity_costs.py:0
-#: model:ir.model.constraint,message:nciavarella_custom.constraint_activity_costs_unique_name
 #, python-format
 msgid "Year must be unique!"
 msgstr "L'anno deve essere univoco!"
