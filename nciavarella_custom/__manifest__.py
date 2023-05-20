@@ -5,14 +5,18 @@
     'license': 'OPL-1',
     'author': "Niccolò Ciavarella",
     'category': '',
-    'version': '15.0.3',
+    'version': '15.0.4',
     'website': "http://www.nciavarella.me",
-    'depends': ['sale_management', 'account'],
+    'depends': [
+        'sale_management', 'account', 'hr_timesheet'
+    ],
     'data': [
         'data/account_menuitem_delete.xml',
         'data/template_fatturapa.xml',
         'security/ir.model.access.csv',
         'security/groups.xml',
+        'views/account_analytic_line_tree.xml',
+        'views/account_analytic_line_actions.xml',
         'views/sale_order_form.xml',
         'views/account_tax_form.xml',
         'views/account_menuitem.xml',
@@ -25,7 +29,8 @@
         'views/res_partner_form.xml',
         'report/external_layout_standard.xml',
         'report/report_saleorder_document.xml',
-        'report/report_invoice_document.xml'
+        'report/report_invoice_document.xml',
+        'wizards/link_invoice_timesheet_form.xml'
     ],
     'application': False,
     'installable': True

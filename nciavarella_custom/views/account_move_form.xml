@@ -69,6 +69,21 @@
                 <field name="cash_flow" groups="nciavarella_custom.group_admin"/>
                 <field name="tax_ids" invisible="True"/>
             </xpath>
+
+            <xpath expr="//page[@name='other_info']" position="before">
+                <page name="timesheet_entries" string="Timesheet Entries">
+                    <field name="analytic_line_ids" widget="one2many" readonly="True" force_save="1">
+                        <tree>
+                            <field name="date"/>
+                            <field name="project_id"/>
+                            <field name="task_id" widget="task_with_hours"/>
+                            <field name="name"/>
+                            <field name="unit_amount" widget="timesheet_uom" sum="Total"
+                                   decoration-danger="unit_amount &gt; 24"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
         </field>
     </record>
 

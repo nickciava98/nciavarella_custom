@@ -38,6 +38,11 @@ class AccountMove(models.Model):
         tracking = True,
         help = "It indicates that the invoice/payment has been sent."
     )
+    analytic_line_ids = fields.One2many(
+        "account.analytic.line",
+        "invoice_id",
+        string = "Timesheet Entries"
+    )
 
     @api.depends("payment_state")
     def _compute_payment_ids(self):
