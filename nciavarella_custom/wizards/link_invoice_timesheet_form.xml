@@ -10,7 +10,7 @@
 
                     <div class="oe_title">
                         <h1>
-                            <field name="invoice_id" placeholder="Select Invoice..."/>
+                            <field name="invoice_id" placeholder="Select Invoice..." options="{'no_create': True}"/>
                         </h1>
                     </div>
                 </sheet>
