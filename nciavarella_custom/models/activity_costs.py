@@ -89,6 +89,11 @@ class ActivityCosts(models.Model):
         copy = True,
         string = "Coefficiente di redditività"
     )
+    correzione = fields.Float(
+        default = 0.0,
+        copy = False,
+        string = "Correzione [€]"
+    )
 
     @api.depends("total_taxes_due", "total_taxes_down_payment", "total_welfare_due",
                  "total_welfare_down_payment", "total_stamp_taxes")
@@ -107,10 +112,10 @@ class ActivityCosts(models.Model):
         for line in self:
             line.net_tax = line.gross_tax - sum([line.taxes_previous_down_payment, line.welfare_previous_down_payment])
 
-    @api.depends("name")
+    @api.depends("name", "correzione")
     def _compute_total_invoiced(self):
         for line in self:
-            line.total_invoiced = .0
+            line.total_invoiced = line.correzione
             domain = [
                 "&", "&",
                 ("invoice_date", ">=", line.name + "-01-01"),
