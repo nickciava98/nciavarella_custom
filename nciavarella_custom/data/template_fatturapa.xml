@@ -73,9 +73,8 @@
                 <NumeroLinea t-esc="line_dict['line_number']"/>
                 <Descrizione t-esc="format_alphanumeric(line_dict['description'])[:1000]"/>
                 <Quantita t-esc="format_numbers(abs(line.quantity))"/>
-                <UnitaMisura
-                        t-if="line.product_uom_id and line.product_uom_id.category_id != env.ref('uom.product_uom_categ_unit')"
-                        t-esc="format_alphanumeric(line.product_uom_id.name)[:10]"/>
+                <UnitaMisura t-if="line.product_uom_id and line.product_uom_id.category_id != env.ref('uom.product_uom_categ_unit')"
+                             t-esc="format_alphanumeric(line.product_uom_id.name)[:10]"/>
                 <PrezzoUnitario t-esc="'%.06f' % (line_dict['unit_price'])"/>
                 <ScontoMaggiorazione t-if="line.discount != 0">
                     <Tipo t-esc="discount_type(line.discount)"/>

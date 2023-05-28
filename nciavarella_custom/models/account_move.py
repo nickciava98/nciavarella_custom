@@ -1,6 +1,6 @@
-import datetime
-
 from odoo import models, fields, api
+import datetime
+import itertools
 
 
 class AccountMove(models.Model):
@@ -50,14 +50,11 @@ class AccountMove(models.Model):
             line.payment_ids = False
 
             if line.payment_state == "paid":
-                payment_ids = []
-
-                for payment in self.env["account.payment"].search([]):
-                    if line.id in payment.reconciled_invoice_ids.ids and payment.id not in payment_ids:
-                        payment_ids.append(payment.id)
-
-                if len(payment_ids) > 0:
-                    line.payment_ids = [(6, 0, payment_ids)]
+                payment_ids = self.env["account.payment"].search([]).filtered(
+                    lambda payment: line.id in payment.reconciled_invoice_ids.ids
+                ).ids
+                payment_ids = list(dict.fromkeys(payment_ids)) if len(payment_ids) > 0 else []
+                line.payment_ids = [(6, 0, payment_ids)] if len(payment_ids) > 0 else False
 
     @api.depends("invoice_line_ids")
     def _compute_tax_ids(self):
@@ -68,14 +65,13 @@ class AccountMove(models.Model):
                 tax_ids = []
 
                 for inv_line in line.invoice_line_ids:
-                    for tax in inv_line.tax_ids:
-                        if tax.id not in tax_ids:
-                            tax_ids.append(tax.id)
+                    tax_ids.append(inv_line.tax_ids)
 
-                if len(tax_ids) > 0:
-                    line.tax_ids = [(6, 0, tax_ids)]
+                tax_ids = list(itertools.chain.from_iterable(tax_ids))
+                tax_ids = list(dict.fromkeys(tax_ids)) if len(tax_ids) > 0 else []
+                line.tax_ids = [(6, 0, tax_ids)] if len(tax_ids) > 0 else False
 
-    @api.depends("amount_total", "l10n_it_stamp_duty")
+    @api.depends("move_type", "invoice_date", "name", "amount_total", "l10n_it_stamp_duty")
     def _compute_invoice_down_payment(self):
         for line in self:
             line.invoice_down_payment = 0.00
@@ -85,12 +81,12 @@ class AccountMove(models.Model):
                     line.invoice_down_payment = 56.00
                 elif line.invoice_date <= datetime.date(2023, 3, 1):
                     line.invoice_down_payment = 0.4 * line.amount_total + line.l10n_it_stamp_duty
-                elif line.invoice_date > datetime.date(2023, 3, 1) and line.invoice_date <= datetime.date(2023, 4, 1):
+                elif datetime.date(2023, 3, 1) < line.invoice_date <= datetime.date(2023, 4, 1):
                     line.invoice_down_payment = 0.35 * line.amount_total + line.l10n_it_stamp_duty
                 elif line.invoice_date > datetime.date(2023, 4, 1):
                     line.invoice_down_payment = 0.345 * line.amount_total + line.l10n_it_stamp_duty
 
-    @api.depends("invoice_down_payment")
+    @api.depends("amount_total", "invoice_down_payment")
     def _compute_cash_flow(self):
         for line in self:
             line.cash_flow = line.amount_total - line.invoice_down_payment
