@@ -65,7 +65,7 @@ class AccountMove(models.Model):
                 tax_ids = []
 
                 for inv_line in line.invoice_line_ids:
-                    tax_ids.append(inv_line.tax_ids)
+                    tax_ids.append(inv_line.tax_ids.ids)
 
                 tax_ids = list(itertools.chain.from_iterable(tax_ids))
                 tax_ids = list(dict.fromkeys(tax_ids)) if len(tax_ids) > 0 else []
