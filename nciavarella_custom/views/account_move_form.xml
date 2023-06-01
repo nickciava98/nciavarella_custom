@@ -71,7 +71,8 @@
             </xpath>
 
             <xpath expr="//page[@name='other_info']" position="before">
-                <page name="timesheet_entries" string="Timesheet Entries">
+                <page name="timesheet_entries" string="Timesheet Entries"
+                      attrs="{'invisible': [('analytic_line_ids', '=', [])]}">
                     <field name="analytic_line_ids" widget="one2many" readonly="True" force_save="1">
                         <tree>
                             <field name="date"/>
@@ -94,7 +95,7 @@
 
         <field name="arch" type="xml">
             <xpath expr="//field[@name='l10n_it_stamp_duty']" position="before">
-                <field name="send_sequence" required="1" force_save="1"
+                <field name="send_sequence" required="True" force_save="1"
                        attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
             </xpath>
 
