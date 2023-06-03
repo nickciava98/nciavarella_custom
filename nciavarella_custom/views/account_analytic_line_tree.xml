@@ -9,6 +9,11 @@
                 <field name="is_invoiced" optional="show"/>
                 <field name="invoice_id" optional="hide" readonly="True" force_save="1"/>
             </xpath>
+
+            <xpath expr="//field[@name='date']" position="after">
+                <field name="time_start" required="True" widget="timesheet_uom"/>
+                <field name="time_end" required="True" widget="timesheet_uom"/>
+            </xpath>
         </field>
     </record>
 </odoo>

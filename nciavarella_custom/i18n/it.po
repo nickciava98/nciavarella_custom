@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-28 12:36+0000\n"
-"PO-Revision-Date: 2023-05-28 12:36+0000\n"
+"POT-Creation-Date: 2023-06-03 11:34+0000\n"
+"PO-Revision-Date: 2023-06-03 11:34+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -168,6 +168,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.link_invoice_timesheet_view_form
 msgid "Confirm"
 msgstr "Conferma"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__correzione
+msgid "Correzione [€]"
+msgstr ""
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
@@ -407,19 +412,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__is_move_sent
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__is_move_sent
 msgid "Is Move Sent"
-msgstr ""
+msgstr "Movimento inviato"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,help:nciavarella_custom.field_account_bank_statement_line__is_move_sent
 #: model:ir.model.fields,help:nciavarella_custom.field_account_move__is_move_sent
 #: model:ir.model.fields,help:nciavarella_custom.field_account_payment__is_move_sent
 msgid "It indicates that the invoice/payment has been sent."
-msgstr ""
+msgstr "Indica che la fattura o il pagamento sono stati inviati."
 
 #. module: nciavarella_custom
 #: model:ir.model,name:nciavarella_custom.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Movimento Contabile"
 
 #. module: nciavarella_custom
 #: model:ir.model.constraint,message:nciavarella_custom.constraint_activity_costs_unique_name
@@ -630,6 +635,16 @@ msgstr "Descrizione Imposta"
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__tax_ids
 msgid "Taxes"
 msgstr "Imposte"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_analytic_line__time_end
+msgid "Time End"
+msgstr "Ora Fine"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_analytic_line__time_start
+msgid "Time Start"
+msgstr "Ora Inizio"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__analytic_line_ids
