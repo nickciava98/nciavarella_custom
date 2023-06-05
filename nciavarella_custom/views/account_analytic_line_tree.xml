@@ -8,6 +8,7 @@
             <xpath expr="//field[@name='date']" position="before">
                 <field name="is_invoiced" optional="show"/>
                 <field name="invoice_id" optional="hide" readonly="True" force_save="1"/>
+                <field name="is_confirmed" optional="show"/>
             </xpath>
 
             <xpath expr="//field[@name='date']" position="after">

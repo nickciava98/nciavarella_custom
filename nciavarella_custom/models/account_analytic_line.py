@@ -27,6 +27,10 @@ class AccountAnalyticLine(models.Model):
         ondelete = "restrict",
         string = "Invoice"
     )
+    is_confirmed = fields.Boolean(
+        default = False,
+        string = "Confirmed?"
+    )
     time_start = fields.Float(
         default = _get_time_start,
         compute = "_compute_time_start",
