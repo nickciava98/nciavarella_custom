@@ -1,0 +1,13 @@
+<odoo>
+    <data noupdate="1">
+        <delete id="account.account_reports_management_menu" model="ir.ui.menu"/>
+        <delete id="account.menu_action_account_invoice_report_all" model="ir.ui.menu"/>
+        <delete id="account.menu_finance_payables" model="ir.ui.menu"/>
+        <delete id="account.menu_action_move_in_invoice_type" model="ir.ui.menu"/>
+        <delete id="account.menu_action_move_in_refund_type" model="ir.ui.menu"/>
+        <delete id="account.menu_action_move_in_receipt_type" model="ir.ui.menu"/>
+        <delete id="account.menu_action_account_payments_payable" model="ir.ui.menu"/>
+        <delete id="account.product_product_menu_purchasable" model="ir.ui.menu"/>
+        <delete id="account.menu_account_supplier" model="ir.ui.menu"/>
+    </data>
+</odoo>

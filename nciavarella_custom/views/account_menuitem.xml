@@ -1,0 +1,22 @@
+<odoo>
+    <record id="activity_costs_action" model="ir.actions.act_window">
+        <field name="name">Activity Costs</field>
+        <field name="res_model">activity.costs</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'group_by': 'name:year'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No data yet!
+            </p>
+
+            <p>
+                Start tracking activity costs!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="account.menu_finance_reports" name="Reporting" sequence="20"
+              parent="account.menu_finance" groups="nciavarella_custom.group_admin"/>
+    <menuitem id="activity_costs_menu" name="Activity Costs" groups="nciavarella_custom.group_admin"
+              action="activity_costs_action" parent="account.menu_finance_reports"/>
+</odoo>

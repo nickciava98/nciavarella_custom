@@ -1,0 +1,91 @@
+<odoo>
+    <record id="account_move_form_inherit" model="ir.ui.view">
+        <field name="name">account.move.form.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_invoice_sent'][1]" position="attributes">
+                <attribute name="attrs"/>
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_invoice_sent'][2]" position="attributes">
+                <attribute name="attrs"/>
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//group[@id='header_left_group']" position="inside">
+                <field name="payment_ids" invisible="True"/>
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']"
+                   position="attributes">
+                <attribute name="widget">monetary</attribute>
+                <attribute name="options">
+                    {'currency_field': 'currency_id', 'field_digits': True}
+                </attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']"
+                   position="attributes">
+                <attribute name="string">Subtotal</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_total']"
+                   position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_uom_id']"
+                   position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
+                   position="attributes">
+                <attribute name="string">IVA</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='payment_reference']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='amount_residual']" position="after">
+                <field name="invoice_down_payment" groups="nciavarella_custom.group_admin"
+                       readonly="False"/>
+                <field name="cash_flow" groups="nciavarella_custom.group_admin"/>
+                <field name="tax_ids" invisible="True"/>
+            </xpath>
+
+            <xpath expr="//page[@name='other_info']" position="before">
+                <page name="timesheet_entries" string="Timesheet Entries"
+                      attrs="{'invisible': [('analytic_line_ids', '=', [])]}">
+                    <field name="analytic_line_ids" widget="one2many" readonly="True" force_save="1">
+                        <tree>
+                            <field name="date"/>
+                            <field name="project_id"/>
+                            <field name="task_id" widget="task_with_hours"/>
+                            <field name="name"/>
+                            <field name="unit_amount" widget="timesheet_uom" sum="Total"
+                                   decoration-danger="unit_amount &gt; 24"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+            <xpath expr="//page[@name='other_info']" position="after">
+                <page string="Fatturazione Elettronica" name="electronic_invoicing"
+                      attrs="{'invisible': ['|', ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')), ('country_code', '!=', 'IT')]}">
+                    <group>
+                        <group>
+                            <field name="send_sequence" required="True" force_save="True"
+                                   attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="l10n_it_stamp_duty"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
