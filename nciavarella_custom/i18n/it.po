@@ -227,11 +227,6 @@ msgid "Down Payment"
 msgstr "Acconto"
 
 #. module: nciavarella_custom
-#: model:ir.model,name:nciavarella_custom.model_account_edi_format
-msgid "EDI format"
-msgstr "Formato EDI"
-
-#. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
 msgid "Esenzione IVA:"
 msgstr ""
