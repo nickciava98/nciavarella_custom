@@ -1,3 +1,5 @@
+import math
+
 from odoo import models, fields, api, _
 import datetime
 
@@ -17,10 +19,18 @@ class ActivityCosts(models.Model):
         compute = "_compute_total_invoiced",
         string = "Totale fatturato"
     )
+    deduction = fields.Float(
+        compute = "_compute_deduction",
+        string = "Deduzione"
+    )
     total_taxable = fields.Float(
         compute = "_compute_total_taxable",
         string = "Imponibile",
         help = "Coefficiente di redditività x Totale fatturato"
+    )
+    gross_income = fields.Float(
+        compute = "_compute_gross_income",
+        string = "Reddito Lordo"
     )
     total_down_payments = fields.Float(
         compute = "_compute_total_down_payments",
@@ -77,13 +87,9 @@ class ActivityCosts(models.Model):
     welfare_previous_down_payment = fields.Float(
         string = "Gestione Separata INPS (Acconto precedente)"
     )
-    gross_tax = fields.Float(
-        compute = "_compute_gross_tax",
-        string = "Imposta lorda"
-    )
-    net_tax = fields.Float(
-        compute = "_compute_net_tax",
-        string = "Imposta netta"
+    total_due = fields.Float(
+        compute = "_compute_total_due",
+        string = "Totale da versare"
     )
     profitability_coefficient = fields.Float(
         copy = True,
@@ -94,23 +100,28 @@ class ActivityCosts(models.Model):
         copy = False,
         string = "Correzione [€]"
     )
+    
+    @api.depends("profitability_coefficient", "total_invoiced")
+    def _compute_deduction(self):
+        for line in self:
+            line.deduction = (1 - line.profitability_coefficient) * line.total_invoiced
+
+    @api.depends("profitability_coefficient", "total_invoiced")
+    def _compute_gross_income(self):
+        for line in self:
+            line.gross_income = math.ceil(line.profitability_coefficient * line.total_invoiced)
 
     @api.depends("total_taxes_due", "total_taxes_down_payment", "total_welfare_due",
                  "total_welfare_down_payment", "total_stamp_taxes")
-    def _compute_gross_tax(self):
+    def _compute_total_due(self):
         for line in self:
-            line.gross_tax = sum([
+            line.total_due = sum([
                 line.total_taxes_due,
                 line.total_taxes_down_payment,
                 line.total_welfare_due,
                 line.total_welfare_down_payment,
                 line.total_stamp_taxes
             ])
-
-    @api.depends("gross_tax", "taxes_previous_down_payment", "welfare_previous_down_payment")
-    def _compute_net_tax(self):
-        for line in self:
-            line.net_tax = line.gross_tax - sum([line.taxes_previous_down_payment, line.welfare_previous_down_payment])
 
     @api.depends("name", "correzione")
     def _compute_total_invoiced(self):
@@ -137,10 +148,10 @@ class ActivityCosts(models.Model):
                             line.total_invoiced += payment.amount
                             payment_ids.append(payment.id)
 
-    @api.depends("total_invoiced", "profitability_coefficient")
+    @api.depends("gross_income", "welfare_previous_down_payment")
     def _compute_total_taxable(self):
         for line in self:
-            line.total_taxable = line.total_invoiced * line.profitability_coefficient
+            line.total_taxable = math.ceil(line.gross_income - (2.25 * line.welfare_previous_down_payment))
 
     @api.depends("name")
     def _compute_total_down_payments(self):
@@ -158,20 +169,20 @@ class ActivityCosts(models.Model):
                 for invoice in self.env["account.move"].search(domain):
                     line.total_down_payments += invoice.invoice_down_payment
 
-    @api.depends("net_tax", "total_stamp_taxes", "total_down_payments")
+    @api.depends("total_due", "total_stamp_taxes", "total_down_payments")
     def _compute_remaining_balance(self):
         for line in self:
-            line.remaining_balance = sum([line.net_tax, line.total_stamp_taxes]) - line.total_down_payments
+            line.remaining_balance = sum([line.total_due, line.total_stamp_taxes]) - line.total_down_payments
 
-    @api.depends("tax_id", "total_taxable")
+    @api.depends("tax_id", "total_taxable", "taxes_previous_down_payment")
     def _compute_total_taxes_due(self):
         for line in self:
-            line.total_taxes_due = line.tax_id * line.total_taxable
+            line.total_taxes_due = math.ceil(line.tax_id * line.total_taxable - line.taxes_previous_down_payment)
 
-    @api.depends("total_taxes_due")
+    @api.depends("tax_id", "total_taxable")
     def _compute_total_taxes_down_payment(self):
         for line in self:
-            line.total_taxes_down_payment = line.total_taxes_due
+            line.total_taxes_down_payment = math.ceil(line.tax_id * line.total_taxable)
 
     @api.depends("name")
     def _compute_total_stamp_taxes(self):
@@ -192,20 +203,20 @@ class ActivityCosts(models.Model):
                             line.total_stamp_taxes += invoice.l10n_it_stamp_duty
                             break
 
-    @api.depends("welfare_id", "total_taxable")
+    @api.depends("welfare_id", "gross_income", "welfare_previous_down_payment")
     def _compute_total_welfare_due(self):
         for line in self:
-            line.total_welfare_due = line.welfare_id * line.total_taxable
+            line.total_welfare_due = math.ceil(line.welfare_id * line.gross_income - line.welfare_previous_down_payment)
 
-    @api.depends("total_welfare_due")
+    @api.depends("welfare_id", "gross_income")
     def _compute_total_welfare_down_payment(self):
         for line in self:
-            line.total_welfare_down_payment = .8 * line.total_welfare_due
+            line.total_welfare_down_payment = math.ceil(.8 * line.welfare_id * line.gross_income)
 
-    @api.depends("total_invoiced", "net_tax")
+    @api.depends("total_invoiced", "total_due")
     def _compute_year_cash_flow(self):
         for line in self:
-            line.year_cash_flow = line.total_invoiced - line.net_tax
+            line.year_cash_flow = line.total_invoiced - line.total_due
 
     _sql_constraints = [
         ("unique_name", "unique(name)", _("Year must be unique!"))

@@ -23,9 +23,7 @@
                                    options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                             <field name="year_cash_flow" widget="monetary"
                                    options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                            <field name="gross_tax" widget="monetary"
-                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                            <field name="net_tax" widget="monetary"
+                            <field name="total_due" widget="monetary"
                                    options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                         </group>
 
