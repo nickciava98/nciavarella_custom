@@ -84,25 +84,26 @@ class AccountMove(models.Model):
 
             if ("in_" in line.move_type or "out_" in line.move_type) and line.invoice_date:
                 if line.name == "29":
-                    line.invoice_down_payment = 56.00
+                    line.invoice_down_payment = 56.
                 elif line.name == "2023/39":
-                    line.invoice_down_payment = 0.34 * line.amount_total + line.l10n_it_stamp_duty
+                    line.invoice_down_payment = .34 * line.amount_total + line.l10n_it_stamp_duty
                 elif line.invoice_date <= datetime.date(2023, 3, 1):
-                    line.invoice_down_payment = 0.4 * line.amount_total + line.l10n_it_stamp_duty
+                    line.invoice_down_payment = .4 * line.amount_total + line.l10n_it_stamp_duty
                 elif datetime.date(2023, 3, 1) < line.invoice_date <= datetime.date(2023, 4, 1):
-                    line.invoice_down_payment = 0.35 * line.amount_total + line.l10n_it_stamp_duty
+                    line.invoice_down_payment = .35 * line.amount_total + line.l10n_it_stamp_duty
                 elif datetime.date(2023, 4, 1) < line.invoice_date <= datetime.date(2023, 5, 29):
-                    line.invoice_down_payment = 0.345 * line.amount_total + line.l10n_it_stamp_duty
-                elif line.invoice_date > datetime.date(2023, 5, 29):
-                    line.invoice_down_payment = 0.34 * line.amount_total
+                    line.invoice_down_payment = .345 * line.amount_total + line.l10n_it_stamp_duty
+                elif datetime.date(2023, 5, 29) < line.invoice_date <= datetime.date(2023, 6, 30):
+                    line.invoice_down_payment = .34 * line.amount_total
+                elif datetime.date(2023, 6, 30) < line.invoice_date <= datetime.date(2023, 10, 31):
+                    line.invoice_down_payment = .3 * line.amount_total
+                elif datetime.date(2023, 10, 31) < line.invoice_date <= datetime.date(2023, 12, 31):
+                    line.invoice_down_payment = .2 * line.amount_total
 
     @api.depends("amount_total", "invoice_down_payment")
     def _compute_cash_flow(self):
         for line in self:
             line.cash_flow = line.amount_total - line.invoice_down_payment
-
-    def send_pec_mail(self):
-        pass
 
     _sql_constraints = [
         ("unique_send_sequence", "unique(send_sequence)", "Il progressivo invio deve essere univoco!")

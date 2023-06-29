@@ -1,3 +1,5 @@
+import math
+
 from odoo import models, fields, api, _
 import datetime
 import pytz
@@ -83,3 +85,15 @@ class AccountAnalyticLine(models.Model):
             },
             "target": "new"
         }
+
+    @api.model_create_multi
+    def create(self, vals):
+        for val in vals:
+            if "time_start" in val and "time_end" in val and "unit_amount" in val:
+                time_start = val.get("time_start")
+                time_end = val.get("time_end")
+                unit_amount = val.get("unit_amount")
+                val["unit_amount"] = time_end - time_start \
+                    if math.isclose(unit_amount, .0) and time_start > 0 and time_end > 0 else .0
+
+        return super().create(vals)

@@ -1,7 +1,6 @@
-import math
-
 from odoo import models, fields, api, _
 import datetime
+import math
 
 
 class ActivityCosts(models.Model):
