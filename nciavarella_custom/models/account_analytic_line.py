@@ -93,7 +93,8 @@ class AccountAnalyticLine(models.Model):
                 time_start = val.get("time_start")
                 time_end = val.get("time_end")
                 unit_amount = val.get("unit_amount")
-                val["unit_amount"] = time_end - time_start \
-                    if math.isclose(unit_amount, .0) and time_start > 0 and time_end > 0 else .0
+
+                if math.isclose(unit_amount, .0) and time_start > 0 and time_end > 0:
+                    val["unit_amount"] = time_end - time_start
 
         return super().create(vals)
