@@ -93,9 +93,9 @@ class AccountMove(models.Model):
                     line.invoice_down_payment = .35 * line.amount_total + line.l10n_it_stamp_duty
                 elif datetime.date(2023, 4, 1) < line.invoice_date <= datetime.date(2023, 5, 29):
                     line.invoice_down_payment = .345 * line.amount_total + line.l10n_it_stamp_duty
-                elif datetime.date(2023, 5, 29) < line.invoice_date <= datetime.date(2023, 6, 30):
+                elif datetime.date(2023, 5, 29) < line.invoice_date < datetime.date(2023, 6, 30):
                     line.invoice_down_payment = .34 * line.amount_total
-                elif datetime.date(2023, 6, 30) < line.invoice_date <= datetime.date(2023, 10, 31):
+                elif datetime.date(2023, 6, 30) <= line.invoice_date <= datetime.date(2023, 10, 31):
                     line.invoice_down_payment = .3 * line.amount_total
                 elif datetime.date(2023, 10, 31) < line.invoice_date <= datetime.date(2023, 12, 31):
                     line.invoice_down_payment = .2 * line.amount_total
