@@ -33,9 +33,9 @@
                 </table>
 
                 <p class="text-muted" style="font-size: 10pt;">
-                    Documento privo di valenza fiscale ai sensi dell’art. 21 Dpr 633/72.
-                    L’originale è disponibile all’indirizzo telematico da Lei fornito oppure
-                    nella Sua area riservata dell’Agenzia delle Entrate.
+                    Documento privo di valenza fiscale ai sensi dell’art. 21 del DPR 633/72. <br/>
+                    L’originale è disponibile all’indirizzo telematico fornito oppure
+                    nell'Area Riservata dell’Agenzia delle Entrate.
                 </p>
             </t>
 
@@ -117,15 +117,28 @@
         </xpath>
 
         <xpath expr="//th[@name='th_priceunit']" position="attributes">
-            <attribute name="style">width: 10% !important;</attribute>
+            <attribute name="style">width: 13% !important;</attribute>
         </xpath>
 
         <xpath expr="//th[@name='th_taxes']" position="attributes">
-            <attribute name="style">width: 10% !important;</attribute>
+            <attribute name="t-attf-class">
+                text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}
+            </attribute>
+            <attribute name="style">width: 7% !important;</attribute>
+        </xpath>
+
+        <xpath expr="//th[@name='th_taxes']/span" position="replace">
+            <span>IVA</span>
         </xpath>
 
         <xpath expr="//th[@name='th_subtotal']" position="attributes">
-            <attribute name="style">width: 10% !important;</attribute>
+            <attribute name="style">width: 13% !important;</attribute>
+        </xpath>
+
+        <xpath expr="//t[@name='account_invoice_line_accountable']/td[5]" position="attributes">
+            <attribute name="t-attf-class">
+                text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}
+            </attribute>
         </xpath>
 
         <xpath expr="//p[@name='payment_communication']" position="replace">
