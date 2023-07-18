@@ -109,11 +109,11 @@
         </xpath>
 
         <xpath expr="//th[@name='th_description']" position="attributes">
-            <attribute name="style">width: 60% !important;</attribute>
+            <attribute name="style">width: 57% !important;</attribute>
         </xpath>
 
         <xpath expr="//th[@name='th_quantity']" position="attributes">
-            <attribute name="style">width: 10% !important;</attribute>
+            <attribute name="style">width: 13% !important;</attribute>
         </xpath>
 
         <xpath expr="//th[@name='th_priceunit']" position="attributes">
