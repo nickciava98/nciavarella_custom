@@ -1,22 +1,24 @@
-from odoo import api, fields, models, _
+import re
+
 from odoo.exceptions import UserError
 from stdnum.it import codicefiscale, iva
-import re
+
+from odoo import api, fields, models, _
 
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
     l10n_it_pec_email = fields.Char(
-        string = "Email PEC"
+        string="Email PEC"
     )
     l10n_it_codice_fiscale = fields.Char(
-        string = "Codice Fiscale",
-        size = 16
+        string="Codice Fiscale",
+        size=16
     )
     l10n_it_pa_index = fields.Char(
-        string = "Codice Destinatario",
-        size = 7
+        string="Codice Destinatario",
+        size=7
     )
 
     _sql_constraints = [
@@ -45,7 +47,9 @@ class ResPartner(models.Model):
     @api.constrains("l10n_it_codice_fiscale")
     def validate_codice_fiscale(self):
         for record in self:
-            if record.l10n_it_codice_fiscale and (not codicefiscale.is_valid(record.l10n_it_codice_fiscale) and not iva.is_valid(record.l10n_it_codice_fiscale)):
+            if record.l10n_it_codice_fiscale and (
+                    not codicefiscale.is_valid(record.l10n_it_codice_fiscale) and not iva.is_valid(
+                    record.l10n_it_codice_fiscale)):
                 raise UserError(
                     _("Invalid Codice Fiscale '%s': should be like 'MRTMTT91D08F205J' for physical person and '12345670546' or 'IT12345670546' for businesses.",
                       record.l10n_it_codice_fiscale)

@@ -1,53 +1,54 @@
-from odoo import models, fields, api
 import datetime
 import itertools
+
+from odoo import models, fields, api
 
 
 class AccountMove(models.Model):
     _inherit = "account.move"
 
     l10n_it_stamp_duty = fields.Float(
-        default = .0,
-        readonly = True,
-        states = {"draft": [("readonly", False)]},
-        string = "Dati Bollo",
+        default=.0,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        string="Dati Bollo",
     )
     invoice_down_payment = fields.Monetary(
-        compute = "_compute_invoice_down_payment",
-        store = True
+        compute="_compute_invoice_down_payment",
+        store=True
     )
     cash_flow = fields.Monetary(
-        compute = "_compute_cash_flow",
-        store = True
+        compute="_compute_cash_flow",
+        store=True
     )
     tax_ids = fields.Many2many(
         "account.tax",
         "tax_present_rel",
-        compute = "_compute_tax_ids",
-        store = True,
-        string = "Taxes"
+        compute="_compute_tax_ids",
+        store=True,
+        string="Taxes"
     )
     payment_ids = fields.Many2many(
         "account.payment",
         "account_payment_invoice_rel",
-        compute = "_compute_payment_ids",
-        string = "Payments"
+        compute="_compute_payment_ids",
+        string="Payments"
     )
     send_sequence = fields.Char(
-        copy = False,
-        string = "Send Sequence FE"
+        copy=False,
+        string="Send Sequence FE"
     )
     is_move_sent = fields.Boolean(
-        readonly = True,
-        default = True,
-        copy = False,
-        tracking = True,
-        help = "It indicates that the invoice/payment has been sent."
+        readonly=True,
+        default=True,
+        copy=False,
+        tracking=True,
+        help="It indicates that the invoice/payment has been sent."
     )
     analytic_line_ids = fields.One2many(
         "account.analytic.line",
         "invoice_id",
-        string = "Timesheet Entries"
+        string="Timesheet Entries"
     )
 
     @api.depends("payment_state")

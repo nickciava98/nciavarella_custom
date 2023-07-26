@@ -1,8 +1,9 @@
+import datetime
 import math
 
-from odoo import models, fields, api, _
-import datetime
 import pytz
+
+from odoo import models, fields, api, _
 
 
 class AccountAnalyticLine(models.Model):
@@ -15,38 +16,39 @@ class AccountAnalyticLine(models.Model):
             date_time_start = datetime.datetime(1970, 1, 1, int(float_time_start // 1), int(float_time_start % 1))
             offset = str(timezone.utcoffset(date_time_start))
 
-            return float_time_start + int(offset[ : offset.find(":")]) + 1
+            return float_time_start + int(offset[: offset.find(":")]) + 1
 
         return datetime.datetime.now().hour + (datetime.datetime.now().minute / 60) + 2
 
     is_invoiced = fields.Boolean(
-        compute = "_compute_is_invoiced",
-        store = True,
-        string = "Invoiced?"
+        compute="_compute_is_invoiced",
+        store=True,
+        string="Invoiced?"
     )
     invoice_id = fields.Many2one(
         "account.move",
-        ondelete = "restrict",
-        string = "Invoice"
+        ondelete="restrict",
+        string="Invoice"
     )
     is_confirmed = fields.Boolean(
-        default = False,
-        string = "Confirmed?"
+        default=False,
+        string="Confirmed?"
     )
     time_start = fields.Float(
-        default = _get_time_start,
-        compute = "_compute_time_start",
-        store = True,
-        readonly = False,
-        string = "Time Start"
+        default=_get_time_start,
+        compute="_compute_time_start",
+        store=True,
+        readonly=False,
+        string="Time Start"
     )
     time_end = fields.Float(
-        compute = "_compute_time_end",
-        store = True,
-        readonly = False,
-        string = "Time End"
+        compute="_compute_time_end",
+        store=True,
+        readonly=False,
+        string="Time End"
     )
 
+    @api.depends("create_date")
     def _compute_time_start(self):
         for line in self:
             float_time_start = sum([
@@ -58,13 +60,13 @@ class AccountAnalyticLine(models.Model):
                 timezone = pytz.timezone(self.env.context.get("tz"))
                 date_time_start = datetime.datetime(1970, 1, 1, int(float_time_start // 1), int(float_time_start % 1))
                 offset = str(timezone.utcoffset(date_time_start))
-                line.time_start = float_time_start + int(offset[ : offset.find(":")]) + 1
+                line.time_start = float_time_start + int(offset[: offset.find(":")]) + 1
 
     @api.depends("time_start", "unit_amount")
     def _compute_time_end(self):
         for line in self:
-            time_end = line.time_start + line.unit_amount if line.time_start > 0 and line.unit_amount > 0 else .0
-            time_end -= 24. if time_end >= 24 else .0
+            time_end = line.time_start + line.unit_amount if line.time_start > .0 and line.unit_amount > .0 else .0
+            time_end -= 24. if time_end >= 24. else .0
             line.time_end = time_end
 
     @api.depends("invoice_id")

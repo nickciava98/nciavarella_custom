@@ -1,6 +1,7 @@
-from odoo import models, fields, api, _
 import datetime
 import math
+
+from odoo import models, fields, api, _
 
 
 class ActivityCosts(models.Model):
@@ -9,97 +10,97 @@ class ActivityCosts(models.Model):
     _description = "Activity Costs"
 
     name = fields.Char(
-        size = 4,
-        tracking = True,
-        copy = False,
-        string = "Periodo d'imposta"
+        size=4,
+        tracking=True,
+        copy=False,
+        string="Periodo d'imposta"
     )
     total_invoiced = fields.Float(
-        compute = "_compute_total_invoiced",
-        string = "Totale fatturato"
+        compute="_compute_total_invoiced",
+        string="Totale fatturato"
     )
     deduction = fields.Float(
-        compute = "_compute_deduction",
-        string = "Deduzione"
+        compute="_compute_deduction",
+        string="Deduzione"
     )
     total_taxable = fields.Float(
-        compute = "_compute_total_taxable",
-        string = "Imponibile",
-        help = "Coefficiente di redditività x Totale fatturato"
+        compute="_compute_total_taxable",
+        string="Imponibile",
+        help="Coefficiente di redditività x Totale fatturato"
     )
     gross_income = fields.Float(
-        compute = "_compute_gross_income",
-        string = "Reddito Lordo"
+        compute="_compute_gross_income",
+        string="Reddito Lordo"
     )
     total_down_payments = fields.Float(
-        compute = "_compute_total_down_payments",
-        string = "Totale acconti",
-        help = "Totale degli acconti da fattura"
+        compute="_compute_total_down_payments",
+        string="Totale acconti",
+        help="Totale degli acconti da fattura"
     )
     remaining_balance = fields.Float(
-        compute = "_compute_remaining_balance",
-        string = "Saldo rimanente"
+        compute="_compute_remaining_balance",
+        string="Saldo rimanente"
     )
     tax_id = fields.Float(
-        tracking = True,
-        copy = True,
-        string = "Imposta sostitutiva",
-        help = "Aliquota imposta sostitutiva Regime Forfettario"
+        tracking=True,
+        copy=True,
+        string="Imposta sostitutiva",
+        help="Aliquota imposta sostitutiva Regime Forfettario"
     )
     total_taxes_due = fields.Float(
-        compute = "_compute_total_taxes_due",
-        string = "Imposta sostitutiva (Saldo)"
+        compute="_compute_total_taxes_due",
+        string="Imposta sostitutiva (Saldo)"
     )
     total_taxes_down_payment = fields.Float(
-        compute = "_compute_total_taxes_down_payment",
-        string = "Imposta sostitutiva (Acconto)"
+        compute="_compute_total_taxes_down_payment",
+        string="Imposta sostitutiva (Acconto)"
     )
     total_stamp_taxes = fields.Float(
-        compute = "_compute_total_stamp_taxes",
-        string = "Imposte di bollo"
+        compute="_compute_total_stamp_taxes",
+        string="Imposte di bollo"
     )
     welfare_id = fields.Float(
-        tracking = True,
-        copy = True,
-        string = "Gestione Separata INPS"
+        tracking=True,
+        copy=True,
+        string="Gestione Separata INPS"
     )
     total_welfare_due = fields.Float(
-        compute = "_compute_total_welfare_due",
-        string = "Gestione Separata INPS (Saldo)"
+        compute="_compute_total_welfare_due",
+        string="Gestione Separata INPS (Saldo)"
     )
     total_welfare_down_payment = fields.Float(
-        compute = "_compute_total_welfare_down_payment",
-        string = "Gestione Separata INPS (Acconto)"
+        compute="_compute_total_welfare_down_payment",
+        string="Gestione Separata INPS (Acconto)"
     )
     year_cash_flow = fields.Float(
-        compute = "_compute_year_cash_flow",
-        string = "Netto annuo",
-        help = "Importo residuo al netto di imposte e contributi previdenziali"
+        compute="_compute_year_cash_flow",
+        string="Netto annuo",
+        help="Importo residuo al netto di imposte e contributi previdenziali"
     )
     currency_id = fields.Many2one(
         "res.currency",
-        default = lambda self: self.env.ref("base.main_company").currency_id
+        default=lambda self: self.env.ref("base.main_company").currency_id
     )
     taxes_previous_down_payment = fields.Float(
-        string = "Imposta sostitutiva (Acconto precedente)"
+        string="Imposta sostitutiva (Acconto precedente)"
     )
     welfare_previous_down_payment = fields.Float(
-        string = "Gestione Separata INPS (Acconto precedente)"
+        string="Gestione Separata INPS (Acconto precedente)"
     )
     total_due = fields.Float(
-        compute = "_compute_total_due",
-        string = "Totale da versare"
+        compute="_compute_total_due",
+        string="Totale da versare"
     )
     profitability_coefficient = fields.Float(
-        copy = True,
-        string = "Coefficiente di redditività"
+        copy=True,
+        string="Coefficiente di redditività"
     )
     correzione = fields.Float(
-        default = .0,
-        copy = False,
-        string = "Correzione [€]"
+        default=.0,
+        copy=False,
+        string="Correzione [€]"
     )
-    
+
     @api.depends("profitability_coefficient", "total_invoiced")
     def _compute_deduction(self):
         for line in self:
@@ -139,8 +140,9 @@ class ActivityCosts(models.Model):
                 for invoice in self.env["account.move"].search(domain):
                     for payment in invoice.payment_ids:
                         condition = (
-                            datetime.date(int(line.name), 1, 1) <= payment.date <= datetime.date(int(line.name), 12, 31)
-                            and payment.id not in payment_ids
+                                datetime.date(int(line.name), 1, 1) <= payment.date <= datetime.date(int(line.name), 12,
+                                                                                                     31)
+                                and payment.id not in payment_ids
                         )
 
                         if condition:

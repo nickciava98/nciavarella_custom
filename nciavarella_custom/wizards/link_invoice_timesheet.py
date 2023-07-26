@@ -8,14 +8,14 @@ class LinkInvoiceTimesheet(models.Model):
     analytic_line_ids = fields.Many2many(
         "account.analytic.line",
         "link_invoice_analytic_line_rel",
-        ondelete = "cascade",
-        string = "Timesheet Entry"
+        ondelete="cascade",
+        string="Timesheet Entry"
     )
     invoice_id = fields.Many2one(
         "account.move",
-        ondelete = "cascade",
-        domain = "[('move_type', '=', 'out_invoice')]",
-        string = "Invoice"
+        ondelete="cascade",
+        domain="[('move_type', '=', 'out_invoice')]",
+        string="Invoice"
     )
 
     def confirm_action(self):

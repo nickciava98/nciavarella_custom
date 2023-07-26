@@ -52,7 +52,7 @@
                         <page string="Costs" name="costs">
                             <group col="1" colspan="1">
                                 <field name="total_down_payments" widget="monetary"
-                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                 <field name="remaining_balance" widget="monetary"
                                        options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                 <field name="total_stamp_taxes" widget="monetary"

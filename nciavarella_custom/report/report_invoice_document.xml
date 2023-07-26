@@ -5,7 +5,9 @@
                 <table class="table table-borderless">
                     <tr>
                         <td style="padding: 0px !important;">Nr. Documento</td>
-                        <td style="padding: 0px !important;"><span t-field="o.name"/></td>
+                        <td style="padding: 0px !important;">
+                            <span t-field="o.name"/>
+                        </td>
                     </tr>
 
                     <tr>
@@ -28,12 +30,15 @@
 
                     <tr>
                         <td style="padding: 0px !important;">Data</td>
-                        <td style="padding: 0px !important;"><span t-field="o.invoice_date"/></td>
+                        <td style="padding: 0px !important;">
+                            <span t-field="o.invoice_date"/>
+                        </td>
                     </tr>
                 </table>
 
                 <p class="text-muted" style="font-size: 10pt;">
-                    Documento privo di valenza fiscale ai sensi dell’art. 21 del DPR 633/72. <br/>
+                    Documento privo di valenza fiscale ai sensi dell’art. 21 del DPR 633/72.
+                    <br/>
                     L’originale è disponibile all’indirizzo telematico fornito oppure
                     nell'Area Riservata dell’Agenzia delle Entrate.
                 </p>
@@ -48,15 +53,18 @@
                     <span t-field="o.partner_id.name"/>
 
                     <t t-if="o.partner_id.street">
-                        <br/><span t-field="o.partner_id.street"/>
+                        <br/>
+                        <span t-field="o.partner_id.street"/>
                     </t>
 
                     <t t-if="o.partner_id.street2">
-                        <br/><span t-field="o.partner_id.street2"/>
+                        <br/>
+                        <span t-field="o.partner_id.street2"/>
                     </t>
 
                     <t t-if="o.partner_id.city">
-                        <br/><span t-field="o.partner_id.city"/>
+                        <br/>
+                        <span t-field="o.partner_id.city"/>
                     </t>
 
                     <t t-if="o.partner_id.state_id">
@@ -153,7 +161,8 @@
                 <strong t-if="o.amount_tax == 0">Esenzione IVA:</strong>
                 <br/>
                 <t t-foreach="o.tax_ids" t-as="tax">
-                    <span t-raw="tax.tax_description"/><br/>
+                    <span t-raw="tax.tax_description"/>
+                    <br/>
                 </t>
             </p>
 
@@ -164,10 +173,13 @@
 
             <p t-if="o.move_type in ('out_invoice', 'in_refund') and o.partner_bank_id" name="payment_communication">
                 <strong>Termini di pagamento:</strong>
-                <br/>Scadenza: <span t-field="o.invoice_date_due"/>
+                <br/>Scadenza:
+                <span t-field="o.invoice_date_due"/>
                 <br/>Modalità: Bonifico bancario
-                <br/>IBAN: <span t-field="o.partner_bank_id.acc_number"/>
-                <br/>Banca: <span t-field="o.partner_bank_id.bank_id"/>
+                <br/>IBAN:
+                <span t-field="o.partner_bank_id.acc_number"/>
+                <br/>Banca:
+                <span t-field="o.partner_bank_id.bank_id"/>
             </p>
         </xpath>
 
