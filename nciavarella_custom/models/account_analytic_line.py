@@ -102,12 +102,11 @@ class AccountAnalyticLine(models.Model):
         return super().create(vals)
 
     def write(self, vals):
-        for val in vals:
-            if "time_start" in val or "time_end" in val:
-                time_start = val.get("time_start") if "time_start" in val else self.time_start
-                time_end = val.get("time_end") if "time_end" in val else self.time_end
+        if "time_start" in vals or "time_end" in vals:
+            time_start = vals.get("time_start") if "time_start" in vals else self.time_start
+            time_end = vals.get("time_end") if "time_end" in vals else self.time_end
 
-                if time_start >= 0 and time_end >= 0:
-                    self.unit_amount = time_end - time_start
+            if time_start >= 0 and time_end >= 0:
+                vals["unit_amount"] = time_end - time_start
 
         return super().write(vals)
