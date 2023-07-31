@@ -744,4 +744,4 @@ msgstr "L'anno deve essere univoco!"
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
 msgid "for the"
-msgstr "per il"
+msgstr "per"
