@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-29 06:37+0000\n"
-"PO-Revision-Date: 2023-06-29 06:37+0000\n"
+"POT-Creation-Date: 2023-07-31 07:44+0000\n"
+"PO-Revision-Date: 2023-07-31 07:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -49,6 +49,11 @@ msgstr "<br/>Partita IVA:"
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
+msgid "<span>IVA</span>"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
 msgid ""
 "<strong>Assolvimento imposta di bollo:</strong>\n"
 "                <br/>Imposta di bollo assolta in modo virtuale ai sensi del decreto MEF 17 Giugno 2014 (Art. 6)"
@@ -60,11 +65,21 @@ msgid "<strong>Causale:</strong>"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "<strong>Hourly Cost</strong>"
+msgstr "<strong>Costo Orario</strong>"
+
+#. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
 msgid ""
 "<strong>Termini di pagamento:</strong>\n"
 "                <br/>Scadenza:"
 msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "<strong>Total</strong>"
+msgstr "<strong>Totale</strong>"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_needaction
@@ -221,10 +236,14 @@ msgstr "Nome visualizzato"
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
 msgid ""
-"Documento privo di valenza fiscale ai sensi dell’art. 21 Dpr 633/72.\n"
-"                    L’originale è disponibile all’indirizzo telematico da Lei fornito oppure\n"
-"                    nella Sua area riservata dell’Agenzia delle Entrate."
+"Documento privo di valenza fiscale ai sensi dell’art. 21 del DPR 633/72.\n"
+"                    <br/>\n"
+"                    L’originale è disponibile all’indirizzo telematico fornito oppure\n"
+"                    nell'Area Riservata dell’Agenzia delle Entrate."
 msgstr ""
+"Documento privo di valenza fiscale ai sensi dell’art. 21 del DPR 633/72. <br/>\n"
+"                    L’originale è disponibile all’indirizzo telematico fornito oppure\n"
+"                    nell'Area Riservata dell’Agenzia delle Entrate."
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_tree_inherit
@@ -492,6 +511,11 @@ msgid "Netto annuo"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -552,6 +576,11 @@ msgstr "Pagamenti"
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
 msgid "Periodo d'imposta"
 msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "Project"
+msgstr "Progetto"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__gross_income
@@ -645,6 +674,16 @@ msgid "Timesheet Entry"
 msgstr "Registrazione Foglio Ore"
 
 #. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "Timesheets"
+msgstr "Fogli ore"
+
+#. module: nciavarella_custom
+#: model:ir.actions.report,name:nciavarella_custom.report_timesheet_value_action
+msgid "Timesheets with value"
+msgstr "Fogli ore con valori"
+
+#. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
 msgid "Tipo Documento"
 msgstr ""
@@ -701,3 +740,8 @@ msgstr ""
 #, python-format
 msgid "Year must be unique!"
 msgstr "L'anno deve essere univoco!"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "for the"
+msgstr "per il"

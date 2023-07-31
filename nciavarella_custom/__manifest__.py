@@ -27,6 +27,7 @@
         "views/res_partner_form.xml",
         "report/external_layout_standard.xml",
         "report/report_invoice_document.xml",
+        "report/hr_timesheet_report.xml",
         "wizards/link_invoice_timesheet_form.xml"
     ],
     "application": False,
