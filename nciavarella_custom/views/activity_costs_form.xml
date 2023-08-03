@@ -15,8 +15,8 @@
 
                     <field name="currency_id" invisible="True"/>
 
-                    <group>
-                        <group>
+                    <group col="2" colspan="2">
+                        <group col="1" colspan="1">
                             <field name="total_invoiced" widget="monetary"
                                    options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                             <field name="total_taxable" widget="monetary"
@@ -27,7 +27,7 @@
                                    options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                         </group>
 
-                        <group>
+                        <group col="1" colspan="1">
                             <field name="tax_id" widget="percentage" required="True"/>
                             <field name="welfare_id" widget="percentage" required="True"/>
                             <field name="profitability_coefficient" widget="percentage" required="True"/>
@@ -36,41 +36,50 @@
                         </group>
                     </group>
 
-                    <group>
-                        <group>
-                            <field name="taxes_previous_down_payment" widget="monetary"
-                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                        </group>
-
-                        <group>
-                            <field name="welfare_previous_down_payment" widget="monetary"
-                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                        </group>
-                    </group>
-
                     <notebook>
                         <page string="Costs" name="costs">
-                            <group col="1" colspan="1">
-                                <field name="total_down_payments" widget="monetary"
-                                       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                                <field name="remaining_balance" widget="monetary"
-                                       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                                <field name="total_stamp_taxes" widget="monetary"
-                                       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                            </group>
-
-                            <group col="4" colspan="4">
-                                <group col="2" colspan="2">
+                            <group col="2" colspan="2" string="Totali da versare">
+                                <group col="1" colspan="1">
                                     <field name="total_taxes_due" widget="monetary"
                                            options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                     <field name="total_taxes_down_payment" widget="monetary"
                                            options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                 </group>
 
-                                <group col="2" colspan="2">
+                                <group col="1" colspan="1">
                                     <field name="total_welfare_due" widget="monetary"
                                            options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                     <field name="total_welfare_down_payment" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                </group>
+                            </group>
+
+                            <group col="2" colspan="2" string="Detrazioni e deduzioni">
+                                <group col="1" colspan="1">
+                                    <field name="taxes_previous_down_payment" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                </group>
+
+                                <group col="1" colspan="1">
+                                    <field name="welfare_previous_down_payment" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                </group>
+                            </group>
+
+
+                            <group col="3" colspan="3" string="Acconti da fattura e Imposte di bollo">
+                                <group col="1" colspan="1">
+                                    <field name="total_down_payments" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                </group>
+
+                                <group col="1" colspan="1">
+                                    <field name="remaining_balance" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                </group>
+
+                                <group col="1" colspan="1">
+                                    <field name="total_stamp_taxes" widget="monetary"
                                            options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                 </group>
                             </group>

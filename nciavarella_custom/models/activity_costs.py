@@ -93,7 +93,7 @@ class ActivityCosts(models.Model):
     )
     profitability_coefficient = fields.Float(
         copy=True,
-        string="Coefficiente di redditività"
+        string="Redditività"
     )
     correzione = fields.Float(
         default=.0,
