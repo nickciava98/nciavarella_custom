@@ -19,6 +19,14 @@
                 <field name="time_start" required="True" widget="timesheet_uom"/>
                 <field name="time_end" required="True" widget="timesheet_uom"/>
             </xpath>
+
+            <xpath expr="//field[@name='project_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='task_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>

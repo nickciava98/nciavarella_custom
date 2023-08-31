@@ -140,9 +140,8 @@ class ActivityCosts(models.Model):
                 for invoice in self.env["account.move"].search(domain):
                     for payment in invoice.payment_ids:
                         condition = (
-                                datetime.date(int(line.name), 1, 1) <= payment.date <= datetime.date(int(line.name), 12,
-                                                                                                     31)
-                                and payment.id not in payment_ids
+                            datetime.date(int(line.name), 1, 1) <= payment.date <= datetime.date(int(line.name), 12, 31)
+                            and payment.id not in payment_ids
                         )
 
                         if condition:

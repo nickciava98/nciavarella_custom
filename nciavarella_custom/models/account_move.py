@@ -60,23 +60,18 @@ class AccountMove(models.Model):
                 payment_ids = self.env["account.payment"].search([]).filtered(
                     lambda payment: line.id in payment.reconciled_invoice_ids.ids
                 ).ids
-                payment_ids = list(dict.fromkeys(payment_ids)) if len(payment_ids) > 0 else []
-                line.payment_ids = [(6, 0, payment_ids)] if len(payment_ids) > 0 else False
+                line.payment_ids = [(6, 0, list(dict.fromkeys(payment_ids)))] if payment_ids else False
 
     @api.depends("invoice_line_ids")
     def _compute_tax_ids(self):
         for line in self:
             line.tax_ids = False
 
-            if len(line.invoice_line_ids) > 0:
-                tax_ids = []
-
-                for inv_line in line.invoice_line_ids:
-                    tax_ids.append(inv_line.tax_ids.ids)
-
-                tax_ids = list(itertools.chain.from_iterable(tax_ids))
-                tax_ids = list(dict.fromkeys(tax_ids)) if len(tax_ids) > 0 else []
-                line.tax_ids = [(6, 0, tax_ids)] if len(tax_ids) > 0 else False
+            if line.invoice_line_ids:
+                tax_ids = list(itertools.chain.from_iterable(
+                    [inv_line.tax_ids.ids for inv_line in line.invoice_line_ids]
+                ))
+                line.tax_ids = [(6, 0, list(dict.fromkeys(tax_ids)))] if tax_ids else False
 
     @api.depends("move_type", "invoice_date", "name", "amount_total", "l10n_it_stamp_duty")
     def _compute_invoice_down_payment(self):
@@ -96,10 +91,14 @@ class AccountMove(models.Model):
                     line.invoice_down_payment = .345 * line.amount_total + line.l10n_it_stamp_duty
                 elif datetime.date(2023, 5, 29) < line.invoice_date < datetime.date(2023, 6, 30):
                     line.invoice_down_payment = .34 * line.amount_total
-                elif datetime.date(2023, 6, 30) <= line.invoice_date <= datetime.date(2023, 10, 31):
+                elif datetime.date(2023, 6, 30) <= line.invoice_date < datetime.date(2023, 8, 31):
                     line.invoice_down_payment = .3 * line.amount_total
+                elif datetime.date(2023, 8, 31) <= line.invoice_date <= datetime.date(2023, 9, 30):
+                    line.invoice_down_payment = .15 * line.amount_total
                 elif datetime.date(2023, 10, 31) < line.invoice_date <= datetime.date(2023, 12, 31):
                     line.invoice_down_payment = .2 * line.amount_total
+                elif line.invoice_date >= datetime.date(2024, 1, 1):
+                    line.invoice_down_payment = .3 * line.amount_total
 
     @api.depends("amount_total", "invoice_down_payment")
     def _compute_cash_flow(self):
