@@ -105,6 +105,19 @@ class AccountMove(models.Model):
         for line in self:
             line.cash_flow = line.amount_total - line.invoice_down_payment
 
+    def name_get(self):
+        return [
+            (line.id, "%s (%s) [%s]" % (line.name, line.invoice_date.strftime("%d/%m/%Y"), line.partner_id.name))
+            for line in self
+        ]
+
+    @api.model
+    def _name_search(self, name, args=None, operator="ilike", limit=100, name_get_uid=None):
+        args = args or []
+        domain = ["|", ("name", operator, name), ("partner_id", "ilike", name)] if name else []
+
+        return self._search(domain + args, limit=limit, access_rights_uid=name_get_uid)
+
     _sql_constraints = [
-        ("unique_send_sequence", "unique(send_sequence)", "Il progressivo invio deve essere univoco!")
+        ("unique_send_sequence", "UNIQUE(send_sequence)", "Il progressivo invio deve essere univoco!")
     ]
