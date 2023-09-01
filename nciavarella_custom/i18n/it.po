@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-31 07:44+0000\n"
-"PO-Revision-Date: 2023-07-31 07:44+0000\n"
+"POT-Creation-Date: 2023-09-01 08:15+0000\n"
+"PO-Revision-Date: 2023-09-01 08:15+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -80,6 +80,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
 msgid "<strong>Total</strong>"
 msgstr "<strong>Totale</strong>"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
+msgid "Acconti da fattura e Imposte di bollo"
+msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__message_needaction
@@ -159,14 +164,14 @@ msgid "Codice Fiscale"
 msgstr ""
 
 #. module: nciavarella_custom
-#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__profitability_coefficient
-msgid "Coefficiente di redditività"
-msgstr ""
-
-#. module: nciavarella_custom
 #: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__total_taxable
 msgid "Coefficiente di redditività x Totale fatturato"
 msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model,name:nciavarella_custom.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.link_invoice_timesheet_view_form
@@ -194,12 +199,14 @@ msgid "Costs"
 msgstr "Costi"
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__create_uid
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__create_uid
 #: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__create_date
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__create_date
 #: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__create_date
 msgid "Created on"
@@ -216,6 +223,21 @@ msgid "Data"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__date_from
+msgid "Date From"
+msgstr "Da"
+
+#. module: nciavarella_custom
+#: model:ir.model.constraint,message:nciavarella_custom.constraint_account_move_down_payment_unique_dates
+msgid "Date From and Date To must be unique!"
+msgstr "Da e A devono essere univoci!"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__date_to
+msgid "Date To"
+msgstr "A"
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__l10n_it_stamp_duty
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__l10n_it_stamp_duty
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__l10n_it_stamp_duty
@@ -228,6 +250,12 @@ msgid "Deduzione"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
+msgid "Detrazioni e deduzioni"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__display_name
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__display_name
 #: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__display_name
 msgid "Display Name"
@@ -246,6 +274,7 @@ msgstr ""
 "                    nell'Area Riservata dell’Agenzia delle Entrate."
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__down_payment
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_tree_inherit
 msgid "Down Payment"
 msgstr "Acconto"
@@ -322,6 +351,7 @@ msgid "Has Message"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__id
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__id
 #: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__id
 msgid "ID"
@@ -419,11 +449,18 @@ msgid "Invoice"
 msgstr "Fattura"
 
 #. module: nciavarella_custom
+#: model:ir.model,name:nciavarella_custom.model_account_move_down_payment
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__invoice_down_payment
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__invoice_down_payment
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__invoice_down_payment
 msgid "Invoice Down Payment"
 msgstr "Acconto da fattura"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_res_config_settings__invoice_down_payment_settings_ids
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.res_config_settings_form_inherit
+msgid "Invoice Down Payment Settings"
+msgstr "Impostazioni Acconto da Fattura"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_analytic_line__is_invoiced
@@ -455,18 +492,21 @@ msgid "Journal Entry"
 msgstr "Registrazione contabile"
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment____last_update
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs____last_update
 #: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet____last_update
 msgid "Last Modified on"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__write_uid
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__write_uid
 #: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__write_date
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__write_date
 #: model:ir.model.fields,field_description:nciavarella_custom.field_link_invoice_timesheet__write_date
 msgid "Last Updated on"
@@ -557,7 +597,7 @@ msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -581,6 +621,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
 msgid "Project"
 msgstr "Progetto"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__profitability_coefficient
+msgid "Redditività"
+msgstr ""
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__gross_income
@@ -613,6 +658,11 @@ msgstr "Seleziona Fattura..."
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__send_sequence
 msgid "Send Sequence FE"
 msgstr "Progressivo Invio FE"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__stamp_duty
+msgid "Stamp Duty"
+msgstr "Bollo"
 
 #. module: nciavarella_custom
 #: model_terms:ir.actions.act_window,help:nciavarella_custom.activity_costs_action
@@ -714,6 +764,11 @@ msgid "Totale fatturato"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
+msgid "Totali da versare"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr ""
@@ -745,3 +800,8 @@ msgstr "L'anno deve essere univoco!"
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
 msgid "for the"
 msgstr "per"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.res_config_settings_form_inherit
+msgid "nciavarella Custom"
+msgstr ""

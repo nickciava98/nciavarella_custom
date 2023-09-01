@@ -52,8 +52,7 @@
             </xpath>
 
             <xpath expr="//field[@name='amount_residual']" position="after">
-                <field name="invoice_down_payment" groups="nciavarella_custom.group_admin"
-                       readonly="False"/>
+                <field name="invoice_down_payment" groups="nciavarella_custom.group_admin"/>
                 <field name="cash_flow" groups="nciavarella_custom.group_admin"/>
                 <field name="tax_ids" invisible="True"/>
             </xpath>
@@ -86,6 +85,49 @@
                     </group>
                 </page>
             </xpath>
+        </field>
+    </record>
+
+    <record id="account_move_down_payment_view_tree" model="ir.ui.view">
+        <field name="name">Invoice Down Payments</field>
+        <field name="model">account.move.down.payment</field>
+
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="down_payment" widget="percentage"/>
+                <field name="stamp_duty"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="account_move_down_payment_view_form" model="ir.ui.view">
+        <field name="name">Invoice Down Payment</field>
+        <field name="model">account.move.down.payment</field>
+
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="4" colspan="4">
+                        <group col="1" colspan="1">
+                            <field name="date_from"/>
+                        </group>
+
+                        <group col="1" colspan="1">
+                            <field name="date_to"/>
+                        </group>
+
+                        <group col="1" colspan="1">
+                            <field name="down_payment" widget="percentage"/>
+                        </group>
+
+                        <group col="1" colspan="1">
+                            <field name="stamp_duty"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
         </field>
     </record>
 </odoo>
