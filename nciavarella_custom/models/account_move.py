@@ -115,10 +115,20 @@ class AccountMove(models.Model):
             line.cash_flow = line.amount_total - line.invoice_down_payment
 
     def name_get(self):
-        return [
-            (line.id, "%s (%s) [%s]" % (line.name, line.invoice_date.strftime("%d/%m/%Y"), line.partner_id.name))
-            for line in self
-        ]
+        result = []
+
+        for line in self:
+            name = [line.name]
+
+            if line.invoice_date:
+                name.append("(%s)" % line.invoice_date.strftime("%d/%m/%Y"))
+
+            if line.partner_id:
+                name.append("[%s]" % line.partner_id.name)
+
+            result.append((line.id, " ".join(name)))
+
+        return result
 
     @api.model
     def _name_search(self, name, args=None, operator="ilike", limit=100, name_get_uid=None):
