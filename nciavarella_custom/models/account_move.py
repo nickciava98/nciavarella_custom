@@ -72,7 +72,7 @@ class AccountMove(models.Model):
                 ))
                 line.tax_ids = [(6, 0, list(dict.fromkeys(tax_ids)))] if tax_ids else False
 
-    @api.depends("move_type", "invoice_date", "amount_total")
+    @api.depends("invoice_line_ids", "invoice_line_ids.price_unit", "invoice_line_ids.quantity", "invoice_line_ids.tax_ids", "move_type", "invoice_date", "amount_total")
     def _compute_invoice_down_payment(self):
         for line in self:
             line.invoice_down_payment = .0
