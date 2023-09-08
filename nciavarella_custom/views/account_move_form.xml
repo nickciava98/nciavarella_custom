@@ -16,6 +16,7 @@
             </xpath>
 
             <xpath expr="//group[@id='header_left_group']" position="inside">
+                <field name="l10n_it_stamp_duty"/>
                 <field name="payment_ids" invisible="True"/>
             </xpath>
 
@@ -70,17 +71,6 @@
                                    decoration-danger="unit_amount &gt; 24"/>
                         </tree>
                     </field>
-                </page>
-            </xpath>
-
-            <xpath expr="//page[@name='other_info']" position="after">
-                <page string="Fatturazione Elettronica" name="electronic_invoicing"
-                      attrs="{'invisible': ['|', ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')), ('country_code', '!=', 'IT')]}">
-                    <group>
-                        <group>
-                            <field name="l10n_it_stamp_duty"/>
-                        </group>
-                    </group>
                 </page>
             </xpath>
         </field>
