@@ -22,9 +22,7 @@
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']"
                    position="attributes">
                 <attribute name="widget">monetary</attribute>
-                <attribute name="options">
-                    {'currency_field': 'currency_id', 'field_digits': True}
-                </attribute>
+                <attribute name="options">{'currency_field': 'currency_id', 'field_digits': True}</attribute>
             </xpath>
 
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']"
@@ -39,7 +37,7 @@
 
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_uom_id']"
                    position="attributes">
-                <attribute name="optional">hide</attribute>
+                <attribute name="optional">show</attribute>
             </xpath>
 
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
@@ -52,7 +50,9 @@
             </xpath>
 
             <xpath expr="//field[@name='amount_residual']" position="after">
-                <field name="invoice_down_payment" groups="nciavarella_custom.group_admin"/>
+                <field name="down_payment_id" invisible="True"/>
+                <field name="invoice_down_payment" groups="nciavarella_custom.group_admin"
+                       attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
                 <field name="cash_flow" groups="nciavarella_custom.group_admin"/>
                 <field name="tax_ids" invisible="True"/>
             </xpath>
@@ -78,8 +78,6 @@
                       attrs="{'invisible': ['|', ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')), ('country_code', '!=', 'IT')]}">
                     <group>
                         <group>
-                            <field name="send_sequence" required="True" force_save="True"
-                                   attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
                             <field name="l10n_it_stamp_duty"/>
                         </group>
                     </group>

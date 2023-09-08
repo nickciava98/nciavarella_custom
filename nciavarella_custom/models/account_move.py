@@ -13,6 +13,11 @@ class AccountMove(models.Model):
         states={"draft": [("readonly", False)]},
         string="Dati Bollo",
     )
+    down_payment_id = fields.Many2one(
+        "account.move.down.payment",
+        compute="_compute_down_payment_id",
+        store=True
+    )
     invoice_down_payment = fields.Monetary(
         compute="_compute_invoice_down_payment",
         store=True,
@@ -35,10 +40,6 @@ class AccountMove(models.Model):
         compute="_compute_payment_ids",
         store=True,
         string="Payments"
-    )
-    send_sequence = fields.Char(
-        copy=False,
-        string="Send Sequence FE"
     )
     is_move_sent = fields.Boolean(
         readonly=True,
@@ -72,21 +73,23 @@ class AccountMove(models.Model):
                 ))
                 line.tax_ids = [(6, 0, list(dict.fromkeys(tax_ids)))] if tax_ids else False
 
-    @api.depends("invoice_line_ids", "invoice_line_ids.price_unit", "invoice_line_ids.quantity", "invoice_line_ids.tax_ids", "move_type", "invoice_date", "amount_total")
+    @api.depends("invoice_date")
+    def _compute_down_payment_id(self):
+        for line in self:
+            line.down_payment_id = self.env["account.move.down.payment"].search(
+                ["&", ("date_from", "<=", line.invoice_date.strftime("%Y-%m-%d")),
+                 ("date_to", ">=", line.invoice_date.strftime("%Y-%m-%d"))], limit=1
+            ) if line.invoice_date else False
+
+    @api.depends("move_type", "amount_total", "down_payment_id")
     def _compute_invoice_down_payment(self):
         for line in self:
             line.invoice_down_payment = .0
 
-            if line.move_type in ["out_invoice", "out_receipt"] and line.invoice_date:
-                down_payment_id = self.env["account.move.down.payment"].search(
-                    ["&", ("date_from", "<=", line.invoice_date.strftime("%Y-%m-%d")),
-                     ("date_to", ">=", line.invoice_date.strftime("%Y-%m-%d"))], limit=1
-                )
-
-                if down_payment_id:
-                    line.invoice_down_payment = down_payment_id.down_payment * line.amount_total \
-                        if not down_payment_id.stamp_duty \
-                        else down_payment_id.down_payment * line.amount_total + line.l10n_it_stamp_duty
+            if line.move_type in ["out_invoice", "out_receipt"] and line.invoice_date and line.down_payment_id:
+                    line.invoice_down_payment = line.down_payment_id.down_payment * line.amount_total \
+                        if not line.down_payment_id.stamp_duty \
+                        else line.down_payment_id.down_payment * line.amount_total + line.l10n_it_stamp_duty
 
                 # if line.name == "29":
                 #     line.invoice_down_payment = 56.
