@@ -140,10 +140,6 @@ class AccountMove(models.Model):
 
         return self._search(domain + args, limit=limit, access_rights_uid=name_get_uid)
 
-    _sql_constraints = [
-        ("unique_send_sequence", "UNIQUE(send_sequence)", "Il progressivo invio deve essere univoco!")
-    ]
-
 
 class AccountMoveDownPayment(models.Model):
     _name = "account.move.down.payment"
