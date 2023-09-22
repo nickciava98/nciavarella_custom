@@ -1,6 +1,5 @@
 import datetime
 import math
-
 import pytz
 
 from odoo import models, fields, api, _
@@ -90,23 +89,22 @@ class AccountAnalyticLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals):
-        for val in vals:
-            if "time_start" in val and "time_end" in val and "unit_amount" in val:
-                time_start = val.get("time_start")
-                time_end = val.get("time_end")
-                unit_amount = val.get("unit_amount")
+        lines = super().create(vals)
 
-                if math.isclose(unit_amount, .0) and time_start >= 0 and time_end >= 0:
-                    val["unit_amount"] = time_end - time_start
+        for line in lines.filtered(lambda l: math.isclose(l.unit_amount, .0) and l.time_start >= 0 and l.time_end >= 0):
+            line.unit_amount = line.time_end - line.time_start
 
-        return super().create(vals)
+        return lines
 
     def write(self, vals):
+        res = super().write(vals)
+
         if "time_start" in vals or "time_end" in vals:
-            time_start = vals.get("time_start") if "time_start" in vals else self.time_start
-            time_end = vals.get("time_end") if "time_end" in vals else self.time_end
+            for line in self:
+                time_start = vals.get("time_start", line.time_start)
+                time_end = vals.get("time_end", line.time_end)
 
-            if time_start >= 0 and time_end >= 0:
-                vals["unit_amount"] = time_end - time_start
+                if time_start >= 0 and time_end >= 0:
+                    line.unit_amount = time_end - time_start
 
-        return super().write(vals)
+        return res

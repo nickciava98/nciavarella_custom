@@ -19,6 +19,4 @@ class LinkInvoiceTimesheet(models.Model):
     )
 
     def confirm_action(self):
-        if len(self.analytic_line_ids) > 0:
-            for analytic_line in self.analytic_line_ids:
-                analytic_line.invoice_id = self.invoice_id if self.invoice_id else False
+        self.analytic_line_ids.write({"invoice_id": self.invoice_id})

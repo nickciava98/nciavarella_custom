@@ -21,15 +21,6 @@ class ResPartner(models.Model):
         size=7
     )
 
-    _sql_constraints = [
-        ("l10n_it_codice_fiscale",
-         "CHECK(l10n_it_codice_fiscale IS NULL OR l10n_it_codice_fiscale = '' OR LENGTH(l10n_it_codice_fiscale) >= 11)",
-         "Il Codice Fiscale deve essere di 11 - 16 caratteri."),
-        ("l10n_it_pa_index",
-         "CHECK(l10n_it_pa_index IS NULL OR l10n_it_pa_index = '' OR LENGTH(l10n_it_pa_index) >= 6)",
-         "Il Codice Destinatario deve essere di 6 - 7 caratteri.")
-    ]
-
     @api.model
     def _l10n_it_normalize_codice_fiscale(self, codice):
         if codice and re.match(r'^IT[0-9]{11}$', codice):
@@ -39,18 +30,26 @@ class ResPartner(models.Model):
 
     @api.onchange("vat", "country_id")
     def _l10n_it_onchange_vat(self):
-        if not self.l10n_it_codice_fiscale and self.vat and (self.country_id.code == "IT" or self.vat.startswith("IT")):
-            self.l10n_it_codice_fiscale = self._l10n_it_normalize_codice_fiscale(self.vat)
-        elif self.country_id.code not in [False, "IT"]:
-            self.l10n_it_codice_fiscale = ""
+        for partner in self:
+            if not partner.l10n_it_codice_fiscale and partner.vat and (partner.country_id.code == "IT" or partner.vat.startswith("IT")):
+                partner.l10n_it_codice_fiscale = partner._l10n_it_normalize_codice_fiscale(self.vat)
+            elif partner.country_id.code not in (False, "IT"):
+                partner.l10n_it_codice_fiscale = ""
 
     @api.constrains("l10n_it_codice_fiscale")
     def validate_codice_fiscale(self):
-        for record in self:
-            if record.l10n_it_codice_fiscale and (
-                    not codicefiscale.is_valid(record.l10n_it_codice_fiscale) and not iva.is_valid(
-                    record.l10n_it_codice_fiscale)):
+        for partner in self:
+            if partner.l10n_it_codice_fiscale and (not codicefiscale.is_valid(partner.l10n_it_codice_fiscale) and not iva.is_valid(partner.l10n_it_codice_fiscale)):
                 raise UserError(
                     _("Invalid Codice Fiscale '%s': should be like 'MRTMTT91D08F205J' for physical person and '12345670546' or 'IT12345670546' for businesses.",
-                      record.l10n_it_codice_fiscale)
+                      partner.l10n_it_codice_fiscale)
                 )
+
+    _sql_constraints = [
+        ("l10n_it_codice_fiscale",
+         "CHECK(l10n_it_codice_fiscale IS NULL OR l10n_it_codice_fiscale = '' OR LENGTH(l10n_it_codice_fiscale) >= 11)",
+         "Il Codice Fiscale deve essere di 11 - 16 caratteri."),
+        ("l10n_it_pa_index",
+         "CHECK(l10n_it_pa_index IS NULL OR l10n_it_pa_index = '' OR LENGTH(l10n_it_pa_index) >= 6)",
+         "Il Codice Destinatario deve essere di 6 - 7 caratteri.")
+    ]

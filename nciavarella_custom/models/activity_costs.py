@@ -129,24 +129,24 @@ class ActivityCosts(models.Model):
             line.total_invoiced = line.correzione
 
             if line.name:
-                domain = [
-                    "&", "&",
-                    ("invoice_date", ">=", line.name + "-01-01"),
-                    ("invoice_date", "<=", line.name + "-12-31"),
-                    ("payment_state", "=", "paid")
-                ]
-                payment_ids = []
+                invoices = self.env["account.move"].search(
+                    ["&", "&",
+                     ("invoice_date", ">=", line.name + "-01-01"),
+                     ("invoice_date", "<=", line.name + "-12-31"),
+                     ("payment_state", "=", "paid")]
+                )
+                payments = []
 
-                for invoice in self.env["account.move"].search(domain):
-                    for payment in invoice.payment_ids:
-                        condition = (
-                            datetime.date(int(line.name), 1, 1) <= payment.date <= datetime.date(int(line.name), 12, 31)
-                            and payment.id not in payment_ids
-                        )
+                for invoice in invoices:
+                    payment_ids = invoice.payment_ids.filtered(
+                        lambda p: datetime.date(int(line.name), 1, 1) <= p.date <= datetime.date(int(line.name), 12, 31)
+                                  and p.partner_type == "customer"
+                    )
 
-                        if condition:
-                            line.total_invoiced += payment.amount
-                            payment_ids.append(payment.id)
+                    for payment_id in payment_ids:
+                        if payment_id.id not in payments:
+                            line.total_invoiced += payment_id.amount
+                            payments.append(payment_id.id)
 
     @api.depends("gross_income", "welfare_previous_down_payment")
     def _compute_total_taxable(self):
@@ -156,18 +156,15 @@ class ActivityCosts(models.Model):
     @api.depends("name")
     def _compute_total_down_payments(self):
         for line in self:
-            line.total_down_payments = .0
-
-            if line.name:
-                domain = [
-                    "&", "&",
-                    ("invoice_date", ">=", line.name + "-01-01"),
-                    ("invoice_date", "<=", line.name + "-12-31"),
-                    ("payment_state", "=", "paid")
-                ]
-
-                for invoice in self.env["account.move"].search(domain):
-                    line.total_down_payments += invoice.invoice_down_payment
+            invoices = self.env["account.move"].search(
+                ["&", "&",
+                 ("invoice_date", ">=", line.name + "-01-01"),
+                 ("invoice_date", "<=", line.name + "-12-31"),
+                 ("payment_state", "=", "paid")]
+            ) if line.name else False
+            line.total_down_payments = sum([
+                invoice.invoice_down_payment for invoice in invoices
+            ]) if invoices else .0
 
     @api.depends("total_due", "total_stamp_taxes", "total_down_payments")
     def _compute_remaining_balance(self):
@@ -190,18 +187,20 @@ class ActivityCosts(models.Model):
             line.total_stamp_taxes = .0
 
             if line.name:
-                domain = [
-                    "&", "&",
-                    ("invoice_date", ">=", line.name + "-01-01"),
-                    ("invoice_date", "<=", line.name + "-12-31"),
-                    ("payment_state", "=", "paid")
-                ]
+                invoices = self.env["account.move"].search(
+                    ["&", "&",
+                     ("invoice_date", ">=", line.name + "-01-01"),
+                     ("invoice_date", "<=", line.name + "-12-31"),
+                     ("payment_state", "=", "paid")]
+                )
 
-                for invoice in self.env["account.move"].search(domain):
-                    for payment in invoice.payment_ids:
-                        if payment.date <= datetime.date(int(line.name), 12, 31):
-                            line.total_stamp_taxes += invoice.l10n_it_stamp_duty
-                            break
+                for invoice in invoices:
+                    payments = invoice.payment_ids.filtered(
+                        lambda p: p.date <= datetime.date(int(line.name), 12, 31) and p.partner_type == "customer"
+                    )
+
+                    if payments:
+                        line.total_stamp_taxes += invoice.l10n_it_stamp_duty
 
     @api.depends("welfare_id", "gross_income", "welfare_previous_down_payment")
     def _compute_total_welfare_due(self):

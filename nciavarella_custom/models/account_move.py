@@ -124,10 +124,10 @@ class AccountMove(models.Model):
             name = [line.name]
 
             if line.invoice_date:
-                name.append("(%s)" % line.invoice_date.strftime("%d/%m/%Y"))
+                name.append(f"({line.invoice_date.strftime('%d/%m/%Y')})")
 
             if line.partner_id:
-                name.append("[%s]" % line.partner_id.name)
+                name.append(f"[{line.partner_id.name}]")
 
             result.append((line.id, " ".join(name)))
 

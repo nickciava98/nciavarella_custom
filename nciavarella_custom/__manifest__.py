@@ -14,7 +14,6 @@
     "data": [
         "security/ir.model.access.csv",
         "security/groups.xml",
-        "data/account_menuitem_delete.xml",
         "views/account_analytic_line_tree.xml",
         "views/account_analytic_line_actions.xml",
         "views/account_tax_form.xml",
