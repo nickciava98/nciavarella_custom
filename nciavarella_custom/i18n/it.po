@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-01 08:15+0000\n"
-"PO-Revision-Date: 2023-09-01 08:15+0000\n"
+"POT-Creation-Date: 2023-10-01 08:26+0000\n"
+"PO-Revision-Date: 2023-10-01 08:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -274,7 +274,10 @@ msgstr ""
 "                    nell'Area Riservata dell’Agenzia delle Entrate."
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__down_payment_id
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__down_payment_id
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__down_payment
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__down_payment_id
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_tree_inherit
 msgid "Down Payment"
 msgstr "Acconto"
@@ -303,11 +306,6 @@ msgstr ""
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
 msgid "Fattura in bozza"
-msgstr ""
-
-#. module: nciavarella_custom
-#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_form_inherit
-msgid "Fatturazione Elettronica"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -391,11 +389,6 @@ msgstr ""
 #. module: nciavarella_custom
 #: model:ir.model.constraint,message:nciavarella_custom.constraint_res_partner_l10n_it_codice_fiscale
 msgid "Il Codice Fiscale deve essere di 11 - 16 caratteri."
-msgstr ""
-
-#. module: nciavarella_custom
-#: model:ir.model.constraint,message:nciavarella_custom.constraint_account_move_unique_send_sequence
-msgid "Il progressivo invio deve essere univoco!"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -653,13 +646,6 @@ msgid "Select Invoice..."
 msgstr "Seleziona Fattura..."
 
 #. module: nciavarella_custom
-#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__send_sequence
-#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__send_sequence
-#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__send_sequence
-msgid "Send Sequence FE"
-msgstr "Progressivo Invio FE"
-
-#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__stamp_duty
 msgid "Stamp Duty"
 msgstr "Bollo"
@@ -772,6 +758,11 @@ msgstr ""
 #: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_move_form_inherit
+msgid "Update"
+msgstr "Aggiorna"
 
 #. module: nciavarella_custom
 #: model:res.groups,name:nciavarella_custom.group_users
