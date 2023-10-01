@@ -8,6 +8,14 @@
             <xpath expr="//tree" position="attributes">
                 <attribute name="expand">True</attribute>
             </xpath>
+
+            <xpath expr="//field[@name='activity_ids']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='amount_untaxed_signed']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>
