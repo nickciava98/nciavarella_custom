@@ -81,15 +81,18 @@ class AccountMove(models.Model):
                  ("date_to", ">=", line.invoice_date.strftime("%Y-%m-%d"))], limit=1
             ) if line.invoice_date else False
 
+    def update_invoice_down_payment_action(self):
+        self._compute_invoice_down_payment()
+
     @api.depends("move_type", "amount_total", "down_payment_id")
     def _compute_invoice_down_payment(self):
         for line in self:
             line.invoice_down_payment = .0
 
-            if line.move_type in ["out_invoice", "out_receipt"] and line.invoice_date and line.down_payment_id:
-                    line.invoice_down_payment = line.down_payment_id.down_payment * line.amount_total \
-                        if not line.down_payment_id.stamp_duty \
-                        else line.down_payment_id.down_payment * line.amount_total + line.l10n_it_stamp_duty
+            if line.move_type in ("out_invoice", "out_receipt") and line.invoice_date and line.down_payment_id:
+                line.invoice_down_payment = line.down_payment_id.down_payment * line.amount_total \
+                    if not line.down_payment_id.stamp_duty \
+                    else line.down_payment_id.down_payment * line.amount_total + line.l10n_it_stamp_duty
 
                 # if line.name == "29":
                 #     line.invoice_down_payment = 56.
@@ -139,6 +142,20 @@ class AccountMove(models.Model):
         domain = ["|", ("name", operator, name), ("partner_id", "ilike", name)] if name else []
 
         return self._search(domain + args, limit=limit, access_rights_uid=name_get_uid)
+
+    @api.model_create_multi
+    def create(self, vals):
+        res = super().create(vals)
+        res._compute_invoice_down_payment()
+        return res
+
+    def write(self, vals):
+        res = super().write(vals)
+
+        for line in self:
+            line._compute_invoice_down_payment()
+
+        return res
 
 
 class AccountMoveDownPayment(models.Model):
