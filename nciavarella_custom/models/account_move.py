@@ -82,9 +82,10 @@ class AccountMove(models.Model):
             ) if line.invoice_date else False
 
     def update_invoice_down_payment_action(self):
-        self._compute_invoice_down_payment()
+        self.with_context(no_create_write=True)._compute_invoice_down_payment()
 
-    @api.depends("move_type", "amount_total", "down_payment_id")
+    @api.depends("move_type", "invoice_date", "amount_total", "down_payment_id", "down_payment_id.stamp_duty",
+                 "l10n_it_stamp_duty")
     def _compute_invoice_down_payment(self):
         for line in self:
             line.invoice_down_payment = .0
@@ -142,20 +143,6 @@ class AccountMove(models.Model):
         domain = ["|", ("name", operator, name), ("partner_id", "ilike", name)] if name else []
 
         return self._search(domain + args, limit=limit, access_rights_uid=name_get_uid)
-
-    @api.model_create_multi
-    def create(self, vals):
-        res = super().create(vals)
-        res._compute_invoice_down_payment()
-        return res
-
-    def write(self, vals):
-        res = super().write(vals)
-
-        for line in self:
-            line._compute_invoice_down_payment()
-
-        return res
 
 
 class AccountMoveDownPayment(models.Model):

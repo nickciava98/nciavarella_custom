@@ -50,12 +50,18 @@
                 <attribute name="invisible">True</attribute>
             </xpath>
 
-            <xpath expr="//field[@name='amount_residual']" position="after">
-                <field name="down_payment_id" invisible="True"/>
-                <field name="invoice_down_payment" groups="nciavarella_custom.group_admin"
-                       attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
-                <field name="cash_flow" groups="nciavarella_custom.group_admin"/>
-                <field name="tax_ids" invisible="True"/>
+            <xpath expr="//group[hasclass('oe_invoice_lines_tab')]" position="after">
+                <group class="oe_right" attrs="{'invisible': [('state', 'not in', ['draft'])]}">
+                    <button name="update_invoice_down_payment_action" type="object" title="Update" icon="fa-refresh"/>
+                </group>
+
+                <group class="oe_right">
+                    <field name="down_payment_id" invisible="True"/>
+                    <field name="invoice_down_payment" groups="nciavarella_custom.group_admin"
+                           attrs="{'readonly': [('state', 'not in', ['draft'])]}" force_save="True"/>
+                    <field name="cash_flow" groups="nciavarella_custom.group_admin"/>
+                    <field name="tax_ids" invisible="True"/>
+                </group>
             </xpath>
 
             <xpath expr="//page[@name='other_info']" position="before">
