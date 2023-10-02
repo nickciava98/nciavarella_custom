@@ -13,6 +13,11 @@
                 <attribute name="optional">hide</attribute>
             </xpath>
 
+            <xpath expr="//field[@name='amount_total_signed']" position="after">
+                <field name="l10n_it_stamp_duty" optional="show" widget="monetary"
+                       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+            </xpath>
+
             <xpath expr="//field[@name='amount_untaxed_signed']" position="attributes">
                 <attribute name="optional">hide</attribute>
             </xpath>

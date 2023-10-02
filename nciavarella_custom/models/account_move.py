@@ -1,10 +1,10 @@
-import datetime
 import itertools
 
 from odoo import models, fields, api
 
 
 class AccountMove(models.Model):
+    _order = "invoice_date desc, invoice_date_due desc, name desc"
     _inherit = "account.move"
 
     l10n_it_stamp_duty = fields.Float(

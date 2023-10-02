@@ -16,7 +16,8 @@
             </xpath>
 
             <xpath expr="//group[@id='header_left_group']" position="inside">
-                <field name="l10n_it_stamp_duty"/>
+                <field name="l10n_it_stamp_duty" widget="monetary"
+                       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                 <field name="payment_ids" invisible="True"/>
             </xpath>
 
