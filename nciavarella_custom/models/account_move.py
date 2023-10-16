@@ -11,7 +11,7 @@ class AccountMove(models.Model):
         default=.0,
         readonly=True,
         states={"draft": [("readonly", False)]},
-        string="Dati Bollo",
+        string="Bollo",
     )
     down_payment_id = fields.Many2one(
         "account.move.down.payment",

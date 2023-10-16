@@ -14,7 +14,7 @@
             </xpath>
 
             <xpath expr="//field[@name='amount_total_signed']" position="after">
-                <field name="l10n_it_stamp_duty" optional="show" widget="monetary"
+                <field name="l10n_it_stamp_duty" optional="show" widget="monetary" sum="Bollo"
                        options="{'currency_field': 'currency_id', 'field_digits': True}"/>
             </xpath>
 
