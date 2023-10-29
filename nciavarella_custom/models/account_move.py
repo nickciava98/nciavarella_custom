@@ -170,7 +170,7 @@ class AccountMove(models.Model):
         self.with_context(no_create_write=True)._compute_invoice_down_payment()
 
     @api.depends("move_type", "invoice_date", "amount_total", "down_payment_id", "down_payment_id.stamp_duty",
-                 "l10n_it_stamp_duty", "invoice_line_ids", "invoice_line_ids.price_subtotal")
+                 "l10n_it_stamp_duty", "invoice_line_ids", "invoice_line_ids.quantity", "invoice_line_ids.price_unit")
     def _compute_invoice_down_payment(self):
         for line in self:
             line.invoice_down_payment = .0
