@@ -255,13 +255,27 @@ class AccountMoveDownPayment(models.Model):
 from odoo.addons.account_edi.models.account_move import AccountMove as AccountMoveEdi
 from odoo.addons.account.models.account_move import AccountMove as AccountMoveOdoo
 
-def _post_edi(self, soft=True):
+def _post(self, soft=True):
     posted = AccountMoveOdoo._post(self=self, soft=soft)
+    invoices = posted.filtered(lambda i: not i.progressivo_invio)
+
+    if invoices:
+        message = "Progressivo invio mancante per "
+
+        if len(invoices) == 1:
+            message += "la fattura "
+        else:
+            message += "le fatture:\n"
+
+        message += "\n".join(invoices.mapped("name"))
+
+        raise exceptions.ValidationError(message)
+
     return posted
 
 def button_draft(self):
     res = AccountMoveOdoo.button_draft(self=self)
     return res
 
-AccountMoveEdi._post = _post_edi
+AccountMoveEdi._post = _post
 AccountMoveEdi.button_draft = button_draft
