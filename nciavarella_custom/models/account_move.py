@@ -1,6 +1,6 @@
 import datetime
 import itertools
-
+import math
 import html2text
 
 from odoo import models, fields, api, exceptions
@@ -257,18 +257,30 @@ from odoo.addons.account.models.account_move import AccountMove as AccountMoveOd
 
 def _post(self, soft=True):
     posted = AccountMoveOdoo._post(self=self, soft=soft)
-    invoices = posted.filtered(lambda i: not i.progressivo_invio)
+    invoices_pi = posted.filtered(lambda i: not i.progressivo_invio)
 
-    if invoices:
+    if invoices_pi:
         message = "Progressivo invio mancante per "
 
-        if len(invoices) == 1:
+        if len(invoices_pi) == 1:
             message += "la fattura "
         else:
             message += "le fatture:\n"
 
-        message += "\n".join(invoices.mapped("name"))
+        message += "\n".join(invoices_pi.mapped("name"))
+        raise exceptions.ValidationError(message)
 
+    invoices_b = posted.filtered(lambda i: i.amount_total >= 77.47 and math.isclose(i.l10n_it_stamp_duty, .0))
+
+    if invoices_b:
+        message = "Bollo mancante per "
+
+        if len(invoices_b) == 1:
+            message += "la fattura "
+        else:
+            message += "le fatture:\n"
+
+        message += "\n".join(invoices_b.mapped("name"))
         raise exceptions.ValidationError(message)
 
     return posted
