@@ -1,5 +1,13 @@
 <odoo>
     <template id="external_layout_standard_inherit" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[hasclass('row')]/div/img" position="attributes">
+            <attribute name="class">d-none</attribute>
+        </xpath>
+
+        <xpath expr="//div[@style='border-bottom: 1px solid black;']" position="attributes">
+            <attribute name="style">border-bottom: none;</attribute>
+        </xpath>
+
         <xpath expr="//div[@name='company_address']" position="replace">
             <div style="width: 100%;">
                 <div style="width: 50%; float: left;">
@@ -12,6 +20,10 @@
                     <t t-if="document_info" t-out="document_info"/>
                 </div>
             </div>
+        </xpath>
+
+        <xpath expr="//div[hasclass('text-center')]" position="attributes">
+            <attribute name="style">border-top: none;</attribute>
         </xpath>
 
         <xpath expr="//ul[hasclass('list-inline')]" position="replace">

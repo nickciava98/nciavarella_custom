@@ -57,6 +57,10 @@
                         <span t-field="o.partner_id.street"/>
                     </t>
 
+                    <t t-if="o.partner_id.numero_civico">
+                        , <span t-field="o.partner_id.numero_civico"/>
+                    </t>
+
                     <t t-if="o.partner_id.street2">
                         <br/>
                         <span t-field="o.partner_id.street2"/>
@@ -68,7 +72,7 @@
                     </t>
 
                     <t t-if="o.partner_id.state_id">
-                        <span t-field="o.partner_id.state_id"/>
+                        <span t-field="o.partner_id.state_id.code"/>
                     </t>
 
                     <t t-if="o.partner_id.zip">
@@ -149,6 +153,10 @@
             </attribute>
         </xpath>
 
+        <xpath expr="//t[@name='account_invoice_line_accountable']/td[3]/span" position="attributes">
+            <attribute name="t-options">{'widget': 'monetary', 'display_currency': o.currency_id}</attribute>
+        </xpath>
+
         <xpath expr="//p[@name='payment_communication']" position="replace">
             <div style="height: 20px;"/>
 
@@ -158,7 +166,7 @@
             </t>
 
             <p name="tax_description">
-                <strong t-if="o.amount_tax == 0">Esenzione IVA:</strong>
+                <strong t-if="o.amount_tax == .0">Esenzione IVA:</strong>
                 <br/>
                 <t t-foreach="o.tax_ids" t-as="tax">
                     <span t-raw="tax.tax_description"/>
@@ -166,7 +174,7 @@
                 </t>
             </p>
 
-            <p t-if="o.l10n_it_stamp_duty != 0.00">
+            <p t-if="o.l10n_it_stamp_duty != .0">
                 <strong>Assolvimento imposta di bollo:</strong>
                 <br/>Imposta di bollo assolta in modo virtuale ai sensi del decreto MEF 17 Giugno 2014 (Art. 6)
             </p>
