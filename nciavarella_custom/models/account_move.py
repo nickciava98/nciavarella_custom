@@ -1,6 +1,9 @@
+import datetime
 import itertools
 
-from odoo import models, fields, api
+import html2text
+
+from odoo import models, fields, api, exceptions
 
 
 class AccountMove(models.Model):
@@ -12,6 +15,16 @@ class AccountMove(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
         string="Bollo",
+    )
+    l10n_it_edi_attachment_id = fields.Many2one(
+        "ir.attachment",
+        copy=False,
+        string="XML Fattura elettronica",
+        ondelete="set null"
+    )
+    progressivo_invio = fields.Char(
+        size=5,
+        copy=False
     )
     down_payment_id = fields.Many2one(
         "account.move.down.payment",
@@ -54,6 +67,78 @@ class AccountMove(models.Model):
         string="Timesheet Entries"
     )
 
+    def write(self, vals):
+        if "progressivo_invio" in vals:
+            invoices = self.search(
+                ["&", ("id", "!=", self.id), ("progressivo_invio", "=", vals.get("progressivo_invio"))]
+            )
+
+            if invoices:
+                invoice_names = "\n".join(invoices.mapped("name"))
+
+                raise exceptions.ValidationError(
+                    f"Il Progressivo invio deve essere univoco!\n"
+                    f"Lo stesso progressivo è stato trovato nelle seguenti fatture:\n"
+                    f"{invoice_names}"
+                )
+
+        return super().write(vals)
+
+    def button_draft(self):
+        res = super().button_draft()
+
+        for invoice in self:
+            invoice.attachment_ids = [(5, 0, 0)]
+
+        return res
+
+    def _compute_edi_error_count(self):
+        for line in self:
+            line.edi_error_count = 0
+
+    def _get_causale(self):
+        causale = ""
+
+        if self.narration:
+            causale = html2text.html2text(self.narration).replace("\n", " ").replace("  ", "\n")
+
+        return causale
+
+    @api.depends("state")
+    def _compute_show_reset_to_draft_button(self):
+        for line in self:
+            line.show_reset_to_draft_button = True if line.state != "draft" else False
+
+    def _post(self, soft=True):
+        posted = super()._post(soft=soft)
+
+        for invoice in posted:
+            codice_nazione = invoice.company_id.country_id.code
+            codice_fiscale = self.env["res.partner"]._l10n_it_normalize_codice_fiscale(
+                invoice.company_id.l10n_it_codice_fiscale
+            )
+            report_name = f"{codice_nazione}{codice_fiscale}_{invoice.progressivo_invio}.xml"
+            data = (
+                "<?xml version='1.0' encoding='UTF-8'?>%s"
+                % str(self.env["account.edi.format"]._l10n_it_edi_export_invoice_as_xml(invoice))
+            )
+            description = f"Fattura elettronica: {invoice.move_type}"
+            self.env["ir.attachment"].create({
+                "name": report_name,
+                "res_id": invoice.id,
+                "res_model": invoice._name,
+                "raw": data.encode(),
+                "description": description,
+                "type": "binary"
+            })
+            now = datetime.datetime.now()
+            body = (f"Fattura elettronica generata il {now.strftime('%d/%m/%Y')} "
+                    f"alle {now.strftime('%H:%M')} "
+                    f"da {self.env.user.display_name}")
+            invoice.message_post(body=body)
+
+        return posted
+
     @api.depends("payment_state")
     def _compute_payment_ids(self):
         for line in self:
@@ -85,7 +170,7 @@ class AccountMove(models.Model):
         self.with_context(no_create_write=True)._compute_invoice_down_payment()
 
     @api.depends("move_type", "invoice_date", "amount_total", "down_payment_id", "down_payment_id.stamp_duty",
-                 "l10n_it_stamp_duty")
+                 "l10n_it_stamp_duty", "invoice_line_ids", "invoice_line_ids.price_subtotal")
     def _compute_invoice_down_payment(self):
         for line in self:
             line.invoice_down_payment = .0
@@ -165,3 +250,18 @@ class AccountMoveDownPayment(models.Model):
     _sql_constraints = [
         ("unique_dates", "UNIQUE(date_from, date_to)", "Date From and Date To must be unique!")
     ]
+
+
+from odoo.addons.account_edi.models.account_move import AccountMove as AccountMoveEdi
+from odoo.addons.account.models.account_move import AccountMove as AccountMoveOdoo
+
+def _post_edi(self, soft=True):
+    posted = AccountMoveOdoo._post(self=self, soft=soft)
+    return posted
+
+def button_draft(self):
+    res = AccountMoveOdoo.button_draft(self=self)
+    return res
+
+AccountMoveEdi._post = _post_edi
+AccountMoveEdi.button_draft = button_draft

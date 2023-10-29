@@ -21,6 +21,11 @@
                 <field name="payment_ids" invisible="True"/>
             </xpath>
 
+            <xpath expr="//group[@id='header_right_group']" position="inside">
+                <field name="progressivo_invio"
+                       attrs="{'readonly': [('state', '!=', 'draft')], 'required': [('state', '=', 'draft')]}"/>
+            </xpath>
+
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']"
                    position="attributes">
                 <attribute name="widget">monetary</attribute>
@@ -51,6 +56,10 @@
                 <attribute name="invisible">True</attribute>
             </xpath>
 
+            <xpath expr="//field[@name='narration']" position="attributes">
+                <attribute name="widget">html</attribute>
+            </xpath>
+
             <xpath expr="//group[hasclass('oe_invoice_lines_tab')]" position="after">
                 <group class="oe_right" attrs="{'invisible': [('state', 'not in', ['draft'])]}">
                     <button name="update_invoice_down_payment_action" type="object" title="Update" icon="fa-refresh"/>
@@ -79,6 +88,18 @@
                         </tree>
                     </field>
                 </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="l10n_it_edi_account_move_form_inherit" model="ir.ui.view">
+        <field name="name">l10n.it.edi.account.move.form.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_it_edi.account_invoice_form_l10n_it"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='electronic_invoicing']" position="attributes">
+                <attribute name="invisible">True</attribute>
             </xpath>
         </field>
     </record>

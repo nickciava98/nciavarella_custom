@@ -1,0 +1,105 @@
+<odoo>
+    <template id="account_invoice_line_it_FatturaPA_inherit" inherit_id="l10n_it_edi.account_invoice_line_it_FatturaPA">
+        <xpath expr="//CodiceArticolo[@t-if='line.product_id.barcode']" position="attributes">
+            <attribute name="t-if">false</attribute>
+        </xpath>
+
+        <xpath expr="//CodiceArticolo[@t-elif='line.product_id.default_code']" position="attributes">
+            <attribute name="t-elif">false</attribute>
+        </xpath>
+
+        <xpath expr="//PrezzoUnitario" position="attributes">
+            <attribute name="t-esc">'%.02f' % (line_dict['unit_price'])</attribute>
+        </xpath>
+    </template>
+
+    <template id="account_invoice_it_FatturaPA_export_inherit" inherit_id="l10n_it_edi.account_invoice_it_FatturaPA_export">
+        <xpath expr="//ProgressivoInvio" position="attributes">
+            <attribute name="t-esc">format_alphanumeric(record.progressivo_invio)</attribute>
+        </xpath>
+
+        <xpath expr="//CessionarioCommittente//IdFiscaleIVA[1]" position="attributes">
+            <attribute name="t-if">seller.vat</attribute>
+        </xpath>
+
+        <xpath expr="//CessionarioCommittente//IdFiscaleIVA[2]" position="attributes">
+            <attribute name="t-if">false</attribute>
+        </xpath>
+
+        <xpath expr="//CessionarioCommittente//IdFiscaleIVA[3]" position="attributes">
+            <attribute name="t-if">false</attribute>
+        </xpath>
+
+        <xpath expr="//CedentePrestatore//Denominazione" position="attributes">
+            <attribute name="t-if">seller_partner.is_company</attribute>
+        </xpath>
+
+        <xpath expr="//CedentePrestatore//Denominazione" position="after">
+            <t t-else="">
+                <Nome t-esc="format_alphanumeric(seller_partner.firstname[:80])"/>
+                <Cognome t-esc="format_alphanumeric(seller_partner.lastname[:80])"/>
+            </t>
+        </xpath>
+
+        <xpath expr="//CessionarioCommittente//Anagrafica/t[@t-else='']" position="replace">
+            <t t-else="">
+                <Nome t-esc="format_alphanumeric(buyer_partner.firstname[:80])"/>
+                <Cognome t-esc="format_alphanumeric(buyer_partner.lastname[:80])"/>
+            </t>
+        </xpath>
+
+        <xpath expr="//DatiGeneraliDocumento" position="inside">
+            <t t-if="record.narration" t-foreach="record._get_causale().split('\n')" t-as="causale">
+                <Causale t-esc="format_alphanumeric(causale.strip())"/>
+            </t>
+        </xpath>
+
+        <xpath expr="//ModalitaPagamento" position="before">
+            <Beneficiario t-esc="format_alphanumeric(seller.display_name)"/>
+        </xpath>
+
+        <xpath expr="//BIC" position="before">
+            <ABI t-if="partner_bank.bank_id.abi" t-esc="format_alphanumeric(partner_bank.bank_id.abi)"/>
+            <CAB t-if="partner_bank.bank_id.cab" t-esc="format_alphanumeric(partner_bank.bank_id.cab)"/>
+        </xpath>
+
+        <xpath expr="//BIC" position="attributes">
+            <attribute name="t-elif"/>
+            <attribute name="t-if">partner_bank.bank_id.bic</attribute>
+        </xpath>
+
+        <xpath expr="//CodicePagamento" position="attributes">
+            <attribute name="t-if">false</attribute>
+        </xpath>
+
+        <xpath expr="//Allegati" position="attributes">
+            <attribute name="t-if">false</attribute>
+        </xpath>
+    </template>
+
+    <template id="account_invoice_it_FatturaPA_sede_inherit" inherit_id="l10n_it_edi.account_invoice_it_FatturaPA_sede">
+        <xpath expr="//Sede" position="replace">
+            <Sede>
+                <t t-set="indirizzo" t-value="partner.street"/>
+
+                <t t-if="partner.street2">
+                    <t t-set="indirizzo" t-value="indirizzo + ' ' + partner.street2"/>
+                </t>
+
+                <Indirizzo><t t-esc="format_alphanumeric(indirizzo)"/></Indirizzo>
+                <NumeroCivico t-esc="format_alphanumeric(partner.numero_civico)"/>
+                <CAP t-esc="format_alphanumeric(partner.zip)"/>
+
+                <t t-set="comune" t-value="partner.city"/>
+
+                <t t-if="partner.country_id.code != 'IT'">
+                    <t t-set="comune" t-value="comune + ', ' + partner.state_id.name"/>
+                </t>
+
+                <Comune t-esc="format_alphanumeric(comune[:60])"/>
+                <Provincia t-if="partner.country_id.code == 'IT'" t-esc="format_alphanumeric(partner.state_id.code[:2])"/>
+                <Nazione t-esc="format_alphanumeric(partner.country_id.code)"/>
+            </Sede>
+        </xpath>
+    </template>
+</odoo>

@@ -20,6 +20,7 @@ class ResPartner(models.Model):
         string="Codice Destinatario",
         size=7
     )
+    numero_civico = fields.Char()
 
     @api.model
     def _l10n_it_normalize_codice_fiscale(self, codice):
