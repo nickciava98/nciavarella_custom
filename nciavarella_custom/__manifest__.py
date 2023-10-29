@@ -22,7 +22,6 @@
         "views/account_menuitem.xml",
         "views/account_move_form.xml",
         "views/account_move_tree.xml",
-        "views/account_invoice_tree.xml",
         "views/activity_costs_form.xml",
         "views/activity_costs_tree.xml",
         "views/res_bank_form.xml",
