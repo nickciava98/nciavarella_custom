@@ -20,7 +20,7 @@ class AccountAnalyticLine(models.Model):
 
             return float_time_start + int(offset[: offset.find(":")]) + 1
 
-        return datetime.datetime.now().hour + (datetime.datetime.now().minute / 60) + 2
+        return datetime.datetime.now().hour + (datetime.datetime.now().minute / 60) + 1
 
     is_invoiced = fields.Boolean(
         compute="_compute_is_invoiced",
