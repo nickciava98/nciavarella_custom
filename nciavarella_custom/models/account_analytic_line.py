@@ -18,7 +18,7 @@ class AccountAnalyticLine(models.Model):
             )
             offset = str(timezone.utcoffset(date_time_start))
 
-            return float_time_start + int(offset[: offset.find(":")]) + 1
+            return float_time_start + int(offset[: offset.find(":")])
 
         return datetime.datetime.now().hour + (datetime.datetime.now().minute / 60) + 1
 
