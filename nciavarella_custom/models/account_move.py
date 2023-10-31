@@ -306,5 +306,34 @@ def button_draft(self):
     res = AccountMoveOdoo.button_draft(self=self)
     return res
 
+def _get_move_display_name(self, show_ref=False):
+    self.ensure_one()
+    name = {
+        "out_invoice": "Fattura",
+        "out_refund": "Nota di credito",
+        "in_invoice": "Fattura fornitore",
+        "in_refund": "Nota di credito fornitore",
+        "out_receipt": "Ricevuta",
+        "in_receipt": "Ricevuta fornitore",
+        "entry": "Bozza"
+    }[self.move_type]
+    name += " "
+
+    if not self.name or self.name == "/":
+        name += "in bozza"
+
+    else:
+        name += f"n. {self.name}"
+
+        if self.env.context.get("input_full_display_name"):
+            if self.partner_id:
+                name += f", {self.partner_id.name}"
+
+            if self.date:
+                name += f", {format_date(self.env, self.date)}"
+
+    return name + (f" ({shorten(self.ref, width=50)})" if show_ref and self.ref else "")
+
 AccountMoveEdi._post = _post
 AccountMoveEdi.button_draft = button_draft
+AccountMoveOdoo._get_move_display_name = _get_move_display_name
