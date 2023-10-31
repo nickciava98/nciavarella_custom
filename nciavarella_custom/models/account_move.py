@@ -229,6 +229,23 @@ class AccountMove(models.Model):
 
         return self._search(domain + args, limit=limit, access_rights_uid=name_get_uid)
 
+    def _l10n_it_edi_prepare_fatturapa_line_details(
+            self, reverse_charge_refund=False, is_downpayment=False, convert_to_euros=True):
+        invoice_lines = super()._l10n_it_edi_prepare_fatturapa_line_details(
+            reverse_charge_refund=reverse_charge_refund,
+            is_downpayment=is_downpayment,
+            convert_to_euros=convert_to_euros
+        )
+
+        if invoice_lines:
+            inv_line_ids = [invoice_line["line"].id for invoice_line in invoice_lines]
+            invoice_line_ids = self.env["account.move.line"].browse(inv_line_ids).sorted(key=lambda l: l.sequence)
+
+            for invoice_line in invoice_lines:
+                invoice_line["line_number"] = invoice_line_ids.ids.index(invoice_line["line"].id) + 1
+
+        return sorted(invoice_lines, key=lambda l: l["line_number"])
+
 
 class AccountMoveDownPayment(models.Model):
     _name = "account.move.down.payment"
