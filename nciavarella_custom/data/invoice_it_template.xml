@@ -11,6 +11,10 @@
         <xpath expr="//PrezzoUnitario" position="attributes">
             <attribute name="t-esc">'%.02f' % (line_dict['unit_price'])</attribute>
         </xpath>
+
+        <xpath expr="//UnitaMisura" position="attributes">
+            <attribute name="t-if">line.product_uom_id</attribute>
+        </xpath>
     </template>
 
     <template id="account_invoice_it_FatturaPA_export_inherit" inherit_id="l10n_it_edi.account_invoice_it_FatturaPA_export">
