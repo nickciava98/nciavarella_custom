@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-01 08:26+0000\n"
-"PO-Revision-Date: 2023-10-01 08:26+0000\n"
+"POT-Creation-Date: 2023-11-01 10:14+0000\n"
+"PO-Revision-Date: 2023-11-01 10:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -48,9 +48,44 @@ msgid "<br/>VAT Number:"
 msgstr "<br/>Partita IVA:"
 
 #. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "<span style=\"margin-right: 15px;\">Total (Days)</span>"
+msgstr "<span style=\"margin-right: 15px;\">Totale (giorni)</span>"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "<span style=\"margin-right: 15px;\">Total (Hours)</span>"
+msgstr "<span style=\"margin-right: 15px;\">Totale (ore)</span>"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "<span>Date</span>"
+msgstr "<span>Data</span>"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "<span>Description</span>"
+msgstr "<span>Descrizione</span>"
+
+#. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
 msgid "<span>IVA</span>"
 msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "<span>Task</span>"
+msgstr "<span>Lavoro</span>"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "<span>Time End</span>"
+msgstr "<span>Ora fine</span>"
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "<span>Time Start</span>"
+msgstr "<span>Ora inizio</span>"
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_invoice_document_inherit
@@ -80,6 +115,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
 msgid "<strong>Total</strong>"
 msgstr "<strong>Totale</strong>"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_res_bank__abi
+msgid "ABI"
+msgstr ""
 
 #. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
@@ -139,6 +179,24 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:ir.model,name:nciavarella_custom.model_res_bank
+msgid "Bank"
+msgstr "Banca"
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__l10n_it_stamp_duty
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__l10n_it_stamp_duty
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__l10n_it_stamp_duty
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.account_invoice_tree_inherit
+msgid "Bollo"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_res_bank__cab
+msgid "CAB"
+msgstr ""
+
+#. module: nciavarella_custom
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.link_invoice_timesheet_view_form
 msgid "Cancel"
 msgstr "Annulla"
@@ -167,6 +225,11 @@ msgstr ""
 #: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__total_taxable
 msgid "Coefficiente di redditività x Totale fatturato"
 msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model,name:nciavarella_custom.model_res_company
+msgid "Companies"
+msgstr "Aziende"
 
 #. module: nciavarella_custom
 #: model:ir.model,name:nciavarella_custom.model_res_config_settings
@@ -238,11 +301,9 @@ msgid "Date To"
 msgstr "A"
 
 #. module: nciavarella_custom
-#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__l10n_it_stamp_duty
-#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__l10n_it_stamp_duty
-#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__l10n_it_stamp_duty
-msgid "Dati Bollo"
-msgstr ""
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "Days Spent"
+msgstr "Giorni impiegati"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__deduction
@@ -347,6 +408,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__has_message
 msgid "Has Message"
 msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.report_timesheet_value
+msgid "Hours Spent"
+msgstr "Ore impiegate"
 
 #. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move_down_payment__id
@@ -534,6 +600,21 @@ msgid "Messages"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,help:nciavarella_custom.field_res_partner__l10n_it_pa_index
+#: model:ir.model.fields,help:nciavarella_custom.field_res_users__l10n_it_pa_index
+msgid ""
+"Must contain the 6-character (or 7) code, present in the PA              "
+"Index in the information relative to the electronic invoicing service,"
+"              associated with the office which, within the addressee "
+"administration, deals              with receiving (and processing) the "
+"invoice."
+msgstr ""
+"Deve contenere il codice da 6-7 caratteri presente nell'indice della PA "
+"nelle informazioni relative al servizio di Fatturazione Elettronica, "
+"associato all'ufficio dell'amministrazione che riceverá (ed elaborerá) la "
+"Fattura."
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
@@ -599,6 +680,19 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_res_company__numero_civico
+#: model:ir.model.fields,field_description:nciavarella_custom.field_res_partner__numero_civico
+#: model:ir.model.fields,field_description:nciavarella_custom.field_res_users__numero_civico
+msgid "Numero Civico"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.res_company_form_inherit
+#: model_terms:ir.ui.view,arch_db:nciavarella_custom.res_partner_form_inherit
+msgid "Numero civico..."
+msgstr ""
+
+#. module: nciavarella_custom
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__payment_ids
 #: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__payment_ids
 msgid "Payments"
@@ -608,6 +702,13 @@ msgstr "Pagamenti"
 #: model:ir.model.fields,field_description:nciavarella_custom.field_activity_costs__name
 #: model_terms:ir.ui.view,arch_db:nciavarella_custom.activity_costs_view_form
 msgid "Periodo d'imposta"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__progressivo_invio
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__progressivo_invio
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__progressivo_invio
+msgid "Progressivo Invio"
 msgstr ""
 
 #. module: nciavarella_custom
@@ -777,6 +878,13 @@ msgstr ""
 #. module: nciavarella_custom
 #: model:ir.model.fields,help:nciavarella_custom.field_activity_costs__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: nciavarella_custom
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_bank_statement_line__l10n_it_edi_attachment_id
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_move__l10n_it_edi_attachment_id
+#: model:ir.model.fields,field_description:nciavarella_custom.field_account_payment__l10n_it_edi_attachment_id
+msgid "XML Fattura elettronica"
 msgstr ""
 
 #. module: nciavarella_custom
