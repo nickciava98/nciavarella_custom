@@ -246,6 +246,14 @@ class AccountMove(models.Model):
 
         return sorted(invoice_lines, key=lambda l: l["line_number"])
 
+    @api.model
+    def _update_account_move_report_name(self):
+        if self.env.ref(xml_id="account.account_invoices", raise_if_not_found=False):
+            attachment = "(object.state == 'posted') and ((object._get_move_display_name()).replace('/','.')+'.pdf')"
+
+            self.env.ref("account.account_invoices").write({
+                "attachment": attachment
+            })
 
 class AccountMoveDownPayment(models.Model):
     _name = "account.move.down.payment"
@@ -334,6 +342,10 @@ def _get_move_display_name(self, show_ref=False):
 
     return name + (f" ({shorten(self.ref, width=50)})" if show_ref and self.ref else "")
 
+def _get_report_base_filename(self):
+    return _get_move_display_name(self=self, show_ref=False)
+
 AccountMoveEdi._post = _post
 AccountMoveEdi.button_draft = button_draft
 AccountMoveOdoo._get_move_display_name = _get_move_display_name
+AccountMoveOdoo._get_report_base_filename = _get_report_base_filename

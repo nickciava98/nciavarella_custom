@@ -16,6 +16,7 @@
         "security/ir.model.access.csv",
         "security/groups.xml",
         "data/invoice_it_template.xml",
+        "data/account_report.xml",
         "views/account_analytic_line_tree.xml",
         "views/account_analytic_line_actions.xml",
         "views/account_tax_form.xml",
