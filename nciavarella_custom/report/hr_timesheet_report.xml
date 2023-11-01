@@ -87,7 +87,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <t t-set="nbCols" t-value="4"/>
+                                        <t t-set="nbCols" t-value="6"/>
                                         <t t-if="show_project" t-set="nbCols" t-value="nbCols + 1"/>
                                         <t t-if="show_task" t-set="nbCols" t-value="nbCols + 1"/>
                                         <td class="text-end" t-attf-colspan="{{nbCols}}">
