@@ -282,7 +282,9 @@ from odoo.addons.account.models.account_move import AccountMove as AccountMoveOd
 
 def _post(self, soft=True):
     posted = AccountMoveOdoo._post(self=self, soft=soft)
-    invoices_pi = posted.filtered(lambda i: not i.progressivo_invio and i.move_type in ("out_invoice", "out_refund"))
+    invoices_pi = posted.filtered(
+        lambda i: not i.progressivo_invio and i.move_type in ("out_invoice", "out_refund")
+    )
 
     if invoices_pi:
         message = "Progressivo invio mancante per "
@@ -295,7 +297,11 @@ def _post(self, soft=True):
         message += "\n".join(invoices_pi.mapped("name"))
         raise exceptions.ValidationError(message)
 
-    invoices_b = posted.filtered(lambda i: i.amount_total >= 77.47 and math.isclose(i.l10n_it_stamp_duty, .0))
+    invoices_b = posted.filtered(
+        lambda i: i.amount_total >= 77.47
+                  and math.isclose(i.l10n_it_stamp_duty, .0)
+                  and i.move_type in ("out_invoice", "out_refund")
+    )
 
     if invoices_b:
         message = "Bollo mancante per "
