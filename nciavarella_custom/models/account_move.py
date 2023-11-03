@@ -112,7 +112,7 @@ class AccountMove(models.Model):
     def _post(self, soft=True):
         posted = super()._post(soft=soft)
 
-        for invoice in posted:
+        for invoice in posted.filtered(lambda i: i.move_type in ("out_invoice", "out_refund")):
             codice_nazione = invoice.company_id.country_id.code
             codice_fiscale = self.env["res.partner"]._l10n_it_normalize_codice_fiscale(
                 invoice.company_id.l10n_it_codice_fiscale
