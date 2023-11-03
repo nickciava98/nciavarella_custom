@@ -282,7 +282,7 @@ from odoo.addons.account.models.account_move import AccountMove as AccountMoveOd
 
 def _post(self, soft=True):
     posted = AccountMoveOdoo._post(self=self, soft=soft)
-    invoices_pi = posted.filtered(lambda i: not i.progressivo_invio)
+    invoices_pi = posted.filtered(lambda i: not i.progressivo_invio and i.move_type in ("out_invoice", "out_refund"))
 
     if invoices_pi:
         message = "Progressivo invio mancante per "
