@@ -18,7 +18,7 @@ class LinkInvoiceTimesheet(models.Model):
     invoice_id = fields.Many2one(
         "account.move",
         ondelete="cascade",
-        string="Invoice"
+        string="Fattura"
     )
 
     def confirm_action(self):
