@@ -2,7 +2,7 @@ import datetime
 import math
 import pytz
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api, exceptions, _
 
 
 class AccountAnalyticLine(models.Model):
@@ -77,6 +77,9 @@ class AccountAnalyticLine(models.Model):
             line.is_invoiced = True if line.invoice_id else False
 
     def link_invoice_timesheet_action(self):
+        if len(self.ids) > 1 and len(list(dict.fromkeys(self.project_id.partner_id.ids))) > 1:
+            raise exceptions.UserError("Non è possibile selezionare ore con clienti differenti!")
+
         return {
             "name": _("Link Invoice"),
             "res_model": "link.invoice.timesheet",
@@ -85,7 +88,12 @@ class AccountAnalyticLine(models.Model):
             "view_mode": "tree,form",
             "views": [(False, "form")],
             "context": {
-                "default_analytic_line_ids": self.ids
+                "default_analytic_line_ids": self.ids,
+                "default_invoice_ids": self.env["account.move"].search(
+                    [("move_type", "=", "out_invoice"),
+                     ("partner_id", "=", self[0].project_id.partner_id.id),
+                     ("invoice_date", ">=", self.sorted(key=lambda line: line.date)[0].date)]
+                ).ids
             },
             "target": "new"
         }

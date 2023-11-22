@@ -7,10 +7,13 @@
             <form>
                 <sheet>
                     <field name="analytic_line_ids" invisible="True"/>
+                    <field name="invoice_ids" invisible="True"/>
 
                     <div class="oe_title">
                         <h1>
-                            <field name="invoice_id" placeholder="Select Invoice..." options="{'no_create': True}"/>
+                            <field name="invoice_id" placeholder="Select Invoice..." options="{'no_create': True}"
+                                   context="{'tree_view_ref': 'nciavarella_custom.account_move_link_tree'}"
+                                   domain="[('id', 'in', invoice_ids)]"/>
                         </h1>
                     </div>
                 </sheet>

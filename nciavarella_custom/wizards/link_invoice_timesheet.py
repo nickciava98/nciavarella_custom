@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class LinkInvoiceTimesheet(models.Model):
@@ -11,12 +11,17 @@ class LinkInvoiceTimesheet(models.Model):
         ondelete="cascade",
         string="Timesheet Entry"
     )
+    invoice_ids = fields.Many2many(
+        "account.move",
+        "link_invoice_account_move_rel"
+    )
     invoice_id = fields.Many2one(
         "account.move",
         ondelete="cascade",
-        domain="[('move_type', '=', 'out_invoice')]",
         string="Invoice"
     )
 
     def confirm_action(self):
-        self.analytic_line_ids.write({"invoice_id": self.invoice_id})
+        self.analytic_line_ids.write({
+            "invoice_id": self.invoice_id.id if self.invoice_id else False
+        })

@@ -210,13 +210,16 @@ class AccountMove(models.Model):
         result = []
 
         for line in self:
-            name = [line.name]
+            name = [f"Fatt. n. {line.name}"]
+
+            if line.ref:
+                name.append(f"(rif. {line.ref})")
 
             if line.invoice_date:
-                name.append(f"({line.invoice_date.strftime('%d/%m/%Y')})")
+                name.append(f"del {line.invoice_date.strftime('%d/%m/%Y')}")
 
             if line.partner_id:
-                name.append(f"[{line.partner_id.name}]")
+                name.append(f"- {line.partner_id.name}")
 
             result.append((line.id, " ".join(name)))
 

@@ -23,7 +23,7 @@
         </xpath>
 
         <xpath expr="//CessionarioCommittente//IdFiscaleIVA[1]" position="attributes">
-            <attribute name="t-if">seller.vat</attribute>
+            <attribute name="t-if">buyer.vat</attribute>
         </xpath>
 
         <xpath expr="//CessionarioCommittente//IdFiscaleIVA[2]" position="attributes">

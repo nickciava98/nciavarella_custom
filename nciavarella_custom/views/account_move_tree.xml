@@ -1,4 +1,18 @@
 <odoo>
+    <record id="account_move_link_tree" model="ir.ui.view">
+        <field name="name">Fatture</field>
+        <field name="model">account.move</field>
+
+        <field name="arch" type="xml">
+            <tree>
+                <field name="partner_id"/>
+                <field name="name"/>
+                <field name="ref"/>
+                <field name="amount_total_signed" string="Totale"/>
+            </tree>
+        </field>
+    </record>
+
     <record id="account_move_tree_inherit" model="ir.ui.view">
         <field name="name">account.move.tree.inherit</field>
         <field name="model">account.move</field>

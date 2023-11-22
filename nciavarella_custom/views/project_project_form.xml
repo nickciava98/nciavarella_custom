@@ -1,0 +1,40 @@
+<odoo>
+    <record id="project_project_view_form_simplified_inherit" model="ir.ui.view">
+        <field name="name">project.project.view.form.simplified.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <group>
+                    <field name="company_id" invisible="True"/>
+                    <field name="partner_id" required="True"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_project_view_form_simplified_footer_inherit" model="ir.ui.view">
+        <field name="name">project.project.view.form.simplified.footer.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.project_project_view_form_simplified_footer"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_tasks']" position="attributes">
+                <attribute name="name">view_project_form</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="edit_project_inherit" model="ir.ui.view">
+        <field name="name">edit.project.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="required">True</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

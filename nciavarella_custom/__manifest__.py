@@ -5,12 +5,13 @@
     "license": "OPL-1",
     "author": "Niccolò Ciavarella",
     "category": "",
-    "version": "16.0.0.6",
+    "version": "16.0.0.7",
     "website": "http://www.nciavarella.me",
     "depends": [
         "l10n_it_edi",
         "partner_firstname",
-        "hr_timesheet"
+        "hr_timesheet",
+        "project"
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -25,6 +26,8 @@
         "views/account_move_tree.xml",
         "views/activity_costs_form.xml",
         "views/activity_costs_tree.xml",
+        "views/project_project_form.xml",
+        "views/project_project_kanban.xml",
         "views/res_bank_form.xml",
         "views/res_partner_form.xml",
         "views/res_company_form.xml",
