@@ -15,14 +15,19 @@
                 <attribute name="invisible">True</attribute>
             </xpath>
 
+            <xpath expr="//field[@name='ref']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
             <xpath expr="//group[@id='header_left_group']" position="inside">
-                <field name="l10n_it_stamp_duty" widget="monetary"
-                       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                <field name="ref"/>
                 <field name="payment_ids" invisible="True"/>
             </xpath>
 
             <xpath expr="//group[@id='header_right_group']" position="inside">
                 <field name="progressivo_invio" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="l10n_it_stamp_duty" widget="monetary"
+                       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
             </xpath>
 
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']"
