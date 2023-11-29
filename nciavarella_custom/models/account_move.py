@@ -4,7 +4,7 @@ import math
 import html2text
 
 from odoo import models, fields, api, exceptions
-from odoo.odoo.tools import format_date
+from odoo.tools import format_date
 from textwrap import shorten
 
 
