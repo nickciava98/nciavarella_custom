@@ -1,0 +1,58 @@
+<odoo>
+    <record id="modello_notifica_emissione_fattura" model="mail.template">
+        <field name="name">Notifica emissione fattura</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="email_from">
+                {{ (object.invoice_user_id.email_formatted or object.company_id.email_formatted or user.email_formatted) }}
+            </field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="subject">Notifica emissione Fattura n. {{ object.name }}</field>
+            <field name="description">Modello per l'invio delle fatture in PDF verso i clienti</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Buongiorno,
+        <br/><br/>
+        si invia in allegato la copia della
+        <span style="font-weight: bold;">
+            FATTURA n. <t t-out="object.name or '/'">[ ... ]</t> [ <t t-out="format_amount(object.amount_total, object.currency_id)">[ ... ]</t> ]
+            ( Rif. <t t-out="object.ref or '/'">[ ... ]</t> )
+            emessa il <t t-out="format_date(object.invoice_date) or '/'">[ ... ]</t>
+            <t t-if="object.payment_state == 'not_paid'">
+                con <span style="color: red;">SCADENZA IL <t t-out="format_date(object.invoice_date_due) or '/'">[ ... ]</t></span>
+            </t>
+        </span>
+        <t t-if="object.partner_id.country_id.code == 'IT' and object.payment_state == 'not_paid'">
+            <br/><br/>
+            L’originale della fattura è stato inviato per la verifica al Sistema di Interscambio e sarà a disposizione
+            all’indirizzo telematico fornito oppure nell'Area Riservata dell’Agenzia delle Entrate,
+            come previsto dal Provvedimento del Direttore dell’Agenzia delle Entrate del 30/04/2018.
+        </t>
+        <br/><br/>
+        <t t-if="object.payment_state == 'not_paid'">
+            Il pagamento può essere inviato tramite bonifico bancario al seguente recapito:
+            <br/><br/>
+            <span style="font-weight: bold;">IBAN:</span> <t t-out="object.partner_bank_id.acc_number or '/'">[ ... ]</t>
+            <br/>
+            <span style="font-weight: bold;">BIC/SWIFT:</span> <t t-out="object.partner_bank_id.bank_id.bic or '/'">[ ... ]</t>
+            <br/>
+            <span style="font-weight: bold;">ISTITUTO DI CREDITO:</span> <t t-out="object.partner_bank_id.bank_id.name or '/'">[ ... ]</t>
+            <br/>
+            <span style="font-weight: bold;">INTESTATARIO:</span> <t t-out="object.partner_bank_id.partner_id.name or '/'">[ ... ]</t>
+        </t>
+        <t t-else="">
+            La fattura è già stata pagata.
+        </t>
+        <br/><br/>
+        <t t-if="not is_html_empty(object.invoice_user_id.signature)">
+            <t t-out="object.invoice_user_id.signature or '/'"/>
+        </t>
+    </p>
+</div>
+            </field>
+            <field name="report_template" ref="account.account_invoices"/>
+            <field name="report_name">{{ object._get_report_base_filename() }}</field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+    </record>
+</odoo>

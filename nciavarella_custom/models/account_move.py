@@ -4,6 +4,8 @@ import math
 import html2text
 
 from odoo import models, fields, api, exceptions
+from odoo.odoo.tools import format_date
+from textwrap import shorten
 
 
 class AccountMove(models.Model):
@@ -209,19 +211,23 @@ class AccountMove(models.Model):
     def name_get(self):
         result = []
 
-        for line in self:
-            name = [f"Fatt. n. {line.name}"]
+        for move in self:
+            if move.move_type in ("entry", "in_receipt", "out_receipt"):
+                result.append((move.id, move._get_move_display_name(show_ref=True)))
 
-            if line.ref:
-                name.append(f"(rif. {line.ref})")
+            else:
+                name = [f"Fatt. n. {move.name}"]
 
-            if line.invoice_date:
-                name.append(f"del {line.invoice_date.strftime('%d/%m/%Y')}")
+                if move.ref:
+                    name.append(f"(rif. {move.ref})")
 
-            if line.partner_id:
-                name.append(f"- {line.partner_id.name}")
+                if move.invoice_date:
+                    name.append(f"del {move.invoice_date.strftime('%d/%m/%Y')}")
 
-            result.append((line.id, " ".join(name)))
+                if move.partner_id:
+                    name.append(f"- {move.partner_id.name}")
+
+                result.append((move.id, " ".join(name)))
 
         return result
 
@@ -354,7 +360,14 @@ def _get_move_display_name(self, show_ref=False):
 def _get_report_base_filename(self):
     return _get_move_display_name(self=self, show_ref=False)
 
+def _get_mail_template(self):
+    return (
+        "account.email_template_edi_credit_note" if all(move.move_type == 'out_refund' for move in self)
+        else "nciavarella_custom.modello_notifica_emissione_fattura"
+    )
+
 AccountMoveEdi._post = _post
 AccountMoveEdi.button_draft = button_draft
 AccountMoveOdoo._get_move_display_name = _get_move_display_name
 AccountMoveOdoo._get_report_base_filename = _get_report_base_filename
+AccountMoveOdoo._get_mail_template = _get_mail_template
