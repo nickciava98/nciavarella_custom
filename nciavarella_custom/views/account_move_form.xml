@@ -15,7 +15,11 @@
                 <attribute name="invisible">True</attribute>
             </xpath>
 
-            <xpath expr="//field[@name='ref']" position="attributes">
+            <xpath expr="//group[@name='sale_info_group']//label[@for='ref']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//group[@name='sale_info_group']//field[@name='ref']" position="attributes">
                 <attribute name="invisible">True</attribute>
             </xpath>
 
