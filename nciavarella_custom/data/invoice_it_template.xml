@@ -58,6 +58,14 @@
             </t>
         </xpath>
 
+        <xpath expr="//DatiOrdineAcquisto[1]" position="attributes">
+            <attribute name="t-if">false</attribute>
+        </xpath>
+
+        <xpath expr="//DatiOrdineAcquisto[2]" position="attributes">
+            <attribute name="t-if">false</attribute>
+        </xpath>
+
         <xpath expr="//ModalitaPagamento" position="before">
             <Beneficiario t-esc="format_alphanumeric(seller.display_name)"/>
         </xpath>
