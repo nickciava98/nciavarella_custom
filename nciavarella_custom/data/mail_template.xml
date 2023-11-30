@@ -38,7 +38,7 @@
             <br/>
             <span style="font-weight: bold;">ISTITUTO DI CREDITO:</span> <t t-out="object.partner_bank_id.bank_id.name or '/'">[ ... ]</t>
             <br/>
-            <span style="font-weight: bold;">INTESTATARIO:</span> <t t-out="object.partner_bank_id.partner_id.name or '/'">[ ... ]</t>
+            <span style="font-weight: bold;">INTESTATARIO:</span> <t t-out="object.partner_bank_id.acc_holder_name or object.partner_bank_id.partner_id.name or '/'">[ ... ]</t>
         </t>
         <t t-else="">
             La fattura è già stata pagata.

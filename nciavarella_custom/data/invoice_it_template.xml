@@ -67,7 +67,7 @@
         </xpath>
 
         <xpath expr="//ModalitaPagamento" position="before">
-            <Beneficiario t-esc="format_alphanumeric(seller.display_name)"/>
+            <Beneficiario t-esc="format_alphanumeric(partner_bank.acc_holder_name)"/>
         </xpath>
 
         <xpath expr="//BIC" position="before">
