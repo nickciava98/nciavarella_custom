@@ -12,6 +12,11 @@ class AccountMove(models.Model):
     _order = "invoice_date desc, invoice_date_due desc, name desc"
     _inherit = "account.move"
 
+    ref = fields.Char(
+        copy=True,
+        tracking=True,
+        string="Riferimento"
+    )
     l10n_it_stamp_duty = fields.Float(
         default=.0,
         readonly=True,
