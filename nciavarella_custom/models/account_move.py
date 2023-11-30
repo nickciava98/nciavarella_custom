@@ -219,7 +219,7 @@ class AccountMove(models.Model):
                 name = [f"Fatt. n. {move.name}"]
 
                 if move.ref:
-                    name.append(f"(rif. {move.ref})")
+                    name.append(f"(Rif. {move.ref})")
 
                 if move.invoice_date:
                     name.append(f"del {move.invoice_date.strftime('%d/%m/%Y')}")
