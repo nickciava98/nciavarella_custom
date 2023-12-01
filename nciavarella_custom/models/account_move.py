@@ -296,6 +296,17 @@ from odoo.addons.account.models.account_move import AccountMove as AccountMoveOd
 
 def _post(self, soft=True):
     posted = AccountMoveOdoo._post(self=self, soft=soft)
+    today = datetime.datetime.today().strftime("%Y-%m-%d")
+    invoices_d = posted.filtered(
+        lambda i: i.invoice_date.strftime("%Y-%m-%d") != today
+    )
+
+    if invoices_d:
+        for invoice_d in invoices_d:
+            invoice_d.write({
+                "invoice_date": today
+            })
+
     invoices_pi = posted.filtered(
         lambda i: not i.progressivo_invio and i.move_type in ("out_invoice", "out_refund")
     )
