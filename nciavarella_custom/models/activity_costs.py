@@ -1,7 +1,7 @@
 import datetime
 import math
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api, exceptions, _
 
 
 class ActivityCosts(models.Model):
@@ -101,6 +101,25 @@ class ActivityCosts(models.Model):
         string="Correzione [€]"
     )
 
+    def _check_name_is_year(self):
+        if self.name:
+            is_year = True
+
+            try:
+                int(self.name)
+            except:
+                is_year = False
+
+            if not is_year:
+                raise exceptions.UserError(f"Il periodo d'imposta inserito ({self.name}) non è corretto!")
+
+            return True
+
+    @api.constrains("name")
+    def _constrains_name(self):
+        for cost in self:
+            cost._check_name_is_year()
+
     @api.depends("profitability_coefficient", "total_invoiced")
     def _compute_deduction(self):
         for line in self:
@@ -128,25 +147,17 @@ class ActivityCosts(models.Model):
         for line in self:
             line.total_invoiced = line.correzione
 
-            if line.name:
-                invoices = self.env["account.move"].search(
-                    ["&", "&",
-                     ("invoice_date", ">=", line.name + "-01-01"),
-                     ("invoice_date", "<=", line.name + "-12-31"),
-                     ("payment_state", "=", "paid")]
+            if line.name and line._check_name_is_year():
+                payment_ids = self.env["account.payment"].search(
+                    [("date", ">=", f"{line.name}-01-01"),
+                     ("date", "<=", f"{line.name}-12-31"),
+                     ("partner_type", "=", "customer")]
                 )
-                payments = []
 
-                for invoice in invoices:
-                    payment_ids = invoice.payment_ids.filtered(
-                        lambda p: datetime.date(int(line.name), 1, 1) <= p.date <= datetime.date(int(line.name), 12, 31)
-                                  and p.partner_type == "customer"
-                    )
-
-                    for payment_id in payment_ids:
-                        if payment_id.id not in payments:
-                            line.total_invoiced += payment_id.amount
-                            payments.append(payment_id.id)
+                if payment_ids:
+                    line.total_invoiced += sum([
+                        payment_id.amount for payment_id in payment_ids
+                    ])
 
     @api.depends("gross_income", "welfare_previous_down_payment")
     def _compute_total_taxable(self):
@@ -156,15 +167,22 @@ class ActivityCosts(models.Model):
     @api.depends("name")
     def _compute_total_down_payments(self):
         for line in self:
-            invoices = self.env["account.move"].search(
-                ["&", "&",
-                 ("invoice_date", ">=", line.name + "-01-01"),
-                 ("invoice_date", "<=", line.name + "-12-31"),
-                 ("payment_state", "=", "paid")]
-            ) if line.name else False
-            line.total_down_payments = sum([
-                invoice.invoice_down_payment for invoice in invoices
-            ]) if invoices else .0
+            line.total_down_payments = .0
+
+            if line.name and line._check_name_is_year():
+                payment_ids = self.env["account.payment"].search(
+                    [("date", ">=", f"{line.name}-01-01"),
+                     ("date", "<=", f"{line.name}-12-31"),
+                     ("partner_type", "=", "customer")]
+                )
+
+                if payment_ids:
+                    invoice_ids = payment_ids.mapped("reconciled_invoice_ids")
+
+                    if invoice_ids:
+                        line.total_down_payments += sum([
+                            invoice_id.invoice_down_payment for invoice_id in invoice_ids
+                        ])
 
     @api.depends("total_due", "total_stamp_taxes", "total_down_payments")
     def _compute_remaining_balance(self):
@@ -186,21 +204,20 @@ class ActivityCosts(models.Model):
         for line in self:
             line.total_stamp_taxes = .0
 
-            if line.name:
-                invoices = self.env["account.move"].search(
-                    ["&", "&",
-                     ("invoice_date", ">=", line.name + "-01-01"),
-                     ("invoice_date", "<=", line.name + "-12-31"),
-                     ("payment_state", "=", "paid")]
+            if line.name and line._check_name_is_year():
+                payment_ids = self.env["account.payment"].search(
+                    [("date", ">=", f"{line.name}-01-01"),
+                     ("date", "<=", f"{line.name}-12-31"),
+                     ("partner_type", "=", "customer")]
                 )
 
-                for invoice in invoices:
-                    payments = invoice.payment_ids.filtered(
-                        lambda p: p.date <= datetime.date(int(line.name), 12, 31) and p.partner_type == "customer"
-                    )
+                if payment_ids:
+                    invoice_ids = payment_ids.mapped("reconciled_invoice_ids")
 
-                    if payments:
-                        line.total_stamp_taxes += invoice.l10n_it_stamp_duty
+                    if invoice_ids:
+                        line.total_stamp_taxes += sum([
+                            invoice_id.l10n_it_stamp_duty for invoice_id in invoice_ids
+                        ])
 
     @api.depends("welfare_id", "gross_income", "welfare_previous_down_payment")
     def _compute_total_welfare_due(self):
@@ -218,5 +235,5 @@ class ActivityCosts(models.Model):
             line.year_cash_flow = line.total_invoiced - line.total_due
 
     _sql_constraints = [
-        ("unique_name", "unique(name)", _("Year must be unique!"))
+        ("unique_name", "unique(name)", "Il periodo d'imposta deve essere univoco!")
     ]
