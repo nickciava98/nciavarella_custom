@@ -298,7 +298,8 @@ def _post(self, soft=True):
     posted = AccountMoveOdoo._post(self=self, soft=soft)
     today = datetime.datetime.today().strftime("%Y-%m-%d")
     invoices_d = posted.filtered(
-        lambda i: i.invoice_date.strftime("%Y-%m-%d") != today
+        lambda i: i.move_type in ("out_invoice", "out_refund")
+                  and (i.invoice_date.strftime("%Y-%m-%d") != today or not i.invoice_date)
     )
 
     if invoices_d:
