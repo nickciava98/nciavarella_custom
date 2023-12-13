@@ -187,27 +187,6 @@ class AccountMove(models.Model):
                     if not line.down_payment_id.stamp_duty \
                     else line.down_payment_id.down_payment * line.amount_total + line.l10n_it_stamp_duty
 
-                # if line.name == "29":
-                #     line.invoice_down_payment = 56.
-                # elif line.name == "2023/39":
-                #     line.invoice_down_payment = .34 * line.amount_total + line.l10n_it_stamp_duty
-                # elif line.invoice_date <= datetime.date(2023, 3, 1):
-                #     line.invoice_down_payment = .4 * line.amount_total + line.l10n_it_stamp_duty
-                # elif datetime.date(2023, 3, 1) < line.invoice_date <= datetime.date(2023, 4, 1):
-                #     line.invoice_down_payment = .35 * line.amount_total + line.l10n_it_stamp_duty
-                # elif datetime.date(2023, 4, 1) < line.invoice_date <= datetime.date(2023, 5, 29):
-                #     line.invoice_down_payment = .345 * line.amount_total + line.l10n_it_stamp_duty
-                # elif datetime.date(2023, 5, 29) < line.invoice_date < datetime.date(2023, 6, 30):
-                #     line.invoice_down_payment = .34 * line.amount_total
-                # elif datetime.date(2023, 6, 30) <= line.invoice_date < datetime.date(2023, 8, 31):
-                #     line.invoice_down_payment = .3 * line.amount_total
-                # elif datetime.date(2023, 8, 31) <= line.invoice_date <= datetime.date(2023, 9, 30):
-                #     line.invoice_down_payment = .15 * line.amount_total
-                # elif datetime.date(2023, 10, 31) < line.invoice_date <= datetime.date(2023, 12, 31):
-                #     line.invoice_down_payment = .2 * line.amount_total
-                # elif line.invoice_date >= datetime.date(2024, 1, 1):
-                #     line.invoice_down_payment = .3 * line.amount_total
-
     @api.depends("amount_total", "invoice_down_payment")
     def _compute_cash_flow(self):
         for line in self:
@@ -262,10 +241,12 @@ class AccountMove(models.Model):
 
     @api.model
     def _update_account_move_report_name(self):
-        if self.env.ref(xml_id="account.account_invoices", raise_if_not_found=False):
+        account_invoices_id = self.env.ref(xml_id="account.account_invoices", raise_if_not_found=False)
+
+        if account_invoices_id:
             attachment = "(object.state == 'posted') and ((object._get_move_display_name()).replace('/','.')+'.pdf')"
 
-            self.env.ref("account.account_invoices").write({
+            account_invoices_id.write({
                 "attachment": attachment
             })
 
@@ -378,10 +359,20 @@ def _get_report_base_filename(self):
     return _get_move_display_name(self=self, show_ref=False)
 
 def _get_mail_template(self):
-    return (
-        "account.email_template_edi_credit_note" if all(move.move_type == 'out_refund' for move in self)
-        else "nciavarella_custom.modello_notifica_emissione_fattura"
-    )
+    if all(move.move_type == "out_refund" for move in self):
+        template = "account.email_template_edi_credit_note"
+    else:
+        today = fields.Date.today()
+        template = "nciavarella_custom.modello_notifica_emissione_fattura"
+
+        if all(move.move_type == "out_invoice" and move.payment_state == "not_paid" and move.invoice_date_due == today
+               for move in self):
+            template = "nciavarella_custom.modello_notifica_scadenza_pagamento"
+        elif all(move.move_type == "out_invoice" and move.payment_state == "not_paid" and move.invoice_date_due < today
+               for move in self):
+            template = "nciavarella_custom.modello_stato_fattura_emessa"
+
+    return template
 
 AccountMoveEdi._post = _post
 AccountMoveEdi.button_draft = button_draft

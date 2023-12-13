@@ -18,7 +18,7 @@
             ( Rif. <t t-out="object.ref or '/'">[ ... ]</t> )
             emessa il <t t-out="format_date(object.invoice_date) or '/'">[ ... ]</t>
             <t t-if="object.payment_state == 'not_paid'">
-                con <span style="color: red;">SCADENZA IL <t t-out="format_date(object.invoice_date_due) or '/'">[ ... ]</t></span>
+                con <span style="color: red;">SCADENZA IL <t t-out="format_date(object.invoice_date_due) or '/'">[ ... ]</t></span>.
             </t>
         </span>
         <t t-if="object.partner_id.country_id.code == 'IT' and object.payment_state == 'not_paid'">
@@ -51,6 +51,107 @@
             </field>
             <field name="report_template" ref="account.account_invoices"/>
             <field name="report_name">{{ object._get_report_base_filename() }}</field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="modello_stato_fattura_emessa" model="mail.template">
+        <field name="name">Stato fattura emessa</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="email_from">{{ (object.invoice_user_id.email_formatted or object.company_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="reply_to">{{ (object.invoice_user_id.email_formatted or object.company_id.email_formatted or user.email_formatted) }}</field>
+            <field name="subject">Stato Fattura n. {{ object.name }} emessa</field>
+            <field name="description">Modello per il sollecito al pagamento delle fatture in PDF verso i clienti</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Buongiorno,
+        <br/><br/>
+        risulta che la
+        <span style="font-weight: bold;">
+            FATTURA n. <t t-out="object.name or '/'">[ ... ]</t> [ <t t-out="format_amount(object.amount_total, object.currency_id)">[ ... ]</t> ]
+            ( Rif. <t t-out="object.ref or '/'">[ ... ]</t> )
+            emessa il <t t-out="format_date(object.invoice_date) or '/'">[ ... ]</t>
+            <t t-if="object.payment_state == 'not_paid'">
+                e <span style="color: red;">SCADUTA IL <t t-out="format_date(object.invoice_date_due) or '/'">[ ... ]</t></span>
+                <u>non è ancora stata pagata</u>.
+            </t>
+            <br/><br/>
+            Vi prego, quindi, di provvedere al più presto al regolamento della posizione.
+            <br/><br/>
+            <u>Nel caso abbiate già provveduto al pagamento, vi prego di ritenere nulla questa richiesta</u>
+        </span>
+        <br/><br/>
+        <t t-if="object.payment_state == 'not_paid'">
+            Il pagamento può essere inviato tramite bonifico bancario al seguente recapito:
+            <br/><br/>
+            <span style="font-weight: bold;">IBAN:</span> <t t-out="object.partner_bank_id.acc_number or '/'">[ ... ]</t>
+            <br/>
+            <span style="font-weight: bold;">BIC/SWIFT:</span> <t t-out="object.partner_bank_id.bank_id.bic or '/'">[ ... ]</t>
+            <br/>
+            <span style="font-weight: bold;">ISTITUTO DI CREDITO:</span> <t t-out="object.partner_bank_id.bank_id.name or '/'">[ ... ]</t>
+            <br/>
+            <span style="font-weight: bold;">INTESTATARIO:</span> <t t-out="object.partner_bank_id.acc_holder_name or object.partner_bank_id.partner_id.name or '/'">[ ... ]</t>
+        </t>
+        <t t-else="">
+            La fattura è già stata pagata.
+        </t>
+        <br/><br/>
+        <t t-if="not is_html_empty(object.invoice_user_id.signature)">
+            <t t-out="object.invoice_user_id.signature or '/'"/>
+        </t>
+    </p>
+</div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="modello_notifica_scadenza_pagamento" model="mail.template">
+        <field name="name">Notifica scadenza pagamento</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="email_from">{{ (object.invoice_user_id.email_formatted or object.company_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="reply_to">{{ (object.invoice_user_id.email_formatted or object.company_id.email_formatted or user.email_formatted) }}</field>
+            <field name="subject">Notifica scadenza pagamento Fattura n. {{ object.name }}</field>
+            <field name="description">Modello per il reminder al pagamento delle fatture in PDF verso i clienti</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Buongiorno,
+        <br/><br/>
+        la presente per notificare che in data odierna è fissata la scadenza per il saldo della
+        <span style="font-weight: bold;">
+            FATTURA n. <t t-out="object.name or '/'">[ ... ]</t> [ <t t-out="format_amount(object.amount_total, object.currency_id)">[ ... ]</t> ]
+            ( Rif. <t t-out="object.ref or '/'">[ ... ]</t> )
+            emessa il <t t-out="format_date(object.invoice_date) or '/'">[ ... ]</t>
+            <t t-if="object.payment_state == 'not_paid'">
+                con <span style="color: red;">SCADENZA IL <t t-out="format_date(object.invoice_date_due) or '/'">[ ... ]</t></span>.
+            </t>
+        </span>
+        <br/><br/>
+        <t t-if="object.payment_state == 'not_paid'">
+            Il pagamento può essere inviato tramite bonifico bancario al seguente recapito:
+            <br/><br/>
+            <span style="font-weight: bold;">IBAN:</span> <t t-out="object.partner_bank_id.acc_number or '/'">[ ... ]</t>
+            <br/>
+            <span style="font-weight: bold;">BIC/SWIFT:</span> <t t-out="object.partner_bank_id.bank_id.bic or '/'">[ ... ]</t>
+            <br/>
+            <span style="font-weight: bold;">ISTITUTO DI CREDITO:</span> <t t-out="object.partner_bank_id.bank_id.name or '/'">[ ... ]</t>
+            <br/>
+            <span style="font-weight: bold;">INTESTATARIO:</span> <t t-out="object.partner_bank_id.acc_holder_name or object.partner_bank_id.partner_id.name or '/'">[ ... ]</t>
+        </t>
+        <t t-else="">
+            La fattura è già stata pagata.
+        </t>
+        <br/><br/>
+        <t t-if="not is_html_empty(object.invoice_user_id.signature)">
+            <t t-out="object.invoice_user_id.signature or '/'"/>
+        </t>
+    </p>
+</div>
+            </field>
             <field name="lang">{{ object.partner_id.lang }}</field>
             <field name="auto_delete" eval="True"/>
     </record>

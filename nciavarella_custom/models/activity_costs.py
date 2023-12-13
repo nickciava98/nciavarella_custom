@@ -1,4 +1,3 @@
-import datetime
 import math
 
 from odoo import models, fields, api, exceptions, _

@@ -49,6 +49,12 @@ class AccountAnalyticLine(models.Model):
         readonly=False,
         string="Time End"
     )
+    unit_amount = fields.Float(
+        compute="_compute_unit_amount",
+        store=True,
+        readonly=False,
+        string="Ore"
+    )
 
     @api.depends("create_date")
     def _compute_time_start(self):
@@ -98,24 +104,8 @@ class AccountAnalyticLine(models.Model):
             "target": "new"
         }
 
-    @api.model_create_multi
-    def create(self, vals):
-        lines = super().create(vals)
-
-        for line in lines.filtered(lambda l: math.isclose(l.unit_amount, .0) and l.time_start >= 0 and l.time_end >= 0):
-            line.unit_amount = line.time_end - line.time_start
-
-        return lines
-
-    def write(self, vals):
-        res = super().write(vals)
-
-        if "time_start" in vals or "time_end" in vals:
-            for line in self:
-                time_start = vals.get("time_start", line.time_start)
-                time_end = vals.get("time_end", line.time_end)
-
-                if time_start >= 0 and time_end >= 0:
-                    line.unit_amount = time_end - time_start
-
-        return res
+    @api.depends("time_start", "time_end")
+    def _compute_unit_amount(self):
+        for line in self:
+            if line.time_start >= 0 and line.time_end >= 0:
+                line.unit_amount = line.time_end - line.time_start
