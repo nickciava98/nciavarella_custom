@@ -18,9 +18,9 @@
             ( Rif. <t t-out="object.ref or '/'">[ ... ]</t> )
             emessa il <t t-out="format_date(object.invoice_date) or '/'">[ ... ]</t>
             <t t-if="object.payment_state == 'not_paid'">
-                con <span style="color: red;">SCADENZA IL <t t-out="format_date(object.invoice_date_due) or '/'">[ ... ]</t></span>.
+                con <span style="color: red;">SCADENZA IL <t t-out="format_date(object.invoice_date_due) or '/'">[ ... ]</t></span>
             </t>
-        </span>
+        </span>.
         <t t-if="object.partner_id.country_id.code == 'IT' and object.payment_state == 'not_paid'">
             <br/><br/>
             L’originale della fattura è stato inviato per la verifica al Sistema di Interscambio e sarà a disposizione
@@ -81,7 +81,7 @@
             Vi prego, quindi, di provvedere al più presto al regolamento della posizione.
             <br/><br/>
             <u>Nel caso abbiate già provveduto al pagamento, vi prego di ritenere nulla questa richiesta</u>
-        </span>
+        </span>.
         <br/><br/>
         <t t-if="object.payment_state == 'not_paid'">
             Il pagamento può essere inviato tramite bonifico bancario al seguente recapito:
@@ -127,9 +127,9 @@
             ( Rif. <t t-out="object.ref or '/'">[ ... ]</t> )
             emessa il <t t-out="format_date(object.invoice_date) or '/'">[ ... ]</t>
             <t t-if="object.payment_state == 'not_paid'">
-                con <span style="color: red;">SCADENZA IL <t t-out="format_date(object.invoice_date_due) or '/'">[ ... ]</t></span>.
+                con <span style="color: red;">SCADENZA IL <t t-out="format_date(object.invoice_date_due) or '/'">[ ... ]</t></span>
             </t>
-        </span>
+        </span>.
         <br/><br/>
         <t t-if="object.payment_state == 'not_paid'">
             Il pagamento può essere inviato tramite bonifico bancario al seguente recapito:
