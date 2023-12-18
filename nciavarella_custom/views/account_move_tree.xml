@@ -30,7 +30,6 @@
 
             <xpath expr="//tree" position="attributes">
                 <attribute name="expand">True</attribute>
-                <attribute name="limit">12</attribute>
             </xpath>
         </field>
     </record>
@@ -43,7 +42,6 @@
         <field name="arch" type="xml">
             <xpath expr="//tree" position="attributes">
                 <attribute name="expand">True</attribute>
-                <attribute name="limit">12</attribute>
             </xpath>
 
             <xpath expr="//field[@name='invoice_date']" position="before">
