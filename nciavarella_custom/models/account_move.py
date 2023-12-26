@@ -250,6 +250,25 @@ class AccountMove(models.Model):
                 "attachment": attachment
             })
 
+    @api.model
+    def get_view(self, view_id=None, view_type="form", **options):
+        res = super().get_view(view_id, view_type, **options)
+        invoice_report_id = self.env.ref(xml_id="account.account_invoices", raise_if_not_found=False)
+
+        if invoice_report_id and invoice_report_id.binding_model_id:
+            invoice_report_id.write({
+                "binding_model_id": False
+            })
+
+        invoice_report_nopayment_id = self.env.ref(xml_id="account.account_invoices_without_payment", raise_if_not_found=False)
+
+        if invoice_report_nopayment_id and invoice_report_nopayment_id.binding_model_id:
+            invoice_report_nopayment_id.write({
+                "binding_model_id": False
+            })
+
+        return res
+
 class AccountMoveDownPayment(models.Model):
     _name = "account.move.down.payment"
     _description = "Invoice Down Payment"
