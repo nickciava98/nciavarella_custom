@@ -18,6 +18,7 @@
         "security/groups.xml",
         "data/invoice_it_template.xml",
         "data/account_report.xml",
+        "report/report_fattura.xml",
         "data/mail_template.xml",
         "views/account_analytic_line_tree.xml",
         "views/account_analytic_line_actions.xml",
@@ -36,7 +37,6 @@
         "report/external_layout_standard.xml",
         "report/report_invoice_document.xml",
         "report/hr_timesheet_report.xml",
-        "report/report_fattura.xml",
         "wizards/link_invoice_timesheet_form.xml"
     ],
     "application": False,
