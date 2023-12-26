@@ -1,0 +1,329 @@
+<odoo>
+    <template id="report_fattura">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang"/>
+
+                <t t-call="web.external_layout">
+                    <t t-set="o" t-value="o.with_context(lang=lang)"/>
+
+                    <t t-set="document_info">
+                        <span class="text-muted">
+                            Documento privo di valenza fiscale ai sensi dell’art. 21 del DPR 633/72.
+                            L’originale è disponibile all’indirizzo telematico fornito oppure
+                            nell'Area Riservata dell’Agenzia delle Entrate.
+                        </span>
+                    </t>
+
+                    <div class="row mb-4">
+                        <div name="info_documento" class="col-6">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td style="width: 50% !important;">
+                                        <t t-set="nome_documento"
+                                           t-value="{
+                                                'out_invoice': 'Fattura n.',
+                                                'out_refund': 'Nota di credito n.',
+                                                'in_invoice': 'Fattura fornitore n.',
+                                                'in_refund': 'Nota di credito fornitore n.',
+                                                'out_receipt': 'Ricevuta n.',
+                                                'in_receipt': 'Ricevuta fornitore n.',
+                                                'entry': 'Fattura in bozza'
+                                           }[o.move_type]"/>
+
+                                        <strong t-out="nome_documento"/>
+                                    </td>
+
+                                    <td class="text-end" style="width: 50% !important;">
+                                        <span t-field="o.name"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 50% !important; border-bottom: 2px solid black !important;">
+                                        <strong>Data</strong>
+                                    </td>
+
+                                    <td class="text-end"
+                                        style="width: 50% !important; border-bottom: 2px solid black !important;">
+                                        <span t-field="o.invoice_date"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+                                        <strong>Causale</strong>
+
+                                        <div style="height: 190px !important;">
+                                            <span t-out="o.narration"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="col-1"/>
+
+                        <div name="info_cliente" class="col-6">
+                            <strong>Spett.le</strong>
+
+                            <div class="mt-2 mb-2" t-field="o.partner_id.name"/>
+                            <div class="mt-2 mb-2"
+                                 t-out="o.partner_id.street or '/' if not o.partner_id.numero_civico
+                                 else '%s, %s' % (o.partner_id.street or '/', o.partner_id.numero_civico or '/')"/>
+                            <div class="mt-2 mb-2" t-if="o.partner_id.street2" t-field="o.partner_id.street2"/>
+                            <div class="mt-2 mb-2" t-out="'%s, %s (%s), %s' % (
+                                o.partner_id.zip or '00000',
+                                o.partner_id.city or '/',
+                                o.partner_id.state_id.code or o.partner_id.state_id.name or '/',
+                                o.partner_id.country_id.name or '/'
+                            )"/>
+                            <div class="mt-2 mb-2"
+                                 t-if="o.partner_id.l10n_it_pec_email" t-out="'PEC: %s' % o.partner_id.l10n_it_pec_email"/>
+                            <div class="mt-2 mb-2" t-if="o.partner_id.l10n_it_pa_index"
+                                 t-out="'Codice Destinatario: %s' % o.partner_id.l10n_it_pa_index"/>
+                            <div class="mt-2 mb-2" t-if="o.partner_id.vat"
+                                 t-out="'Partita IVA: %s' % o.partner_id.vat"/>
+                            <div class="mt-2" t-if="o.partner_id.l10n_it_codice_fiscale"
+                                 t-out="'Codice Fiscale: %s' % o.partner_id.l10n_it_codice_fiscale"/>
+
+                            <div class="mt-4" t-if="o.payment_state != 'invoicing_legacy'">
+                                <t t-set="payments_vals"
+                                   t-value="o.sudo().invoice_payments_widget and o.sudo().invoice_payments_widget['content'] or []"/>
+
+                                <div t-foreach="payments_vals" t-as="payment_vals">
+                                    <i t-if="payment_vals['is_exchange'] == 0" class="oe_form_field text-end oe_payment_label">
+                                        <strong>
+                                            <u>
+                                                Pagato il <t t-out="payment_vals['date']" t-options='{"widget": "date"}'/>:
+                                                <span t-out="payment_vals['amount']"
+                                                      t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </u>
+                                        </strong>
+                                    </i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page">
+                        <table t-if="o.invoice_line_ids" class="table table-borderless"
+                               style="height: 550px !important; border: 1px solid #dee2e6 !important; border-top: 1px solid #dee2e6 !important;">
+                            <thead style="border-bottom: 2px solid black !important; border-top: 1px solid #dee2e6 !important;">
+                                <tr>
+                                    <th class="text-start"
+                                        style="width: 57% !important; border-right: 1px solid #dee2e6 !important;">
+                                        Descrizione
+                                    </th>
+
+                                    <th class="text-end"
+                                        style="width: 13% !important; border-right: 1px solid #dee2e6 !important;">
+                                        Q.tà
+                                    </th>
+
+                                    <th class="text-end"
+                                        style="width: 13% !important; border-right: 1px solid #dee2e6 !important;">
+                                        Prezzo
+                                    </th>
+
+                                    <th class="text-end"
+                                        style="width: 7% !important; border-right: 1px solid #dee2e6 !important;">
+                                        IVA
+                                    </th>
+
+                                    <th class="text-end"
+                                        style="width: 13% !important;">
+                                        Importo
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <t t-set="lines"
+                                   t-value="o.invoice_line_ids.sorted(
+                                        key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True
+                                )"/>
+
+                                <tr t-foreach="lines" t-as="line">
+                                    <td class="text-start" style="border-right: 1px solid #dee2e6 !important;">
+                                        <span t-field="line.name" t-options="{'widget': 'text'}"/>
+                                    </td>
+
+                                    <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
+                                        <span t-field="line.quantity"/>
+                                        <span t-field="line.product_uom_id" groups="uom.group_uom"/>
+                                    </td>
+
+                                    <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
+                                        <span class="text-nowrap" t-field="line.price_unit"/>
+                                    </td>
+
+                                    <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
+                                        <span t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"/>
+                                    </td>
+
+                                    <td class="text-end o_price_total">
+                                        <span class="text-nowrap" t-field="line.price_subtotal"
+                                              groups="account.group_show_line_subtotals_tax_excluded"/>
+                                        <span class="text-nowrap" t-field="line.price_total"
+                                              groups="account.group_show_line_subtotals_tax_included"/>
+                                    </td>
+                                </tr>
+
+                                <tr t-foreach="range(25 - len(lines))" t-as="empty_line">
+                                    <td style="border-right: 1px solid #dee2e6 !important;"></td>
+                                    <td style="border-right: 1px solid #dee2e6 !important;"></td>
+                                    <td style="border-right: 1px solid #dee2e6 !important;"></td>
+                                    <td style="border-right: 1px solid #dee2e6 !important;"></td>
+                                    <td style="border-right: 1px solid #dee2e6 !important;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered" style="height: 120px !important;">
+                            <t t-set="tax_totals" t-value="o.tax_totals"/>
+
+                            <tr t-foreach="tax_totals['subtotals']" t-as="subtotal">
+                                <td class="text-start" style="vertical-align: middle !important; width: 70% !important;">
+                                    <strong>Imponibile</strong>
+                                </td>
+
+                                <td class="text-end" style="vertical-align: middle !important; width: 30% !important;">
+                                    <span class="text-nowrap" t-out="subtotal['formatted_amount']"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-start" style="vertical-align: middle !important; width: 70% !important;">
+                                    <div style="height: 50px !important;">
+                                        <strong>IVA</strong>
+
+                                        <div t-if="o.amount_tax == .0" style="font-size: 13px !important;"
+                                              t-out="' | '.join(o.tax_ids.mapped('tax_description'))"/>
+
+                                        <div t-else="" style="font-size: 13px !important;"
+                                             t-out="'Operazione soggetta ad IVA'"/>
+                                    </div>
+                                </td>
+
+                                <td class="text-start" style="vertical-align: middle !important; width: 30% !important;">
+                                    <t t-set="subtotal_to_show" t-value="subtotal['name']"/>
+
+                                    <div style="height: 50px !important;">
+                                        <div t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]"
+                                             t-as="amount_by_group" class="row">
+                                            <div class="col-6 text-start">
+                                                <span class="text-nowrap"
+                                                      t-out="'%s su %s' % (
+                                                            amount_by_group['tax_group_name'],
+                                                            amount_by_group['formatted_tax_group_base_amount']
+                                                )"/>
+                                            </div>
+
+                                            <div class="col-6 text-end o_price_total">
+                                                <span class="text-nowrap"
+                                                      t-out="amount_by_group['formatted_tax_group_amount']"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-start"
+                                    style="border-bottom: 2px solid black !important; vertical-align: middle !important; width: 70% !important;">
+                                    <div style="height: 40px !important;">
+                                        <strong>Bollo</strong>
+
+                                        <div t-if="o.l10n_it_stamp_duty != .0" style="font-size: 13px !important;">
+                                            Imposta di bollo assolta in modo virtuale ai sensi del decreto
+                                            MEF 17 Giugno 2014 (Art. 6)
+                                        </div>
+
+                                        <div t-else="" style="font-size: 13px !important;">
+                                            Operazione esente da imposta di bollo
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="text-end"
+                                    style="border-bottom: 2px solid black !important; vertical-align: middle !important; width: 30% !important;">
+                                    <span class="text-nowrap" t-field="o.l10n_it_stamp_duty"
+                                          t-options="{'widget': 'monetary', 'currency_field': o.currency_id}"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-start" style="vertical-align: middle !important; width: 70% !important;">
+                                    <strong>Totale</strong>
+                                </td>
+
+                                <td class="text-end" style="vertical-align: middle !important; width: 30% !important;">
+                                    <div t-if="'formatted_rounding_amount' in tax_totals and tax_totals['rounding_amount'] != .0">
+                                        <span t-out="'Arrotondamento: %s' % tax_totals['formatted_rounding_amount']"/>
+                                    </div>
+
+                                    <div>
+                                        <span t-out="tax_totals['formatted_amount_total']"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table t-if="o.move_type in ('out_invoice', 'in_refund') and o.partner_bank_id"
+                               class="table table-bordered" style="height: 80px !important;">
+                            <thead>
+                                <tr>
+                                    <th colspan="4" class="text-center">Termini di pagamento</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <th class="text-start">Scadenza</th>
+
+                                    <th class="text-start">Modalità</th>
+
+                                    <th class="text-start">IBAN</th>
+
+                                    <th class="text-start">Istituto di credito</th>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-start">
+                                        <span t-out="o.invoice_date_due.strftime('%d/%m/%Y')"/>
+                                    </td>
+
+                                    <td class="text-start">
+                                        <span t-out="'Bonifico bancario'"/>
+                                    </td>
+
+                                    <td class="text-start">
+                                        <span t-out="o.partner_bank_id.acc_number"/>
+                                    </td>
+
+                                    <td class="text-start">
+                                        <span t-out="o.partner_bank_id.bank_id.name"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="report_fatture" model="ir.actions.report">
+        <field name="name">Fattura</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">nciavarella_custom.report_fattura</field>
+        <field name="report_file">nciavarella_custom.report_fattura</field>
+        <field name="print_report_name">(object._get_report_base_filename())</field>
+        <field name="attachment">(object.state == 'posted') and (object._get_report_base_filename())</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="groups_id" eval="[(4, ref('account.group_account_invoice')), (4, ref('account.group_account_readonly'))]"/>
+    </record>
+</odoo>
