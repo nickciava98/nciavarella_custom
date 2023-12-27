@@ -210,7 +210,7 @@
                                     <t t-set="subtotal_to_show" t-value="subtotal['name']"/>
 
                                     <div style="height: 50px !important;">
-                                        <div t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]"
+                                        <div t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show][::-1]"
                                              t-as="amount_by_group" class="row">
                                             <div class="col-6 text-start">
                                                 <span class="text-nowrap"

@@ -154,16 +154,12 @@ class AccountMove(models.Model):
             ).ids if line.payment_state == "paid" else []
             line.payment_ids = [(6, 0, list(dict.fromkeys(payment_ids)))] if payment_ids else False
 
-    @api.depends("invoice_line_ids")
+    @api.depends("invoice_line_ids", "invoice_line_ids.tax_ids")
     def _compute_tax_ids(self):
         for line in self:
-            line.tax_ids = False
-
-            if line.invoice_line_ids:
-                tax_ids = list(itertools.chain.from_iterable(
-                    [inv_line.tax_ids.ids for inv_line in line.invoice_line_ids]
-                ))
-                line.tax_ids = [(6, 0, list(dict.fromkeys(tax_ids)))] if tax_ids else False
+            line.tax_ids = line.invoice_line_ids.tax_ids.ids \
+                if line.invoice_line_ids and line.invoice_line_ids.mapped("tax_ids") \
+                else False
 
     @api.depends("invoice_date")
     def _compute_down_payment_id(self):
@@ -177,7 +173,8 @@ class AccountMove(models.Model):
         self.with_context(no_create_write=True)._compute_invoice_down_payment()
 
     @api.depends("move_type", "invoice_date", "amount_total", "down_payment_id", "down_payment_id.stamp_duty",
-                 "l10n_it_stamp_duty", "invoice_line_ids", "invoice_line_ids.quantity", "invoice_line_ids.price_unit")
+                 "l10n_it_stamp_duty", "invoice_line_ids", "invoice_line_ids.quantity", "invoice_line_ids.price_unit",
+                 "invoice_line_ids.tax_ids")
     def _compute_invoice_down_payment(self):
         for line in self:
             line.invoice_down_payment = .0
@@ -254,13 +251,16 @@ class AccountMove(models.Model):
     def get_view(self, view_id=None, view_type="form", **options):
         res = super().get_view(view_id, view_type, **options)
         invoice_report_id = self.env.ref(xml_id="account.account_invoices", raise_if_not_found=False)
+        invoice_report_nopayment_id = self.env.ref(xml_id="account.account_invoices_without_payment",
+                                                   raise_if_not_found=False)
+
+        if not invoice_report_id and not invoice_report_nopayment_id:
+            return res
 
         if invoice_report_id and invoice_report_id.binding_model_id:
             invoice_report_id.write({
                 "binding_model_id": False
             })
-
-        invoice_report_nopayment_id = self.env.ref(xml_id="account.account_invoices_without_payment", raise_if_not_found=False)
 
         if invoice_report_nopayment_id and invoice_report_nopayment_id.binding_model_id:
             invoice_report_nopayment_id.write({
@@ -268,6 +268,7 @@ class AccountMove(models.Model):
             })
 
         return res
+
 
 class AccountMoveDownPayment(models.Model):
     _name = "account.move.down.payment"
