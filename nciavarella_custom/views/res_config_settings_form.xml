@@ -19,7 +19,7 @@
                                     <field name="date_to"/>
                                     <field name="down_payment" widget="percentage"/>
                                     <field name="stamp_duty"/>
-                                    <button name="remove_record" type="object" icon="fa-trash-o"/>
+                                    <button name="remove_record" type="object" icon="fa-trash-o" title="Elimina"/>
                                 </tree>
                             </field>
                         </div>
