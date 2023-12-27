@@ -1,10 +1,9 @@
 import datetime
-import itertools
 import math
 import html2text
 
 from odoo import models, fields, api, exceptions
-from odoo.tools import format_date
+from odoo.tools import format_date, float_repr
 from textwrap import shorten
 
 
@@ -290,6 +289,33 @@ class AccountMoveDownPayment(models.Model):
     _sql_constraints = [
         ("unique_dates", "UNIQUE(date_from, date_to)", "Date From and Date To must be unique!")
     ]
+
+    def remove_record(self):
+        def format_numbers(number):
+            number_splited = str(number).split(".")
+
+            if len(number_splited) == 1:
+                return "%.02f" % number
+
+            cents = number_splited[1]
+
+            if len(cents) > 8:
+                return "%.08f" % number
+
+            return float_repr(number, max(2, len(cents)))
+
+        move_ids = self.env["account.move"].search([("down_payment_id", "=", self.id)])
+
+        if not move_ids:
+            self.unlink()
+
+        config = (f"{self.date_from} > {self.date_to}: {format_numbers(self.down_payment * 100).replace('.', ',')}% "
+                  f"({'con' if self.stamp_duty else 'senza'} Bollo)")
+        fatture = '\n- '.join(move_ids.mapped("name"))
+
+        raise exceptions.ValidationError(
+            f"Impossibile eliminare la configurazione {config} perché associata a:\n- {fatture}"
+        )
 
 
 from odoo.addons.account_edi.models.account_move import AccountMove as AccountMoveEdi
