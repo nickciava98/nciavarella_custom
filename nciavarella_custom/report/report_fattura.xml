@@ -75,7 +75,9 @@
                             <div class="mt-2 mb-2" t-out="'%s, %s (%s), %s' % (
                                 o.partner_id.zip or '00000',
                                 o.partner_id.city or '/',
-                                o.partner_id.state_id.code or o.partner_id.state_id.name or '/',
+                                o.partner_id.state_id.code or o.partner_id.state_id.name or '/'
+                                if o.partner_id.country_id and o.partner_id.country_id.code == 'IT'
+                                else o.partner_id.state_id.name or o.partner_id.state_id.code or '/',
                                 o.partner_id.country_id.name or '/'
                             )"/>
                             <div class="mt-2 mb-2"
