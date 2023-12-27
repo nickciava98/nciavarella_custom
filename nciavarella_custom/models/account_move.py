@@ -420,8 +420,17 @@ def _get_mail_template(self):
 
     return template
 
+def action_invoice_print(self):
+    if any(not move.is_invoice(include_receipts=True) for move in self):
+        raise exceptions.UserError("Possono essere stampate solo le fatture")
+
+    self.filtered(lambda inv: not inv.is_move_sent).write({"is_move_sent": True})
+
+    return self.env.ref(xml_id="nciavarella_custom.report_fatture", raise_if_not_found=False).report_action(self)
+
 AccountMoveEdi._post = _post
 AccountMoveEdi.button_draft = button_draft
 AccountMoveOdoo._get_move_display_name = _get_move_display_name
 AccountMoveOdoo._get_report_base_filename = _get_report_base_filename
 AccountMoveOdoo._get_mail_template = _get_mail_template
+AccountMoveOdoo.action_invoice_print = action_invoice_print
