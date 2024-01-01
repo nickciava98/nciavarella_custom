@@ -163,10 +163,22 @@ class AccountMove(models.Model):
     @api.depends("invoice_date")
     def _compute_down_payment_id(self):
         for line in self:
-            line.down_payment_id = self.env["account.move.down.payment"].search(
-                ["&", ("date_from", "<=", line.invoice_date.strftime("%Y-%m-%d")),
-                 ("date_to", ">=", line.invoice_date.strftime("%Y-%m-%d"))], limit=1
-            ) if line.invoice_date else False
+            line.down_payment_id = False
+
+            if line.invoice_date:
+                down_payment_ids = self.env["account.move.down.payment"].search(
+                    [("date_from", "<=", line.invoice_date.strftime("%Y-%m-%d")),
+                     ("date_to", ">=", line.invoice_date.strftime("%Y-%m-%d"))]
+                )
+
+                if down_payment_ids:
+                    down_payment_id = down_payment_ids.filtered(
+                        lambda d: d.date_from.strftime("%Y") == line.invoice_date.strftime("%Y")
+                                  or d.date_to.strftime("%Y") == line.invoice_date.strftime("%Y")
+                    )
+
+                    if down_payment_id:
+                        line.down_payment_id = down_payment_id[0]
 
     def update_invoice_down_payment_action(self):
         self.with_context(no_create_write=True)._compute_invoice_down_payment()
@@ -307,7 +319,14 @@ class AccountMoveDownPayment(models.Model):
         move_ids = self.env["account.move"].search([("down_payment_id", "=", self.id)])
 
         if not move_ids:
+            self.env.cr.execute(
+                "DELETE FROM account_move_down_payment_res_config_settings_rel "
+                f"WHERE account_move_down_payment_id = {self.id}"
+            )
+            self.env.cr.commit()
             self.unlink()
+            self.env.cr.commit()
+            return
 
         config = (f"{self.date_from} > {self.date_to}: {format_numbers(self.down_payment * 100).replace('.', ',')}% "
                   f"({'con' if self.stamp_duty else 'senza'} Bollo)")
