@@ -25,7 +25,6 @@
 
             <xpath expr="//group[@id='header_left_group']" position="inside">
                 <field name="ref"/>
-                <field name="payment_ids" invisible="True"/>
             </xpath>
 
             <xpath expr="//group[@id='header_right_group']" position="inside">

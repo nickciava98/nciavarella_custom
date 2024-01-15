@@ -53,13 +53,6 @@ class AccountMove(models.Model):
         store=True,
         string="Taxes"
     )
-    payment_ids = fields.Many2many(
-        "account.payment",
-        "account_payment_invoice_rel",
-        compute="_compute_payment_ids",
-        store=True,
-        string="Payments"
-    )
     is_move_sent = fields.Boolean(
         readonly=True,
         default=True,
@@ -144,14 +137,6 @@ class AccountMove(models.Model):
             invoice.message_post(body=body)
 
         return posted
-
-    @api.depends("payment_state")
-    def _compute_payment_ids(self):
-        for line in self:
-            payment_ids = self.env["account.payment"].search([]).filtered(
-                lambda payment: line.id in payment.reconciled_invoice_ids.ids
-            ).ids if line.payment_state == "paid" else []
-            line.payment_ids = [(6, 0, list(dict.fromkeys(payment_ids)))] if payment_ids else False
 
     @api.depends("invoice_line_ids", "invoice_line_ids.tax_ids")
     def _compute_tax_ids(self):
