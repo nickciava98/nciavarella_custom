@@ -247,8 +247,9 @@ class AccountMove(models.Model):
     def get_view(self, view_id=None, view_type="form", **options):
         res = super().get_view(view_id, view_type, **options)
         invoice_report_id = self.env.ref(xml_id="account.account_invoices", raise_if_not_found=False)
-        invoice_report_nopayment_id = self.env.ref(xml_id="account.account_invoices_without_payment",
-                                                   raise_if_not_found=False)
+        invoice_report_nopayment_id = self.env.ref(
+            xml_id="account.account_invoices_without_payment", raise_if_not_found=False
+        )
 
         if not invoice_report_id and not invoice_report_nopayment_id:
             return res
