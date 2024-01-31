@@ -15,7 +15,7 @@
                         </span>
                     </t>
 
-                    <div class="row mb-4">
+                    <div class="row mb-3">
                         <div name="info_documento" class="col-6">
                             <table class="table table-bordered">
                                 <tr>
@@ -54,7 +54,7 @@
                                     <td colspan="2">
                                         <strong>Causale</strong>
 
-                                        <div style="height: 190px !important;">
+                                        <div style="height: 130px !important;">
                                             <span t-out="o.narration"/>
                                         </div>
                                     </td>
@@ -109,79 +109,82 @@
                     </div>
 
                     <div class="page">
-                        <table t-if="o.invoice_line_ids" class="table table-borderless"
-                               style="height: 550px !important; border: 1px solid #dee2e6 !important; border-top: 1px solid #dee2e6 !important;">
-                            <thead style="border-bottom: 2px solid black !important; border-top: 1px solid #dee2e6 !important;">
-                                <tr>
-                                    <th class="text-start"
-                                        style="width: 57% !important; border-right: 1px solid #dee2e6 !important;">
-                                        Descrizione
-                                    </th>
+                        <div class="mb-3" style="height: 620px !important;">
+                            <table t-if="o.invoice_line_ids" class="table table-borderless"
+                                   style="height: 100% !important; border: 1px solid #dee2e6 !important; border-top: 1px solid #dee2e6 !important;">
+                                <thead style="border-bottom: 2px solid black !important; border-top: 1px solid #dee2e6 !important;">
+                                    <tr>
+                                        <th class="text-start"
+                                            style="width: 60% !important; border-right: 1px solid #dee2e6 !important;">
+                                            Descrizione
+                                        </th>
 
-                                    <th class="text-end"
-                                        style="width: 13% !important; border-right: 1px solid #dee2e6 !important;">
-                                        Q.tà
-                                    </th>
+                                        <th class="text-end"
+                                            style="width: 10% !important; border-right: 1px solid #dee2e6 !important;">
+                                            Q.tà
+                                        </th>
 
-                                    <th class="text-end"
-                                        style="width: 13% !important; border-right: 1px solid #dee2e6 !important;">
-                                        Prezzo
-                                    </th>
+                                        <th class="text-end"
+                                            style="width: 13% !important; border-right: 1px solid #dee2e6 !important;">
+                                            Prezzo
+                                        </th>
 
-                                    <th class="text-end"
-                                        style="width: 7% !important; border-right: 1px solid #dee2e6 !important;">
-                                        IVA
-                                    </th>
+                                        <th class="text-end"
+                                            style="width: 7% !important; border-right: 1px solid #dee2e6 !important;">
+                                            IVA
+                                        </th>
 
-                                    <th class="text-end"
-                                        style="width: 13% !important;">
-                                        Importo
-                                    </th>
-                                </tr>
-                            </thead>
+                                        <th class="text-end"
+                                            style="width: 13% !important;">
+                                            Importo
+                                        </th>
+                                    </tr>
+                                </thead>
 
-                            <tbody>
-                                <t t-set="lines"
-                                   t-value="o.invoice_line_ids.sorted(
+                                <tbody style="font-size: 11.5pt !important;">
+                                    <t t-set="lines" t-value="o.invoice_line_ids.sorted(
                                         key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True
-                                )"/>
+                                    )"/>
 
-                                <tr t-foreach="lines" t-as="line">
-                                    <td class="text-start" style="border-right: 1px solid #dee2e6 !important;">
-                                        <span t-field="line.name" t-options="{'widget': 'text'}"/>
-                                    </td>
+                                    <tr>
+                                        <td class="text-start" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div style="height: 30px !important;" t-foreach="lines" t-as="line">
+                                                <span t-field="line.name"/>
+                                            </div>
+                                        </td>
 
-                                    <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
-                                        <span t-field="line.quantity"/>
-                                        <span t-field="line.product_uom_id" groups="uom.group_uom"/>
-                                    </td>
+                                        <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div style="height: 30px !important;" t-foreach="lines" t-as="line">
+                                                <span t-field="line.quantity"/>
+                                                <span t-field="line.product_uom_id" groups="uom.group_uom"/>
+                                            </div>
+                                        </td>
 
-                                    <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
-                                        <span class="text-nowrap" t-field="line.price_unit"
-                                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-                                    </td>
+                                        <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div style="height: 30px !important;" t-foreach="lines" t-as="line">
+                                                <span class="text-nowrap" t-field="line.price_unit"
+                                                      t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </div>
+                                        </td>
 
-                                    <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
-                                        <span t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"/>
-                                    </td>
+                                        <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div style="height: 30px !important;" t-foreach="lines" t-as="line">
+                                                <span t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"/>
+                                            </div>
+                                        </td>
 
-                                    <td class="text-end o_price_total">
-                                        <span class="text-nowrap" t-field="line.price_subtotal"
-                                              groups="account.group_show_line_subtotals_tax_excluded"/>
-                                        <span class="text-nowrap" t-field="line.price_total"
-                                              groups="account.group_show_line_subtotals_tax_included"/>
-                                    </td>
-                                </tr>
-
-                                <tr t-foreach="range(25 - len(lines))" t-as="empty_line">
-                                    <td style="border-right: 1px solid #dee2e6 !important;"></td>
-                                    <td style="border-right: 1px solid #dee2e6 !important;"></td>
-                                    <td style="border-right: 1px solid #dee2e6 !important;"></td>
-                                    <td style="border-right: 1px solid #dee2e6 !important;"></td>
-                                    <td style="border-right: 1px solid #dee2e6 !important;"></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        <td class="text-end o_price_total">
+                                            <div style="height: 30px !important;" t-foreach="lines" t-as="line">
+                                                <span class="text-nowrap" t-field="line.price_subtotal"
+                                                      groups="account.group_show_line_subtotals_tax_excluded"/>
+                                                <span class="text-nowrap" t-field="line.price_total"
+                                                      groups="account.group_show_line_subtotals_tax_included"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
                         <table class="table table-bordered" style="height: 120px !important;">
                             <t t-set="tax_totals" t-value="o.tax_totals"/>
@@ -202,7 +205,7 @@
                                         <strong>IVA</strong>
 
                                         <div t-if="o.amount_tax == .0" style="font-size: 13px !important;"
-                                              t-out="' | '.join(o.tax_ids.mapped('tax_description'))"/>
+                                             t-out="' | '.join(o.tax_ids.mapped('tax_description'))"/>
 
                                         <div t-else="" style="font-size: 13px !important;"
                                              t-out="'Operazione soggetta ad IVA'"/>
