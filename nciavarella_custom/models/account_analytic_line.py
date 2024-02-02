@@ -55,6 +55,17 @@ class AccountAnalyticLine(models.Model):
         readonly=False,
         string="Ore"
     )
+    valore = fields.Float(
+        compute="_compute_valore",
+        store=True,
+        string="Valore Monetario"
+    )
+
+    @api.depends("employee_id", "employee_id.hourly_cost", "unit_amount")
+    def _compute_valore(self):
+        for line in self:
+            line.valore = line.employee_id.hourly_cost * line.unit_amount \
+                if line.employee_id and line.employee_id.hourly_cost else .0
 
     @api.depends("create_date")
     def _compute_time_start(self):
@@ -107,5 +118,5 @@ class AccountAnalyticLine(models.Model):
     @api.depends("time_start", "time_end")
     def _compute_unit_amount(self):
         for line in self:
-            if line.time_start >= 0 and line.time_end >= 0:
+            if line.time_start >= .0 and line.time_end >= .0:
                 line.unit_amount = line.time_end - line.time_start

@@ -9,6 +9,12 @@
                 <attribute name="editable">top</attribute>
             </xpath>
 
+            <xpath expr="//tree" position="inside">
+                <field name="currency_id" invisible="True"/>
+                <field name="valore" optional="hide" widget="monetary"
+                       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+            </xpath>
+
             <xpath expr="//field[@name='date']" position="before">
                 <field name="is_invoiced" optional="show"/>
                 <field name="invoice_id" optional="hide" readonly="True" force_save="1"/>
