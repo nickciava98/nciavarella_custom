@@ -2,6 +2,7 @@ import datetime
 import os.path
 import shutil
 import xlsxwriter
+import base64
 import pytz
 
 from odoo import modules, models, fields, api, exceptions, _
@@ -62,7 +63,6 @@ class AccountAnalyticLine(models.Model):
         store=True,
         string="Valore"
     )
-    excel_file = fields.Binary()
 
     def pulizia_xlsx_data_action(self):
         path = modules.module.get_resource_path("nciavarella_custom", "static/xlsx_data")
@@ -173,9 +173,20 @@ class AccountAnalyticLine(models.Model):
         worksheet.set_column(0, 5, 30)
         workbook.close()
 
+        with open(file_name, "rb") as file:
+            file_base64 = base64.b64encode(file.read())
+
+        attachment_id = self.env["ir.attachment"].create({
+            "name": f"{self[0].id}_{file_name.split('/')[-1]}",
+            "datas_fname": file_name.split("/")[-1],
+            "datas": file_base64
+        })
+        url = f"{self.env['ir.config_parameter'].get_param('web.base.url')}web/content/{attachment_id.id}?download=true"
+
         return {
             "type": "ir.actions.act_url",
-            "url": f"/web/content/{self._name}/{self[0].id}/excel_file/{file_name}?download=true"
+            "url": url,
+            "target": "new"
         }
 
     @api.depends("employee_id", "employee_id.hourly_cost", "unit_amount")
