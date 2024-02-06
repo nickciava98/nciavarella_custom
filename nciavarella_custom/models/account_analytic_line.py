@@ -144,7 +144,7 @@ class AccountAnalyticLine(models.Model):
         for progetto in self.mapped("project_id"):
             righe = self.filtered(lambda l: l.project_id.id == progetto.id)
             worksheet.merge_range(
-                row, row, 0, 5, f"{progetto.name} ({len(righe)})", formats.get("header_format")
+                row, 0, row, 5, f"{progetto.name} ({len(righe)})", formats.get("header_format")
             )
             lavori = righe.mapped("task_id")
             row += 1
@@ -152,7 +152,7 @@ class AccountAnalyticLine(models.Model):
             for lavoro in lavori:
                 righe = self.filtered(lambda l: l.project_id.id == progetto.id and l.task_id.id == lavoro.id)
                 worksheet.merge_range(
-                    row, row, 0, 5, f"{lavoro.name} ({len(righe)})", formats.get("header_format")
+                    row, 0, row, 5, f"{lavoro.name} ({len(righe)})", formats.get("header_format")
                 )
                 row += 1
 
