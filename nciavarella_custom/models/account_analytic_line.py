@@ -148,10 +148,18 @@ class AccountAnalyticLine(models.Model):
 
         for progetto in self.mapped("project_id"):
             righe = self.filtered(lambda l: l.project_id.id == progetto.id)
-            tot_ore = sum(righe.mapped("unit_amount"))
-            tot_valore = locale.currency(val=sum(righe.mapped("valore")), symbol=False)
+            tot_ore = str(sum(righe.mapped("unit_amount")))
+
+            if len(tot_ore.split(".")[1]) == 1:
+                tot_ore += "0"
+
+            tot_valore = str(sum(righe.mapped("valore")))
+
+            if len(tot_valore.split(".")[1]) == 1:
+                tot_valore += "0"
+
             worksheet.merge_range(
-                row, 0, row, 5, f"{progetto.name} ({Decimal(str(tot_ore)):n} Ore) [{tot_valore} €]",
+                row, 0, row, 5, f"{progetto.name} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
                 formats.get("header_format")
             )
             lavori = righe.mapped("task_id")
@@ -159,10 +167,18 @@ class AccountAnalyticLine(models.Model):
 
             for lavoro in lavori:
                 righe = self.filtered(lambda l: l.project_id.id == progetto.id and l.task_id.id == lavoro.id)
-                tot_ore = sum(righe.mapped("unit_amount"))
-                tot_valore = locale.currency(val=sum(righe.mapped("valore")), symbol=False)
+                tot_ore = str(sum(righe.mapped("unit_amount")))
+
+                if len(tot_ore.split(".")[1]) == 1:
+                    tot_ore += "0"
+
+                tot_valore = str(sum(righe.mapped("valore")))
+
+                if len(tot_valore.split(".")[1]) == 1:
+                    tot_valore += "0"
+
                 worksheet.merge_range(
-                    row, 0, row, 5, f"{lavoro.name} ({Decimal(str(tot_ore)):n} Ore) [{tot_valore}]",
+                    row, 0, row, 5, f"{lavoro.name} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
                     formats.get("header_format")
                 )
                 row += 1
