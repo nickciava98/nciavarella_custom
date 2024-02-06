@@ -119,6 +119,7 @@ class AccountAnalyticLine(models.Model):
             text_center = workbook.add_format({
                 "align": "center"
             })
+            text_center.set_align("vcenter")
             formats = {
                 "header_format": header_format,
                 "header_format_center": header_format_center,
@@ -158,7 +159,7 @@ class AccountAnalyticLine(models.Model):
                 )
                 row += 1
 
-                for riga in righe.sorted(key=lambda l: l.date, reverse=True):
+                for riga in righe.sorted(key=lambda l: l.date, reverse=True)[::-1]:
                     worksheet.write(row, 0, riga.date.strftime("%d/%m/%Y"), formats.get("text_format"))
                     worksheet.write(
                         row, 1, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_start * 60, 60)),
