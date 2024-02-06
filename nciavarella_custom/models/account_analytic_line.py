@@ -6,6 +6,8 @@ import locale
 import base64
 import pytz
 
+from decimal import Decimal
+
 from odoo import modules, models, fields, api, exceptions, _
 
 
@@ -80,7 +82,7 @@ class AccountAnalyticLine(models.Model):
                 os.remove(p)
 
     def esporta_prospetto_excel_action(self):
-        locale.setlocale(locale.LC_TIME, "it_IT.UTF-8")
+        locale.setlocale(locale.LC_ALL, "it_IT.UTF-8")
         module_path = modules.module.get_resource_path("nciavarella_custom", "static/xlsx_data")
         periodi = " - ".join(list(dict.fromkeys([
             f"{line.date.strftime('%B').capitalize()} {line.date.strftime('%y')}" for line in self
@@ -146,16 +148,22 @@ class AccountAnalyticLine(models.Model):
 
         for progetto in self.mapped("project_id"):
             righe = self.filtered(lambda l: l.project_id.id == progetto.id)
+            tot_ore = sum(righe.mapped("unit_amount"))
+            tot_valore = locale.currency(val=sum(righe.mapped("valore")), symbol=False)
             worksheet.merge_range(
-                row, 0, row, 5, f"{progetto.name} ({len(righe)})", formats.get("header_format")
+                row, 0, row, 5, f"{progetto.name} ({Decimal(str(tot_ore)):n} Ore) [{tot_valore} €]",
+                formats.get("header_format")
             )
             lavori = righe.mapped("task_id")
             row += 1
 
             for lavoro in lavori:
                 righe = self.filtered(lambda l: l.project_id.id == progetto.id and l.task_id.id == lavoro.id)
+                tot_ore = sum(righe.mapped("unit_amount"))
+                tot_valore = locale.currency(val=sum(righe.mapped("valore")), symbol=False)
                 worksheet.merge_range(
-                    row, 0, row, 5, f"{lavoro.name} ({len(righe)})", formats.get("header_format")
+                    row, 0, row, 5, f"{lavoro.name} ({Decimal(str(tot_ore)):n} Ore) [{tot_valore}]",
+                    formats.get("header_format")
                 )
                 row += 1
 
