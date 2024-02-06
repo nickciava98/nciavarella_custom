@@ -1,5 +1,6 @@
 import datetime
-import base64
+import os.path
+import shutil
 import xlsxwriter
 import pytz
 
@@ -63,9 +64,25 @@ class AccountAnalyticLine(models.Model):
     )
     excel_file = fields.Binary()
 
+    def pulizia_xlsx_data_action(self):
+        path = modules.module.get_resource_path("nciavarella_custom", "static/xlsx_data")
+
+        for files in os.listdir(path):
+            if "temp" in files:
+                continue
+
+            p = os.path.join(path, files)
+
+            try:
+                shutil.rmtree(p)
+            except OSError:
+                os.remove(p)
+
     def esporta_prospetto_excel_action(self):
         module_path = modules.module.get_resource_path("nciavarella_custom", "static/xlsx_data")
-        periodi = "_-_".join([f"{line.date.strftime('%B')} {line.date.strftime('%y')}" for line in self])
+        periodi = "_-_".join(
+            list(dict.fromkeys([f"{line.date.strftime('%B')}_{line.date.strftime('%y')}" for line in self]))
+        )
         file_name = f"{module_path}/Prospetto_Ore_{periodi}.xlsx"
 
         def _get_workbook():
