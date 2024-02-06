@@ -22,9 +22,7 @@
 
             <xpath expr="//field[@name='date']" position="after">
                 <field name="time_start" required="True" widget="timesheet_uom"/>
-                <field name="dalle" invisible="True"/>
                 <field name="time_end" required="True" widget="timesheet_uom"/>
-                <field name="alle" invisible="True"/>
             </xpath>
 
             <xpath expr="//field[@name='project_id']" position="attributes">
