@@ -254,3 +254,9 @@ class AccountAnalyticLine(models.Model):
         for line in self:
             if line.time_start >= .0 and line.time_end >= .0:
                 line.unit_amount = line.time_end - line.time_start
+
+    def unlink(self):
+        if self.filtered(lambda l: l.is_confirmed or l.is_invoiced):
+            raise exceptions.UserError("Impossibile eliminare delle registrazioni Confermate o Fatturate!")
+
+        return super().unlink()
