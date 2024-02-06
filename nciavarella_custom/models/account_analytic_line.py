@@ -177,8 +177,8 @@ class AccountAnalyticLine(models.Model):
             file_base64 = base64.b64encode(file.read())
 
         attachment_id = self.env["ir.attachment"].create({
-            "name": f"{self[0].id}_{file_name.split('/')[-1]}",
-            "datas_fname": file_name.split("/")[-1],
+            "name": f"{file_name.split('/')[-1]}",
+            "type": "binary",
             "datas": file_base64
         })
         url = f"{self.env['ir.config_parameter'].get_param('web.base.url')}web/content/{attachment_id.id}?download=true"
