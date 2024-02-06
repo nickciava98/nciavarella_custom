@@ -105,7 +105,7 @@ class AccountAnalyticLine(models.Model):
             })
             currency_format.set_align("vcenter")
             qty_format = workbook.add_format({
-                "num_format": "#,##0",
+                "num_format": "#,##0.00",
                 "align": "right"
             })
             qty_format.set_align("vcenter")
@@ -144,15 +144,17 @@ class AccountAnalyticLine(models.Model):
         for progetto in self.mapped("project_id"):
             righe = self.filtered(lambda l: l.project_id.id == progetto.id)
             worksheet.merge_range(
-                0, 0, 0, 9, f"{progetto.name} ({len(righe)})", formats.get("header_format")
+                row, row, 0, 5, f"{progetto.name} ({len(righe)})", formats.get("header_format")
             )
             lavori = righe.mapped("task_id")
+            row += 1
 
             for lavoro in lavori:
                 righe = self.filtered(lambda l: l.project_id.id == progetto.id and l.task_id.id == lavoro.id)
                 worksheet.merge_range(
-                    0, 0, 0, 9, f"{lavoro.name} ({len(righe)})", formats.get("header_format")
+                    row, row, 0, 5, f"{lavoro.name} ({len(righe)})", formats.get("header_format")
                 )
+                row += 1
 
                 for riga in righe.sorted(key=lambda l: l.date, reverse=True):
                     worksheet.write(row, 0, riga.date.strftime("%d/%m/%Y"), formats.get("text_format"))
