@@ -49,17 +49,35 @@ class AccountAnalyticLine(models.Model):
         readonly=False,
         string="Time End"
     )
+    dalle = fields.Char(
+        compute="_compute_dalle",
+        store=True
+    )
+    alle = fields.Char(
+        compute="_compute_alle",
+        store=True
+    )
     unit_amount = fields.Float(
         compute="_compute_unit_amount",
         store=True,
         readonly=False,
         string="Ore"
     )
-    valore = fields.Float(
+    valore = fields.Monetary(
         compute="_compute_valore",
         store=True,
-        string="Valore Monetario"
+        string="Valore"
     )
+
+    @api.depends("time_start")
+    def _compute_dalle(self):
+        for line in self:
+            line.dalle = "{0:02.0f}:{1:02.0f}".format(*divmod(line.time_start * 60, 60))
+
+    @api.depends("time_start")
+    def _compute_alle(self):
+        for line in self:
+            line.alle = "{0:02.0f}:{1:02.0f}".format(*divmod(line.time_end * 60, 60))
 
     @api.depends("employee_id", "employee_id.hourly_cost", "unit_amount")
     def _compute_valore(self):

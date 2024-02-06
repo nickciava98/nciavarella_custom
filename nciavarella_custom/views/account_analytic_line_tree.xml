@@ -11,8 +11,7 @@
 
             <xpath expr="//tree" position="inside">
                 <field name="currency_id" invisible="True"/>
-                <field name="valore" optional="hide" widget="monetary"
-                       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                <field name="valore" optional="hide"/>
             </xpath>
 
             <xpath expr="//field[@name='date']" position="before">
@@ -23,7 +22,9 @@
 
             <xpath expr="//field[@name='date']" position="after">
                 <field name="time_start" required="True" widget="timesheet_uom"/>
+                <field name="dalle" invisible="True"/>
                 <field name="time_end" required="True" widget="timesheet_uom"/>
+                <field name="alle" invisible="True"/>
             </xpath>
 
             <xpath expr="//field[@name='project_id']" position="attributes">
