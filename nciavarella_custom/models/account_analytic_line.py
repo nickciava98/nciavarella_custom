@@ -2,6 +2,7 @@ import datetime
 import os.path
 import shutil
 import xlsxwriter
+import locale
 import base64
 import pytz
 
@@ -79,6 +80,7 @@ class AccountAnalyticLine(models.Model):
                 os.remove(p)
 
     def esporta_prospetto_excel_action(self):
+        locale.setlocale(locale.LC_TIME, "it_IT.UTF-8")
         module_path = modules.module.get_resource_path("nciavarella_custom", "static/xlsx_data")
         periodi = "_-_".join(
             list(dict.fromkeys([f"{line.date.strftime('%B')}_{line.date.strftime('%y')}" for line in self]))
