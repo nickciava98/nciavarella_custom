@@ -181,7 +181,8 @@ class AccountAnalyticLine(models.Model):
             "type": "binary",
             "datas": file_base64
         })
-        url = f"{self.env['ir.config_parameter'].get_param('web.base.url')}web/content/{attachment_id.id}?download=true"
+        base_url = self.env["ir.config_parameter"].get_param("web.base.url")
+        url = f"{base_url}/web/content/{attachment_id.id}?download=true"
 
         return {
             "type": "ir.actions.act_url",
