@@ -1,8 +1,9 @@
 import datetime
-import math
+import base64
+import xlsxwriter
 import pytz
 
-from odoo import models, fields, api, exceptions, _
+from odoo import modules, models, fields, api, exceptions, _
 
 
 class AccountAnalyticLine(models.Model):
@@ -49,14 +50,6 @@ class AccountAnalyticLine(models.Model):
         readonly=False,
         string="Time End"
     )
-    dalle = fields.Char(
-        compute="_compute_dalle",
-        store=True
-    )
-    alle = fields.Char(
-        compute="_compute_alle",
-        store=True
-    )
     unit_amount = fields.Float(
         compute="_compute_unit_amount",
         store=True,
@@ -68,16 +61,105 @@ class AccountAnalyticLine(models.Model):
         store=True,
         string="Valore"
     )
+    excel_file = fields.Binary()
 
-    @api.depends("time_start")
-    def _compute_dalle(self):
-        for line in self:
-            line.dalle = "{0:02.0f}:{1:02.0f}".format(*divmod(line.time_start * 60, 60))
+    def esporta_prospetto_excel_action(self):
+        module_path = modules.module.get_resource_path("nciavarella_custom", "static/xlsx_data")
+        periodi = "_-_".join([f"{line.date.strftime('%B')} {line.date.strftime('%y')}" for line in self])
+        file_name = f"{module_path}/Prospetto_Ore_{periodi}.xlsx"
 
-    @api.depends("time_start")
-    def _compute_alle(self):
-        for line in self:
-            line.alle = "{0:02.0f}:{1:02.0f}".format(*divmod(line.time_end * 60, 60))
+        def _get_workbook():
+            workbook = xlsxwriter.Workbook(file_name, {"in_memory": True})
+            header_format = workbook.add_format({"bold": True})
+            header_format.set_align("vcenter")
+            header_format_right = workbook.add_format({
+                "bold": True,
+                "align": "right"
+            })
+            header_format_right.set_align("vcenter")
+            header_format_center = workbook.add_format({
+                "bold": True,
+                "align": "center"
+            })
+            header_format_center.set_align("vcenter")
+            currency_format = workbook.add_format({
+                "num_format": "_-* #,##0.00 €_-;-* #,##0.00 €_-;_-* -?? €_-;_-@_-",
+                "align": "right"
+            })
+            currency_format.set_align("vcenter")
+            qty_format = workbook.add_format({
+                "num_format": "#,##0",
+                "align": "right"
+            })
+            qty_format.set_align("vcenter")
+            text_format = workbook.add_format({
+                "text_wrap": True,
+                "align": "left"
+            })
+            text_format.set_align("vcenter")
+            text_center = workbook.add_format({
+                "align": "center"
+            })
+            formats = {
+                "header_format": header_format,
+                "header_format_center": header_format_center,
+                "header_format_right": header_format_right,
+                "currency_format": currency_format,
+                "qty_format": qty_format,
+                "text_format": text_format,
+                "text_center": text_center
+            }
+
+            return workbook, formats
+
+        workbook, formats = _get_workbook()
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write(0, 0, "Data", formats.get("header_format"))
+        worksheet.write(0, 1, "Dalle", formats.get("header_format_center"))
+        worksheet.write(0, 2, "Alle", formats.get("header_format_center"))
+        worksheet.write(0, 3, "Descrizione", formats.get("header_format"))
+        worksheet.write(0, 4, "Ore impiegate", formats.get("header_format_right"))
+        worksheet.write(0, 5, "Valore monetario", formats.get("header_format_right"))
+
+        row = 1
+
+        for progetto in self.mapped("project_id"):
+            righe = self.filtered(lambda l: l.project_id.id == progetto.id)
+            worksheet.merge_range(
+                0, 0, 0, 9, f"{progetto.name} ({len(righe)})", formats.get("header_format")
+            )
+            lavori = righe.mapped("task_id")
+
+            for lavoro in lavori:
+                righe = self.filtered(lambda l: l.project_id.id == progetto.id and l.task_id.id == lavoro.id)
+                worksheet.merge_range(
+                    0, 0, 0, 9, f"{lavoro.name} ({len(righe)})", formats.get("header_format")
+                )
+
+                for riga in righe.sorted(key=lambda l: l.date, reverse=True):
+                    worksheet.write(row, 0, riga.date.strftime("%d/%m/%Y"), formats.get("text_format"))
+                    worksheet.write(
+                        row, 1, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_start * 60, 60)),
+                        formats.get("text_center")
+                    )
+                    worksheet.write(
+                        row, 2, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_end * 60, 60)),
+                        formats.get("text_center")
+                    )
+                    worksheet.write(row, 3, riga.name, formats.get("text_format"))
+                    worksheet.write(row, 4, riga.unit_amount, formats.get("qty_format"))
+                    worksheet.write(row, 5, riga.valore, formats.get("currency_format"))
+
+                    row += 1
+
+        worksheet.set_column(0, 5, 30)
+        workbook.close()
+
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"/web/content/{self._name}/{self[0].id}/excel_file/{file_name}?download=true"
+        }
 
     @api.depends("employee_id", "employee_id.hourly_cost", "unit_amount")
     def _compute_valore(self):
