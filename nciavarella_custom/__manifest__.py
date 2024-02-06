@@ -18,6 +18,7 @@
         "security/groups.xml",
         "data/invoice_it_template.xml",
         "data/account_report.xml",
+        "data/ir_cron.xml",
         "report/report_fattura.xml",
         "data/mail_template.xml",
         "views/account_analytic_line_tree.xml",
