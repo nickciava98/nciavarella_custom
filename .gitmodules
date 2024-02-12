@@ -6,3 +6,7 @@
 	path = OCA/partner-contact
 	url = https://github.com/OCA/partner-contact
 	branch = 16.0
+[submodule "OCA/web"]
+	path = OCA/web
+	url = https://github.com/OCA/web
+	branch = 16.0
