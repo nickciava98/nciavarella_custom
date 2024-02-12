@@ -2,3 +2,7 @@
 	path = OCA/server-tools
 	url = https://github.com/OCA/server-tools
 	branch = 16.0
+[submodule "OCA/partner-contact"]
+	path = OCA/partner-contact
+	url = https://github.com/OCA/partner-contact
+	branch = 16.0
