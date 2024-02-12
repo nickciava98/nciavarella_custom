@@ -1,0 +1,4 @@
+[submodule "OCA/server-tools"]
+	path = OCA/server-tools
+	url = https://github.com/OCA/server-tools
+	branch = 16.0
