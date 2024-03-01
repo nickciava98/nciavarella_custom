@@ -4,6 +4,12 @@ from odoo import models
 class ProjectProject(models.Model):
     _inherit = "project.project"
 
+    def action_view_tasks(self):
+        action = super().action_view_tasks()
+        action["context"].update({
+            "domain": [("project_id", "=", self.id), ("active", "in", (True, False))]
+        })
+
     def view_project_form(self):
         return {
             "name": self.name,
@@ -18,6 +24,5 @@ class ProjectProject(models.Model):
                 "create": self.active,
                 "active_test": self.active
             },
-            "target": "current",
-            "nodestroy": True
+            "target": "current"
         }

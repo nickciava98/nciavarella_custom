@@ -31,6 +31,7 @@
         "views/activity_costs_tree.xml",
         "views/project_project_form.xml",
         "views/project_project_kanban.xml",
+        "views/project_task_form.xml",
         "views/res_bank_form.xml",
         "views/res_partner_form.xml",
         "views/res_company_form.xml",
