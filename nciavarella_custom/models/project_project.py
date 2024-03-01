@@ -6,9 +6,9 @@ class ProjectProject(models.Model):
 
     def action_view_tasks(self):
         action = super().action_view_tasks()
-        action["context"].update({
-            "domain": [("project_id", "=", self.id), ("active", "in", (True, False))]
-        })
+        action["domain"] = [("project_id", "=", self.id), ("active", "in", (True, False))]
+
+        return action
 
     def view_project_form(self):
         return {

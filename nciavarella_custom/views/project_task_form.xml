@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//widget[@name='web_ribbon']" position="attributes">
                 <attribute name="title">Completato</attribute>
-                <attribute name="bg-color">bg-success</attribute>
+                <attribute name="bg_color">bg-success</attribute>
             </xpath>
         </field>
     </record>
