@@ -14,19 +14,19 @@ from odoo import modules, models, fields, api, exceptions, _
 class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"
 
-    def _get_time_start(self):
-        if "tz" in self.env.context:
-            timezone = pytz.timezone(self.env.context.get("tz"))
-            float_time_start = datetime.datetime.now().hour + (datetime.datetime.now().minute / 60)
-            date_time_start = datetime.datetime(
-                1970, 1, 1, int(float_time_start // 1),
-                int(float_time_start % 1)
-            )
-            offset = str(timezone.utcoffset(date_time_start))
+    def _get_time_start(self, create_date=False):
+        def _convert_datetime_to_float(date_time):
+            return date_time.hour + (date_time.minute / 60)
 
-            return float_time_start + int(offset[: offset.find(":")])
+        def _get_start_date():
+            user_tz = pytz.timezone(self.env.user.tz or "UTC")
 
-        return datetime.datetime.now().hour + (datetime.datetime.now().minute / 60) + 1
+            if create_date:
+                return user_tz.localize(create_date)
+
+            return datetime.datetime.now(user_tz)
+
+        return _convert_datetime_to_float(_get_start_date())
 
     is_invoiced = fields.Boolean(
         compute="_compute_is_invoiced",
@@ -228,22 +228,20 @@ class AccountAnalyticLine(models.Model):
     @api.depends("create_date")
     def _compute_time_start(self):
         for line in self:
-            float_time_start = sum([
-                float(line.create_date.strftime("%H")), float(float(line.create_date.strftime("%M")) / 60)
-            ])
-            line.time_start = float_time_start + 2
-
-            if "tz" in self.env.context:
-                timezone = pytz.timezone(self.env.context.get("tz"))
-                date_time_start = datetime.datetime(1970, 1, 1, int(float_time_start // 1), int(float_time_start % 1))
-                offset = str(timezone.utcoffset(date_time_start))
-                line.time_start = float_time_start + int(offset[: offset.find(":")]) + 1
+            line.time_start = line._get_time_start(line.create_date)
 
     @api.depends("time_start", "unit_amount")
     def _compute_time_end(self):
         for line in self:
-            time_end = line.time_start + line.unit_amount if line.time_start > .0 and line.unit_amount > .0 else .0
-            time_end -= 24. if time_end >= 24. else .0
+            if line.time_start > .0 and line.unit_amount > .0:
+                time_end = line.time_start + line.unit_amount
+
+                if time_end >= 24.:
+                    time_end -= 24.
+
+            else:
+                time_end = .0
+
             line.time_end = time_end
 
     @api.depends("invoice_id")
