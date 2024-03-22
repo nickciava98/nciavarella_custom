@@ -247,7 +247,7 @@
                                         </div>
 
                                         <div t-else="" style="font-size: 13px !important;">
-                                            Operazione esente da imposta di bollo
+                                            Operazione non soggetta a imposta di bollo
                                         </div>
                                     </div>
                                 </td>
