@@ -1,0 +1,252 @@
+<odoo>
+    <template id="report_bilancio_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <t t-set="document_info">
+                        <span class="text-muted">
+                            Documento privo di valenza fiscale ai sensi dell’art. 21 del DPR 633/72.
+                        </span>
+                    </t>
+
+                    <div class="page">
+                        <style>
+                            td {
+                                vertical-align: middle !important;
+                            }
+                        </style>
+
+                        <h2>Resoconto generale per il Periodo d'imposta <span t-field="o.name"/></h2>
+
+                        <div class="mt-3">
+                            <table class="table table-borderless">
+                                <tr style="border-top: 1px solid #dee2e6;">
+                                    <td>
+                                        <strong>Totale fatturato</strong>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-field="o.total_invoiced"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>
+                                            Deduzione forfettaria del
+                                            <t t-out="round((1 - o.profitability_coefficient) * 100)"/>%
+                                        </strong>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-out="(o.profitability_coefficient - 1) * o.total_invoiced"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+
+                                <tr style="border-top: 1px solid #dee2e6;">
+                                    <td>
+                                        <strong>Imponibile previdenziale</strong>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-field="o.gross_income"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Oneri deducibili</strong>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-out="-2.25 * o.welfare_previous_down_payment"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+
+                                <tr style="border-top: 1px solid #dee2e6;">
+                                    <td>
+                                        <strong>Imponibile fiscale</strong>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-out="o.total_taxable - 2.25 * o.welfare_previous_down_payment"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Contributi previdenziali e assistenziali</strong>
+
+                                        <br/>
+
+                                        <i>
+                                            Applicata aliquota INPS Gestione Separata del
+                                            <span t-out="round(o.welfare_id * 100, 2)"
+                                                  t-options="{'widget': 'float', 'precision': 2}"/>%
+                                        </i>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <i>Acconto <t t-out="int(o.name) - 1"/></i>
+                                                <div>
+                                                    <span t-field="o.welfare_previous_down_payment"
+                                                          t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <i>Saldo <t t-out="o.name"/></i>
+                                                <div>
+                                                    <span t-field="o.total_welfare_due"
+                                                          t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <i>Acconto <t t-out="int(o.name) + 1"/></i>
+                                                <div>
+                                                    <span t-field="o.total_welfare_down_payment"
+                                                          t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Contributi a debito</strong>
+
+                                        <div>
+                                            <i>A credito se negativo</i>
+                                        </div>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-out="o.total_welfare_due + o.total_welfare_down_payment"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+
+                                <tr style="border-top: 1px solid #dee2e6;">
+                                    <td>
+                                        <strong>Imposta sostitutiva lorda</strong>
+
+                                        <br/>
+
+                                        <i>
+                                            Applicata aliquota forfettaria del
+                                            <span t-out="o.tax_id * 100"
+                                                  t-options="{'widget': 'float', 'precision': 2}"/>%
+                                        </i>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-out="o.total_taxes_due + o.taxes_previous_down_payment"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Oneri detraibili</strong>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-out="-o.taxes_previous_down_payment"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Imposta sostitutiva netta</strong>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <i>Saldo <t t-out="o.name"/></i>
+                                                <div>
+                                                    <span t-field="o.total_taxes_due"
+                                                          t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <i>Acconto <t t-out="int(o.name) + 1"/></i>
+                                                <div>
+                                                    <span t-field="o.total_taxes_down_payment"
+                                                          t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Imposta sostitutiva a debito</strong>
+
+                                        <div>
+                                            <i>A credito se negativo</i>
+                                        </div>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-out="o.total_taxes_due + o.total_taxes_down_payment"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+
+                                <tr style="border-top: 1px solid #dee2e6;">
+                                    <td>
+                                        <strong>Imposte di bollo</strong>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-field="o.total_stamp_taxes"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+
+                                <tr style="border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6;">
+                                    <td>
+                                        <strong>Totale a debito</strong>
+
+                                        <div>
+                                            <i>A credito se negativo</i>
+                                        </div>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-out="o.total_due"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="report_bilancio" model="ir.actions.report">
+        <field name="name">Bilancio</field>
+        <field name="model">activity.costs</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">nciavarella_custom.report_bilancio_document</field>
+        <field name="report_file">nciavarella_custom.report_bilancio_document</field>
+        <field name="print_report_name">('Bilancio ' + object.name)</field>
+        <field name="binding_model_id" ref="nciavarella_custom.model_activity_costs"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
