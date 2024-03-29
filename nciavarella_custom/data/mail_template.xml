@@ -53,7 +53,7 @@
     </p>
 </div>
             </field>
-            <field name="report_template" ref="nciavarella_custom.report_fatture"/>
+            <field name="report_template" ref="account.account_invoices"/>
             <field name="report_name">{{ object._get_report_base_filename() }}</field>
             <field name="lang">{{ object.partner_id.lang }}</field>
             <field name="auto_delete" eval="True"/>
