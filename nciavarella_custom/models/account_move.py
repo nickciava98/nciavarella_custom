@@ -233,15 +233,24 @@ class AccountMove(models.Model):
         return sorted(invoice_lines, key=lambda l: l["line_number"])
 
     @api.model
-    def _update_account_move_report_name(self):
+    def update_account_move_report_name(self):
+        self = self.sudo()
         account_invoices_id = self.env.ref(xml_id="account.account_invoices", raise_if_not_found=False)
 
         if account_invoices_id:
-            attachment = "(object.state == 'posted') and ((object._get_move_display_name()).replace('/','.')+'.pdf')"
+            account_invoices_id = account_invoices_id.sudo()
+            data = {
+                "attachment": "(object.state == 'posted') and ((object._get_move_display_name()).replace('/','.')+'.pdf')"
+            }
+            report = "nciavarella_custom.report_fattura"
 
-            account_invoices_id.write({
-                "attachment": attachment
-            })
+            if account_invoices_id.report_name != report:
+                data["report_name"] = report
+
+            if account_invoices_id.report_file != report:
+                data["report_file"] = report
+
+            account_invoices_id.write(data)
 
     @api.model
     def get_view(self, view_id=None, view_type="form", **options):

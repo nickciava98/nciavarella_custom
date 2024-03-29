@@ -1,3 +1,3 @@
 <odoo>
-    <function name="_update_account_move_report_name" model="account.move"/>
+    <function name="update_account_move_report_name" model="account.move"/>
 </odoo>
