@@ -69,7 +69,7 @@ class AccountMove(models.Model):
     def write(self, vals):
         if "progressivo_invio" in vals:
             invoices = self.search(
-                ["&", ("id", "!=", self.id), ("progressivo_invio", "=", vals.get("progressivo_invio"))]
+                [("id", "!=", self.id), ("progressivo_invio", "=", vals.get("progressivo_invio"))]
             )
 
             if invoices:
@@ -96,12 +96,10 @@ class AccountMove(models.Model):
             line.edi_error_count = 0
 
     def _get_causale(self):
-        causale = ""
+        if not self.narration:
+            return ""
 
-        if self.narration:
-            causale = html2text.html2text(self.narration).replace("\n", " ").replace("  ", "\n")
-
-        return causale
+        return html2text.html2text(self.narration).replace("\n", " ").replace("  ", "\n")
 
     @api.depends("state")
     def _compute_show_reset_to_draft_button(self):
@@ -131,9 +129,11 @@ class AccountMove(models.Model):
                 "type": "binary"
             })
             now = datetime.datetime.now()
-            body = (f"Fattura elettronica generata il {now.strftime('%d/%m/%Y')} "
-                    f"alle {now.strftime('%H:%M')} "
-                    f"da {self.env.user.display_name}")
+            body = (
+                f"Fattura elettronica generata il {now.strftime('%d/%m/%Y')} "
+                f"alle {now.strftime('%H:%M')} "
+                f"da {self.env.user.display_name}"
+            )
             invoice.message_post(body=body)
 
         return posted
@@ -246,18 +246,9 @@ class AccountMove(models.Model):
     @api.model
     def get_view(self, view_id=None, view_type="form", **options):
         res = super().get_view(view_id, view_type, **options)
-        invoice_report_id = self.env.ref(xml_id="account.account_invoices", raise_if_not_found=False)
         invoice_report_nopayment_id = self.env.ref(
             xml_id="account.account_invoices_without_payment", raise_if_not_found=False
         )
-
-        if not invoice_report_id and not invoice_report_nopayment_id:
-            return res
-
-        if invoice_report_id and invoice_report_id.binding_model_id:
-            invoice_report_id.write({
-                "binding_model_id": False
-            })
 
         if invoice_report_nopayment_id and invoice_report_nopayment_id.binding_model_id:
             invoice_report_nopayment_id.write({

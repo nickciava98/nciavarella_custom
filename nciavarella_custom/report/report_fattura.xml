@@ -320,16 +320,13 @@
         </t>
     </template>
 
-    <record id="report_fatture" model="ir.actions.report">
-        <field name="name">Fattura</field>
-        <field name="model">account.move</field>
-        <field name="report_type">qweb-pdf</field>
-        <field name="report_name">nciavarella_custom.report_fattura</field>
-        <field name="report_file">nciavarella_custom.report_fattura</field>
-        <field name="print_report_name">(object._get_report_base_filename())</field>
-        <field name="attachment">(object.state == 'posted') and (object._get_report_base_filename())</field>
-        <field name="binding_model_id" ref="account.model_account_move"/>
-        <field name="binding_type">report</field>
-        <field name="groups_id" eval="[(4, ref('account.group_account_invoice')), (4, ref('account.group_account_readonly'))]"/>
-    </record>
+    <template id="report_invoice_with_payments">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang"/>
+                <t t-if="o._get_name_invoice_report() == 'account.report_invoice_document'"
+                   t-call="nciavarella_custom.report_fattura" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
 </odoo>
