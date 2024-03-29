@@ -148,33 +148,33 @@
 
                                     <tr>
                                         <td class="text-start" style="border-right: 1px solid #dee2e6 !important;">
-                                            <div style="height: 30px !important;" t-foreach="lines" t-as="line">
+                                            <div style="height: 45px !important;" t-foreach="lines" t-as="line">
                                                 <span t-field="line.name"/>
                                             </div>
                                         </td>
 
                                         <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
-                                            <div style="height: 30px !important;" t-foreach="lines" t-as="line">
+                                            <div style="height: 45px !important;" t-foreach="lines" t-as="line">
                                                 <span t-field="line.quantity"/>
                                                 <span t-field="line.product_uom_id" groups="uom.group_uom"/>
                                             </div>
                                         </td>
 
                                         <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
-                                            <div style="height: 30px !important;" t-foreach="lines" t-as="line">
+                                            <div style="height: 45px !important;" t-foreach="lines" t-as="line">
                                                 <span class="text-nowrap" t-field="line.price_unit"
                                                       t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                             </div>
                                         </td>
 
                                         <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
-                                            <div style="height: 30px !important;" t-foreach="lines" t-as="line">
+                                            <div style="height: 45px !important;" t-foreach="lines" t-as="line">
                                                 <span t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"/>
                                             </div>
                                         </td>
 
                                         <td class="text-end o_price_total">
-                                            <div style="height: 30px !important;" t-foreach="lines" t-as="line">
+                                            <div style="height: 45px !important;" t-foreach="lines" t-as="line">
                                                 <span class="text-nowrap" t-field="line.price_subtotal"
                                                       groups="account.group_show_line_subtotals_tax_excluded"/>
                                                 <span class="text-nowrap" t-field="line.price_total"
