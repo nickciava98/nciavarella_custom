@@ -20,7 +20,34 @@
             <div style="width: 100%; font-size: 14.5px !important;">
                 <div style="width: 50%; float: left;">
                     <div class="col-10" name="company_address">
-                        <span t-if="company.company_details" t-field="company.company_details"/>
+                        <div t-field="company.name"/>
+
+                        <div t-if="o and o._name == 'account.move' and o.invoice_date and o.invoice_date &lt; datetime.date(2021, 6, 21)">
+                            <div style="margin-top: 7px; margin-bottom: 5px;">Via Barletta, 120</div>
+                            <div style="margin-top: 7px; margin-bottom: 5px;">10136, Torino (TO), Italia</div>
+                        </div>
+
+                        <div t-elif="o and o._name == 'account.move' and datetime.date(2021, 6, 21) &lt;= o.invoice_date &lt; datetime.date(2023, 2, 13)">
+                            <div style="margin-top: 7px; margin-bottom: 5px;">Via Serg. A. Padovano, 28</div>
+                            <div style="margin-top: 7px; margin-bottom: 5px;">71013, San Giovanni Rotondo (FG), Italia</div>
+                        </div>
+
+                        <t t-else="">
+                            <div t-out="'%s, %s' % (company.street or '/', company.numero_civico or 'snc')"
+                                 style="margin-top: 7px; margin-bottom: 5px;"/>
+                            <div t-if="company.street2" t-field="company.street2"/>
+                            <div t-out="'%s, %s (%s), %s' % (
+                                company.zip or '00000', company.city or '/',
+                                company.state_id.code or '/', company.country_id.name or '/'
+                            )" style="margin-top: 7px; margin-bottom: 5px;"/>
+                        </t>
+
+                        <div t-if="company.vat">
+                            Partita IVA: <span t-field="company.vat"/>
+                        </div>
+                        <div t-if="company.partner_id.l10n_it_codice_fiscale">
+                            Codice Fiscale: <span t-field="company.partner_id.l10n_it_codice_fiscale"/>
+                        </div>
                     </div>
                 </div>
 
