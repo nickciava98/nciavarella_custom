@@ -22,16 +22,8 @@
             <attribute name="t-esc">format_alphanumeric(record.progressivo_invio)</attribute>
         </xpath>
 
-        <xpath expr="//CessionarioCommittente//IdFiscaleIVA[1]" position="attributes">
+        <xpath expr="//CessionarioCommittente//IdFiscaleIVA" position="attributes">
             <attribute name="t-if">buyer.vat</attribute>
-        </xpath>
-
-        <xpath expr="//CessionarioCommittente//IdFiscaleIVA[2]" position="attributes">
-            <attribute name="t-if">false</attribute>
-        </xpath>
-
-        <xpath expr="//CessionarioCommittente//IdFiscaleIVA[3]" position="attributes">
-            <attribute name="t-if">false</attribute>
         </xpath>
 
         <xpath expr="//CedentePrestatore//Denominazione" position="attributes">
