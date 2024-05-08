@@ -282,6 +282,7 @@ class ActivityCosts(models.Model):
 class ActivityCostsLine(models.Model):
     _name = "activity.costs.line"
     _description = "Riepilogo attività"
+    _order = "partner_id asc"
 
     activity_cost_id = fields.Many2one(
         "activity.costs",
