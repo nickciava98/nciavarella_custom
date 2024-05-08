@@ -5,6 +5,11 @@
 
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="update_line_ids" type="object" class="btn btn-primary"
+                            string="Aggiorna riepilogo" groups="base.group_no_one"/>
+                </header>
+
                 <sheet>
                     <label for="name" string="Periodo d'imposta"/>
                     <div class="oe_title">
@@ -83,6 +88,19 @@
                                            options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                 </group>
                             </group>
+                        </page>
+
+                        <page name="riepilogo" string="Riepilogo">
+                            <field name="line_ids">
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="activity_cost_id" invisible="True"/>
+                                    <field name="partner_id"/>
+                                    <field name="total" sum="Totale" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <field name="currency_id" invisible="True"/>
+                                    <field name="cert_unica"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>

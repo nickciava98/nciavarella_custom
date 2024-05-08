@@ -1,4 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_activity_costs,access_activity_costs,model_activity_costs,base.group_user,1,1,1,1
+access_activity_costs_line,access_activity_costs_line,model_activity_costs_line,base.group_user,1,1,1,1
 access_link_invoice_timesheet,access_link_invoice_timesheet,model_link_invoice_timesheet,base.group_user,1,1,1,1
 access_account_move_down_payment,access_account_move_down_payment,model_account_move_down_payment,base.group_user,1,1,1,1
