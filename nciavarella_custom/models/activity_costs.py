@@ -218,8 +218,7 @@ class ActivityCosts(models.Model):
         for line in self:
             line.total_taxable = math.ceil(line.gross_income - (2.25 * line.welfare_previous_down_payment))
 
-    @api.depends("name", "payment_ids", "payment_ids.reconciled_invoice_ids",
-                 "payment_ids.reconciled_invoice_ids.invoice_down_payment")
+    @api.depends("name", "payment_ids")
     def _compute_total_down_payments(self):
         for cost in self:
             cost.total_down_payments = .0
@@ -247,8 +246,7 @@ class ActivityCosts(models.Model):
         for line in self:
             line.total_taxes_down_payment = math.ceil(line.tax_id * line.total_taxable)
 
-    @api.depends("name", "payment_ids", "payment_ids.reconciled_invoice_ids",
-                 "payment_ids.reconciled_invoice_ids.invoice_down_payment")
+    @api.depends("name", "payment_ids")
     def _compute_total_stamp_taxes(self):
         for cost in self:
             cost.total_stamp_taxes = .0
@@ -308,9 +306,7 @@ class ActivityCostsLine(models.Model):
         string="Cert. Unica?"
     )
 
-    @api.depends("partner_id", "activity_cost_id", "activity_cost_id.payment_ids",
-                 "activity_cost_id.payment_ids.reconciled_invoice_ids",
-                 "activity_cost_id.payment_ids.reconciled_invoice_ids.amount_total")
+    @api.depends("partner_id", "activity_cost_id", "activity_cost_id.payment_ids")
     def _compute_total(self):
         for line in self:
             line.total = .0
