@@ -278,14 +278,12 @@ class AccountMove(models.Model):
             if has_vat:
                 normalized_vat = partner.vat.replace(" ", "")
 
-                if is_sm:
+                if in_eu:
+                    if not normalized_vat[:2].isdecimal():
+                        normalized_vat = normalized_vat[2:]
+
+                elif is_sm:
                     normalized_vat = normalized_vat if normalized_vat[:2].isdecimal() else normalized_vat[2:]
-
-                elif not normalized_vat[:2].isdecimal():
-                    normalized_vat = normalized_vat[2:]
-
-                else:
-                    normalized_vat = "OO99999999999"
 
             if not normalized_country and partner.l10n_it_codice_fiscale:
                 normalized_country = "IT"
