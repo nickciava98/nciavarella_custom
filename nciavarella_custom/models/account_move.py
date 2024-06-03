@@ -266,6 +266,49 @@ class AccountMove(models.Model):
 
         return res
 
+    def _prepare_fatturapa_export_values(self):
+        def get_vat_values(partner):
+            europe = self.env.ref("base.europe", raise_if_not_found=False)
+            in_eu = europe and partner.country_id and partner.country_id in europe.country_ids
+            is_sm = partner.country_code == "SM"
+            normalized_vat = partner.vat
+            normalized_country = partner.country_code
+            has_vat = partner.vat and not partner.vat in ["/", "NA"]
+
+            if has_vat:
+                normalized_vat = partner.vat.replace(" ", "")
+
+                if is_sm:
+                    normalized_vat = normalized_vat if normalized_vat[:2].isdecimal() else normalized_vat[2:]
+
+                elif not normalized_vat[:2].isdecimal():
+                    normalized_vat = normalized_vat[2:]
+
+                else:
+                    normalized_vat = "OO99999999999"
+
+            if not normalized_country and partner.l10n_it_codice_fiscale:
+                normalized_country = "IT"
+
+            elif not has_vat and partner.country_id and partner.country_id.code != "IT":
+                normalized_vat = "0000000"
+
+            return {
+                "vat": normalized_vat,
+                "country_code": normalized_country
+            }
+
+        self.ensure_one()
+
+        template_values = super()._prepare_fatturapa_export_values()
+        is_self_invoice = self.env["account.edi.format"]._l10n_it_edi_is_self_invoice(self)
+        company = self.company_id
+        partner = self.commercial_partner_id
+        buyer = partner if not is_self_invoice else company
+        template_values["buyer_info"] = get_vat_values(buyer)
+
+        return template_values
+
 
 class AccountMoveDownPayment(models.Model):
     _name = "account.move.down.payment"

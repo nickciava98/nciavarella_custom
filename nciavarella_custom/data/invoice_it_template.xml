@@ -44,10 +44,6 @@
             </t>
         </xpath>
 
-        <xpath expr="//CessionarioCommittente//IdFiscaleIVA/IdCodice" position="attributes">
-            <attribute name="t-out">buyer.vat</attribute>
-        </xpath>
-
         <xpath expr="//DatiGeneraliDocumento" position="inside">
             <t t-if="record.narration" t-foreach="record._get_causale().split('\n')" t-as="causale">
                 <Causale t-esc="format_alphanumeric(causale.strip())"/>
