@@ -3,7 +3,7 @@
         <field name="name">Activity Costs</field>
         <field name="res_model">activity.costs</field>
         <field name="view_mode">tree,form</field>
-        <field name="context">{'group_by': 'name:year'}</field>
+        <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No data yet!

@@ -5,7 +5,7 @@
     "license": "OPL-1",
     "author": "Niccolò Ciavarella",
     "category": "",
-    "version": "16.0.0.9",
+    "version": "16.0.0.10",
     "website": "http://www.nciavarella.me",
     "depends": [
         "l10n_it_edi",
@@ -19,8 +19,8 @@
         "data/invoice_it_template.xml",
         "data/account_report.xml",
         "data/ir_cron.xml",
-        "report/report_fattura.xml",
         "data/mail_template.xml",
+        "data/update_data.xml",
         "views/account_analytic_line_tree.xml",
         "views/account_analytic_line_actions.xml",
         "views/account_tax_form.xml",
@@ -39,6 +39,7 @@
         "report/report_invoice_document.xml",
         "report/hr_timesheet_report.xml",
         "report/report_bilancio.xml",
+        "report/report_fattura.xml",
         "wizards/link_invoice_timesheet_form.xml"
     ],
     "application": False,

@@ -1,4 +1,5 @@
 import math
+import datetime
 
 from odoo import models, fields, api, exceptions, _
 
@@ -9,6 +10,7 @@ class ActivityCosts(models.Model):
     _description = "Activity Costs"
 
     name = fields.Char(
+        default=str(datetime.datetime.now().year),
         size=4,
         tracking=True,
         copy=False,
@@ -81,9 +83,15 @@ class ActivityCosts(models.Model):
         default=lambda self: self.env.ref("base.main_company").currency_id
     )
     taxes_previous_down_payment = fields.Float(
+        compute="_compute_taxes_previous_down_payment",
+        store=True,
+        readonly=False,
         string="Imposta sostitutiva (Acconto precedente)"
     )
     welfare_previous_down_payment = fields.Float(
+        compute="_compute_welfare_previous_down_payment",
+        store=True,
+        readonly=False,
         string="Gestione Separata INPS (Acconto precedente)"
     )
     total_due = fields.Float(
@@ -110,6 +118,29 @@ class ActivityCosts(models.Model):
         "activity_cost_id",
         string="Riepilogo"
     )
+
+    @api.model
+    def update_data(self):
+        for cost in self.search([]):
+            cost._compute_taxes_previous_down_payment()
+            cost._compute_welfare_previous_down_payment()
+
+    def _get_previous_id(self):
+        self.ensure_one()
+
+        return self.search([("name", "=", str(int(self.name) - 1))], limit=1)
+
+    @api.depends("name")
+    def _compute_taxes_previous_down_payment(self):
+        for cost in self:
+            previous_id = cost._get_previous_id()
+            cost.taxes_previous_down_payment = previous_id and previous_id.total_taxes_down_payment or .0
+
+    @api.depends("name")
+    def _compute_welfare_previous_down_payment(self):
+        for cost in self:
+            previous_id = cost._get_previous_id()
+            cost.welfare_previous_down_payment = previous_id and previous_id.total_welfare_down_payment or .0
 
     def update_line_ids(self):
         self._update_line_ids()
@@ -213,10 +244,14 @@ class ActivityCosts(models.Model):
             if cost.name and cost._check_name_is_year() and cost.payment_ids:
                 cost.total_invoiced += sum(cost.payment_ids.mapped("amount"))
 
-    @api.depends("gross_income", "welfare_previous_down_payment")
+    @api.depends("name", "gross_income", "welfare_previous_down_payment")
     def _compute_total_taxable(self):
-        for line in self:
-            line.total_taxable = math.ceil(line.gross_income - (2.25 * line.welfare_previous_down_payment))
+        for cost in self:
+            previous_id = cost._get_previous_id()
+            welfare_previous_due = previous_id and previous_id.total_welfare_due or .0
+            cost.total_taxable = math.ceil(
+                cost.gross_income - (cost.welfare_previous_down_payment + welfare_previous_due)
+            )
 
     @api.depends("name", "payment_ids")
     def _compute_total_down_payments(self):

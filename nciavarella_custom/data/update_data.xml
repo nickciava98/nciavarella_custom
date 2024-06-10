@@ -1,0 +1,3 @@
+<odoo>
+    <function name="update_data" model="activity.costs"/>
+</odoo>
