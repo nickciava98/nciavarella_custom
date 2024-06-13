@@ -290,7 +290,7 @@ class ActivityCosts(models.Model):
                 invoice_ids = cost.payment_ids.mapped("reconciled_invoice_ids")
 
                 if invoice_ids:
-                    cost.total_stamp_taxes += sum(cost.payment_ids.mapped("l10n_it_stamp_duty"))
+                    cost.total_stamp_taxes += sum(invoice_ids.mapped("l10n_it_stamp_duty"))
 
     @api.depends("welfare_id", "gross_income", "welfare_previous_down_payment")
     def _compute_total_welfare_due(self):
