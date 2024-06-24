@@ -10,3 +10,7 @@
 	path = OCA/web
 	url = https://github.com/OCA/web
 	branch = 16.0
+[submodule "ONLYOFFICE/onlyoffice_odoo"]
+	path = ONLYOFFICE/onlyoffice_odoo
+	url = https://github.com/ONLYOFFICE/onlyoffice_odoo.git
+	branch = 16.0
