@@ -271,6 +271,7 @@ class AccountMove(models.Model):
             europe = self.env.ref("base.europe", raise_if_not_found=False)
             in_eu = europe and partner.country_id and partner.country_id in europe.country_ids
             is_sm = partner.country_code == "SM"
+            is_gb = partner.country_code == "GB"
             normalized_vat = partner.vat
             normalized_country = partner.country_code
             has_vat = partner.vat and not partner.vat in ["/", "NA"]
@@ -278,12 +279,12 @@ class AccountMove(models.Model):
             if has_vat:
                 normalized_vat = partner.vat.replace(" ", "")
 
-                if in_eu:
+                if in_eu or is_gb:
                     if not normalized_vat[:2].isdecimal():
                         normalized_vat = normalized_vat[2:]
 
                 elif is_sm:
-                    normalized_vat = normalized_vat if normalized_vat[:2].isdecimal() else normalized_vat[2:]
+                    normalized_vat = normalized_vat[:2].isdecimal() and normalized_vat or normalized_vat[2:]
 
             if not normalized_country and partner.l10n_it_codice_fiscale:
                 normalized_country = "IT"
