@@ -52,9 +52,15 @@ class ActivityCosts(models.Model):
         compute="_compute_total_taxes_due",
         string="Imposta sostitutiva (Saldo)"
     )
+    correzione_saldo_imposta = fields.Float(
+        string="Correzione imposta sostitutiva (Saldo)"
+    )
     total_taxes_down_payment = fields.Float(
         compute="_compute_total_taxes_down_payment",
         string="Imposta sostitutiva (Acconto)"
+    )
+    correzione_acconto_imposta = fields.Float(
+        string="Correzione imposta sostitutiva (Acconto)"
     )
     total_stamp_taxes = fields.Float(
         compute="_compute_total_stamp_taxes",
@@ -69,9 +75,15 @@ class ActivityCosts(models.Model):
         compute="_compute_total_welfare_due",
         string="Gestione Separata INPS (Saldo)"
     )
+    correzione_saldo_inps = fields.Float(
+        string="Correzione Gestione Separata INPS (Saldo)"
+    )
     total_welfare_down_payment = fields.Float(
         compute="_compute_total_welfare_down_payment",
         string="Gestione Separata INPS (Acconto)"
+    )
+    correzione_acconto_inps = fields.Float(
+        string="Correzione Gestione Separata INPS (Acconto)"
     )
     year_cash_flow = fields.Float(
         compute="_compute_year_cash_flow",
@@ -105,7 +117,7 @@ class ActivityCosts(models.Model):
     correzione = fields.Float(
         default=.0,
         copy=False,
-        string="Correzione [€]"
+        string="Correzione fatturato"
     )
     payment_ids = fields.Many2many(
         "account.payment",
@@ -225,15 +237,14 @@ class ActivityCosts(models.Model):
             cost.gross_income = math.ceil(cost.profitability_coefficient * cost.total_invoiced)
 
     @api.depends("total_taxes_due", "total_taxes_down_payment", "total_welfare_due",
-                 "total_welfare_down_payment", "total_stamp_taxes")
+                 "total_welfare_down_payment")
     def _compute_total_due(self):
         for cost in self:
             cost.total_due = sum([
                 cost.total_taxes_due,
                 cost.total_taxes_down_payment,
                 cost.total_welfare_due,
-                cost.total_welfare_down_payment,
-                cost.total_stamp_taxes
+                cost.total_welfare_down_payment
             ])
 
     @api.depends("name", "correzione", "payment_ids")
@@ -268,18 +279,24 @@ class ActivityCosts(models.Model):
 
     @api.depends("total_due", "total_stamp_taxes", "total_down_payments")
     def _compute_remaining_balance(self):
-        for line in self:
-            line.remaining_balance = sum([line.total_due, line.total_stamp_taxes]) - line.total_down_payments
+        for cost in self:
+            cost.remaining_balance = sum([cost.total_due, cost.total_stamp_taxes, -cost.total_down_payments])
 
-    @api.depends("tax_id", "total_taxable", "taxes_previous_down_payment")
+    @api.depends("tax_id", "total_taxable", "taxes_previous_down_payment", "correzione_saldo_imposta")
     def _compute_total_taxes_due(self):
-        for line in self:
-            line.total_taxes_due = math.ceil(line.tax_id * line.total_taxable - line.taxes_previous_down_payment)
+        for cost in self:
+            cost.total_taxes_due = sum([
+                math.ceil(cost.tax_id * cost.total_taxable - cost.taxes_previous_down_payment),
+                cost.correzione_saldo_imposta
+            ])
 
-    @api.depends("tax_id", "total_taxable")
+    @api.depends("tax_id", "total_taxable", "correzione_acconto_imposta")
     def _compute_total_taxes_down_payment(self):
-        for line in self:
-            line.total_taxes_down_payment = math.ceil(line.tax_id * line.total_taxable)
+        for cost in self:
+            cost.total_taxes_down_payment = sum([
+                math.ceil(cost.tax_id * cost.total_taxable),
+                cost.correzione_acconto_imposta
+            ])
 
     @api.depends("name", "payment_ids")
     def _compute_total_stamp_taxes(self):
@@ -292,20 +309,26 @@ class ActivityCosts(models.Model):
                 if invoice_ids:
                     cost.total_stamp_taxes += sum(invoice_ids.mapped("l10n_it_stamp_duty"))
 
-    @api.depends("welfare_id", "gross_income", "welfare_previous_down_payment")
+    @api.depends("welfare_id", "gross_income", "welfare_previous_down_payment", "correzione_saldo_inps")
     def _compute_total_welfare_due(self):
-        for line in self:
-            line.total_welfare_due = math.ceil(line.welfare_id * line.gross_income - line.welfare_previous_down_payment)
+        for cost in self:
+            cost.total_welfare_due = sum([
+                math.ceil(cost.welfare_id * cost.gross_income - cost.welfare_previous_down_payment),
+                cost.correzione_saldo_inps
+            ])
 
-    @api.depends("welfare_id", "gross_income")
+    @api.depends("welfare_id", "gross_income", "correzione_acconto_inps")
     def _compute_total_welfare_down_payment(self):
-        for line in self:
-            line.total_welfare_down_payment = math.ceil(.8 * line.welfare_id * line.gross_income)
+        for cost in self:
+            cost.total_welfare_down_payment = sum([
+                math.ceil(.8 * cost.welfare_id * cost.gross_income),
+                cost.correzione_acconto_inps
+            ])
 
     @api.depends("total_invoiced", "total_due")
     def _compute_year_cash_flow(self):
-        for line in self:
-            line.year_cash_flow = line.total_invoiced - line.total_due
+        for cost in self:
+            cost.year_cash_flow = cost.total_invoiced - cost.total_due
 
     _sql_constraints = [
         ("unique_name", "unique(name)", "Il periodo d'imposta deve essere univoco!")

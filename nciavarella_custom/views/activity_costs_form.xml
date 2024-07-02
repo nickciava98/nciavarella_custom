@@ -33,17 +33,19 @@
                         </group>
 
                         <group col="1" colspan="1">
+                            <field name="correzione" widget="monetary"
+                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                             <field name="tax_id" widget="percentage" required="True"/>
                             <field name="welfare_id" widget="percentage" required="True"/>
                             <field name="profitability_coefficient" widget="percentage" required="True"/>
-                            <field name="correzione" widget="monetary"
-                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                         </group>
                     </group>
 
                     <notebook>
                         <page string="Costs" name="costs">
-                            <group col="2" colspan="2" string="Totali da versare">
+                            <separator string="Totali da versare"/>
+
+                            <group col="2" colspan="2" string="Imposta sostitutiva">
                                 <group col="1" colspan="1">
                                     <field name="total_taxes_due" widget="monetary"
                                            options="{'currency_field': 'currency_id', 'field_digits': True}"/>
@@ -52,9 +54,25 @@
                                 </group>
 
                                 <group col="1" colspan="1">
+                                    <field name="correzione_saldo_imposta" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <field name="correzione_acconto_imposta" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                </group>
+                            </group>
+
+                            <group col="2" colspan="2" string="Gestione Separata INPS">
+                                <group col="1" colspan="1">
                                     <field name="total_welfare_due" widget="monetary"
                                            options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                     <field name="total_welfare_down_payment" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                </group>
+
+                                <group col="1" colspan="1">
+                                    <field name="correzione_saldo_inps" widget="monetary"
+                                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <field name="correzione_acconto_inps" widget="monetary"
                                            options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                 </group>
                             </group>
