@@ -109,8 +109,8 @@
                         </page>
 
                         <page name="riepilogo" string="Riepilogo">
-                            <field name="line_ids">
-                                <tree create="false" delete="false">
+                            <field name="line_ids" view_mode="tree,form">
+                                <tree create="false" delete="false" editable="bottom">
                                     <field name="activity_cost_id" invisible="True"/>
                                     <field name="partner_id"/>
                                     <field name="total" sum="Totale" widget="monetary"

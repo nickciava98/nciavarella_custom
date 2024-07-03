@@ -186,17 +186,6 @@ class ActivityCosts(models.Model):
             "partner_id": partner_id.id
         }) for partner_id in partner_ids]
 
-    def write(self, values):
-        res = super().write(values)
-
-        if self.env.context.get("force_update", False) or "line_ids" in values:
-            return res
-
-        for cost in self:
-            cost._update_line_ids()
-
-        return res
-
     @api.depends("name")
     def _compute_payment_ids(self):
         for cost in self:
