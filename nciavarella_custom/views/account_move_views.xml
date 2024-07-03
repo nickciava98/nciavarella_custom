@@ -81,7 +81,7 @@
                 <page name="timesheet_entries" string="Timesheet Entries"
                       attrs="{'invisible': [('analytic_line_ids', '=', [])]}">
                     <field name="analytic_line_ids" widget="one2many" readonly="True" force_save="1">
-                        <tree>
+                        <tree limit="1000">
                             <field name="date"/>
                             <field name="project_id"/>
                             <field name="task_id" widget="task_with_hours"/>
