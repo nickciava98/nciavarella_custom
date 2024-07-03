@@ -112,7 +112,7 @@
                             <field name="line_ids" view_mode="tree,form">
                                 <tree create="false" delete="false" editable="bottom">
                                     <field name="activity_cost_id" invisible="True"/>
-                                    <field name="partner_id"/>
+                                    <field name="partner_id" readonly="True" force_save="True"/>
                                     <field name="total" sum="Totale" widget="monetary"
                                            options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                     <field name="currency_id" invisible="True"/>
