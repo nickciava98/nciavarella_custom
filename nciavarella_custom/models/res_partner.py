@@ -2,6 +2,7 @@ import re
 
 from odoo.exceptions import UserError
 from stdnum.it import codicefiscale, iva
+from collections import defaultdict
 
 from odoo import api, fields, models, _
 
@@ -21,6 +22,14 @@ class ResPartner(models.Model):
         size=7
     )
     numero_civico = fields.Char()
+
+    def _prepare_display_address(self, without_company=False):
+        address_format, args = super()._prepare_display_address()
+        address_format = address_format.replace("%(company_name)s\n", "")
+        args = defaultdict(str, {**args, **{
+            "numero_civico": self.numero_civico or "/"
+        }})
+        return address_format, args
 
     @api.model
     def _l10n_it_normalize_codice_fiscale(self, codice):
