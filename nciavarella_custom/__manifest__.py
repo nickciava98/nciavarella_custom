@@ -5,7 +5,7 @@
     "license": "OPL-1",
     "author": "Niccolò Ciavarella",
     "category": "",
-    "version": "16.0.0.16",
+    "version": "16.0.0.17",
     "website": "http://www.nciavarella.me",
     "depends": [
         "l10n_it_edi",
@@ -13,6 +13,11 @@
         "hr_timesheet",
         "project"
     ],
+    "assets": {
+        "web.assets_backend": [
+            "nciavarella_custom/static/src/css/backend.scss"
+        ]
+    },
     "data": [
         "security/ir.model.access.csv",
         "security/groups.xml",
