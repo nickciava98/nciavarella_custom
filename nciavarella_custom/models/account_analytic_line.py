@@ -6,9 +6,9 @@ import locale
 import base64
 import pytz
 
-from decimal import Decimal
-
 from odoo import modules, models, fields, api, exceptions, _
+
+from decimal import Decimal
 
 
 class AccountAnalyticLine(models.Model):
@@ -47,23 +47,28 @@ class AccountAnalyticLine(models.Model):
         compute="_compute_time_start",
         store=True,
         readonly=False,
+        group_operator="min",
         string="Time Start"
     )
     time_end = fields.Float(
         compute="_compute_time_end",
         store=True,
         readonly=False,
+        group_operator="max",
         string="Time End"
     )
     unit_amount = fields.Float(
         compute="_compute_unit_amount",
         store=True,
         readonly=False,
+        group_operator="sum",
         string="Ore"
     )
     valore = fields.Monetary(
+        currency_field="currency_id",
         compute="_compute_valore",
         store=True,
+        group_operator="sum",
         string="Valore"
     )
 
@@ -219,11 +224,10 @@ class AccountAnalyticLine(models.Model):
             "target": "new"
         }
 
-    @api.depends("employee_id", "employee_id.hourly_cost", "unit_amount")
+    @api.depends("project_id", "project_id.tariffa_oraria", "unit_amount")
     def _compute_valore(self):
         for line in self:
-            line.valore = line.employee_id.hourly_cost * line.unit_amount \
-                if line.employee_id and line.employee_id.hourly_cost else .0
+            line.valore = line.project_id and line.project_id.tariffa_oraria * line.unit_amount or .0
 
     @api.depends("create_date")
     def _compute_time_start(self):

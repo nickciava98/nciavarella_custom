@@ -1,4 +1,16 @@
 <odoo>
+    <record id="view_project_kanban_inherit" model="ir.ui.view">
+        <field name="name">view.project.kanban.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="action">view_project_form</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record id="project_project_view_form_simplified_inherit" model="ir.ui.view">
         <field name="name">project.project.view.form.simplified.inherit</field>
         <field name="model">project.project</field>
@@ -38,6 +50,7 @@
                         <span class="o_stat_value">
                             <field name="task_count"/>
                         </span>
+
                         <span class="o_stat_text">
                             <field name="label_tasks" readonly="True" force_save="True"/>
                         </span>
@@ -47,6 +60,11 @@
 
             <xpath expr="//field[@name='partner_id']" position="attributes">
                 <attribute name="required">True</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="currency_id" invisible="True"/>
+                <field name="tariffa_oraria"/>
             </xpath>
         </field>
     </record>

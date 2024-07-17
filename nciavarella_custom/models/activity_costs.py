@@ -8,6 +8,7 @@ class ActivityCosts(models.Model):
     _name = "activity.costs"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Activity Costs"
+    _order = "name desc"
 
     name = fields.Char(
         default=str(datetime.datetime.now().year),

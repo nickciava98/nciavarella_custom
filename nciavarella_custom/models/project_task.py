@@ -1,13 +1,11 @@
-from odoo import models
+from odoo import models, api
+
 
 class ProjectTask(models.Model):
     _inherit = "project.task"
 
-    def write(self, vals):
-        res = super().write(vals)
-
-        if "stage_id" in vals:
-            for project in self.filtered(lambda p: p.stage_id.fase_completata):
-                project.active = False
-
-        return res
+    @api.onchange("stage_id")
+    def _onchange_stage_id(self):
+        for task in self:
+            if task.stage_id and task.stage_id.fase_completata:
+                task.active = False

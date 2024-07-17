@@ -1,0 +1,42 @@
+<odoo>
+    <record id="project_task_form_inherit" model="ir.ui.view">
+        <field name="name">project.task.form.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//widget[@name='web_ribbon']" position="attributes">
+                <attribute name="title">Completato</attribute>
+                <attribute name="bg_color">bg-success</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_task_type_tree_inherit" model="ir.ui.view">
+        <field name="name">project.task.type.tree.inherit</field>
+        <field name="model">project.task.type</field>
+        <field name="inherit_id" ref="project.task_type_tree"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='fold']" position="before">
+                <field name="fase_completata" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="project_task_type_edit_inherit" model="ir.ui.view">
+        <field name="name">project.task.type.edit.inherit</field>
+        <field name="model">project.task.type</field>
+        <field name="inherit_id" ref="project.task_type_edit"/>
+        
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_ids']" position="after">
+                <field name="fase_completata"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project.menu_project_config_project" model="ir.ui.menu">
+        <field name="groups_id" eval="[(5, 0), (4, ref('base.group_user'))]"/>
+    </record>
+</odoo>

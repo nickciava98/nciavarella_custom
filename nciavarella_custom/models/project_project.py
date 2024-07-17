@@ -1,8 +1,14 @@
-from odoo import models, api
+from odoo import models, fields, api
 
 
 class ProjectProject(models.Model):
     _inherit = "project.project"
+
+    tariffa_oraria = fields.Monetary(
+        currency_field="currency_id",
+        default=.0,
+        string="Tariffa Oraria"
+    )
 
     def _get_task_domain(self):
         return [("project_id", "=", self.id), ("active", "in", (True, False))]
