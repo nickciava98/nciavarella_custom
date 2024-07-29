@@ -6,9 +6,9 @@ import locale
 import base64
 import pytz
 
-from odoo import modules, models, fields, api, exceptions, _
-
 from decimal import Decimal
+
+from odoo import modules, models, fields, api, exceptions, _
 
 
 class AccountAnalyticLine(models.Model):
@@ -71,6 +71,36 @@ class AccountAnalyticLine(models.Model):
         group_operator="sum",
         string="Valore"
     )
+    mese_competenza = fields.Selection(
+        [("01", "Gennaio"),
+         ("02", "Febbraio"),
+         ("03", "Marzo"),
+         ("04", "Aprile"),
+         ("05", "Maggio"),
+         ("06", "Giugno"),
+         ("07", "Luglio"),
+         ("08", "Agosto"),
+         ("09", "Settembre"),
+         ("10", "Ottobre"),
+         ("11", "Novembre"),
+         ("12", "Dicembre")],
+        compute="_compute_competenza",
+        store=True,
+        readonly=False,
+        string="Mese Competenza"
+    )
+    anno_competenza = fields.Char(
+        compute="_compute_competenza",
+        store=True,
+        readonly=False,
+        string="Anno Competenza"
+    )
+
+    @api.depends("date")
+    def _compute_competenza(self):
+        for line in self:
+            line.mese_competenza = line.date and line.date.strftime("%m") or False
+            line.anno_competenza = line.date and line.date.strftime("%Y") or False
 
     def pulizia_xlsx_data_action(self):
         path = modules.module.get_resource_path("nciavarella_custom", "static/xlsx_data")
