@@ -11,12 +11,10 @@ class OnlyOfficeConnectorInherit(Onlyoffice_Connector):
     def prepare_editor_values(self, attachment, access_token, can_write):
         data = attachment.read(["id", "checksum", "public", "name", "access_token"])[0]
         docserver_url = config_utils.get_doc_server_public_url(request.env)
-        odoo_url = config_utils.get_base_or_odoo_url(request.env)
-        filename = self.filter_xss(data["name"])
+        odoo_url = config_utils.get_odoo_url(request.env)
+        filename = data["name"]
         security_token = jwt_utils.encode_payload(
-            request.env,
-            {"id": request.env.user.id},
-            config_utils.get_internal_jwt_secret(request.env)
+            request.env, {"id": request.env.user.id}, config_utils.get_internal_jwt_secret(request.env)
         )
         path_part = f"{data['id']}?oo_security_token={security_token}&access_token={access_token or ''}"
         document_type = file_utils.get_file_type(filename)
@@ -50,6 +48,6 @@ class OnlyOfficeConnectorInherit(Onlyoffice_Connector):
         return {
             "docTitle": filename,
             "docIcon": f"/onlyoffice_odoo/static/description/editor_icons/{document_type}.ico",
-            "docApiJS": docserver_url + "web-apps/apps/api/documents/api.js",
+            "docApiJS": f"{docserver_url}web-apps/apps/api/documents/api.js",
             "editorConfig": markupsafe.Markup(json.dumps(root_config))
         }
