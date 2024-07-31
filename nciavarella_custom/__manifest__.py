@@ -11,7 +11,8 @@
         "l10n_it_edi",
         "partner_firstname",
         "hr_timesheet",
-        "project"
+        "project",
+        "onlyoffice_odoo"
     ],
     "assets": {
         "web.assets_backend": [
