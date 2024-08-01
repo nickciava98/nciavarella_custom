@@ -1,0 +1,134 @@
+<odoo>
+    <template id="report_contabile_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="document_info">
+                    <span class="text-muted">
+                        Documento privo di valenza fiscale ai sensi dell’art. 21 del DPR 633/72.
+                        L’originale è disponibile all’indirizzo telematico fornito oppure
+                        nell'Area Riservata dell’Agenzia delle Entrate.
+                    </span>
+                </t>
+
+                <t t-set="docs" t-value="docs.filtered(lambda d: d.reconciled_invoice_ids).sorted(lambda d: d.date)"/>
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <t t-set="date"
+                           t-value="list(dict.fromkeys([doc.date.strftime('%B %Y').capitalize() for doc in docs]))"/>
+
+                        <h2>
+                            Documento contabile
+                            <t t-if="len(date) == 1">del Mese di <t t-out="date[0]"/></t>
+                            <t t-else="">dei Mesi di:</t>
+                        </h2>
+
+                        <h3 t-if="len(date) &gt; 1" t-out="', '.join(date)"/>
+                    </div>
+                </div>
+
+                <div class="page">
+                    <div class="mb-3">
+                        <table class="table table-borderless"
+                               style="height: 100% !important; border: 1px solid #dee2e6 !important; border-top: 1px solid #dee2e6 !important;">
+                            <thead style="border-bottom: 2px solid black !important; border-top: 1px solid #dee2e6 !important;">
+                                <tr>
+                                    <th class="text-start"
+                                        style="width: 15% !important; border-right: 1px solid #dee2e6 !important;">
+                                        Data Pagamento
+                                    </th>
+
+                                    <th class="text-start"
+                                        style="width: 75% !important; border-right: 1px solid #dee2e6 !important;">
+                                        Descrizione
+                                    </th>
+
+                                    <th class="text-end"
+                                        style="width: 10% !important;">
+                                        Importo
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <t t-foreach="date" t-as="data">
+                                    <t t-set="pagamenti"
+                                       t-value="docs.filtered(lambda d: d.date.strftime('%B %Y').capitalize() == data)"/>
+
+                                    <tr t-if="len(date) &gt; 1">
+                                        <td class="text-start" style="border-right: 1px solid #dee2e6 !important;"/>
+
+                                        <td class="text-start" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div><span class="fst-italic" t-out="data"/></div>
+                                        </td>
+
+                                        <td class="text-end" style="border-right: 1px solid #dee2e6 !important;"/>
+                                    </tr>
+
+                                    <tr t-foreach="pagamenti" t-as="doc">
+                                        <t t-set="invoices" t-value="doc.reconciled_invoice_ids.sorted(key=lambda i: (i.invoice_date, i.invoice_date_due, i.name), reverse=True)"/>
+
+                                        <td class="text-start" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div><span t-field="doc.date"/></div>
+                                        </td>
+
+                                        <td class="text-start" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div>
+                                                <span t-out="'&lt;br/&gt;'.join(invoices.mapped('display_name'))"
+                                                      t-options="{'widget': 'html'}"/>
+                                            </div>
+                                        </td>
+
+                                        <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div><span t-field="doc.amount_company_currency_signed"/></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr t-if="len(date) &gt; 1">
+                                        <td class="text-start" style="border-right: 1px solid #dee2e6 !important;"/>
+
+                                        <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div><span class="fw-bold">Totale <t t-out="data"/></span></div>
+                                        </td>
+
+                                        <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div>
+                                                <span t-out="sum(pagamenti.mapped('amount_company_currency_signed'))"
+                                                      t-options="{'widget': 'monetary', 'display_currency': pagamenti[0].currency_id}"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="text-start" style="vertical-align: middle !important; width: 90% !important;">
+                                <strong>Totale</strong>
+                            </td>
+
+                            <td class="text-end" style="vertical-align: middle !important; width: 10% !important;">
+                                <span class="text-nowrap"
+                                      t-out="sum(docs.mapped('amount_company_currency_signed'))"
+                                      t-options="{'widget': 'monetary', 'display_currency': docs[0].currency_id}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="report_contabile" model="ir.actions.report">
+        <field name="name">Contabile</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">nciavarella_custom.report_contabile_document</field>
+        <field name="report_file">nciavarella_custom.report_contabile_document</field>
+        <field name="print_report_name">"Contabile"</field>
+        <field name="binding_model_id" ref="account.model_account_payment"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
