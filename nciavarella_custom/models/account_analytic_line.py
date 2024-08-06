@@ -95,12 +95,24 @@ class AccountAnalyticLine(models.Model):
         readonly=False,
         string="Anno Competenza"
     )
+    competenza = fields.Date(
+        compute="_compute_data_competenza",
+        store=True,
+        string="Competenza"
+    )
 
     @api.depends("date")
     def _compute_competenza(self):
         for line in self:
             line.mese_competenza = line.date and line.date.strftime("%m") or False
             line.anno_competenza = line.date and line.date.strftime("%Y") or False
+
+    @api.depends("mese_competenza", "anno_competenza")
+    def _compute_data_competenza(self):
+        for line in self:
+            line.competenza = (line.anno_competenza and line.mese_competenza) and datetime.datetime(
+                year=int(line.anno_competenza), month=int(line.mese_competenza), day=1
+            ) or fields.Date.today()
 
     def pulizia_xlsx_data_action(self):
         path = modules.module.get_resource_path("nciavarella_custom", "static/xlsx_data")
