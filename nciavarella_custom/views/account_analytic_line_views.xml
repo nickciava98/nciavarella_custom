@@ -36,7 +36,7 @@
         <field name="arch" type="xml">
             <xpath expr="//tree" position="attributes">
                 <attribute name="editable">top</attribute>
-                <attribute name="default_order">date desc, time_start desc</attribute>
+<!--                <attribute name="default_order">date desc, time_start desc</attribute>-->
             </xpath>
 
             <xpath expr="//field[@name='date']" position="before">
