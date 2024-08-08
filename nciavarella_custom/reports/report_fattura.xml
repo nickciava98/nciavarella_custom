@@ -119,17 +119,17 @@
                                             Descrizione
                                         </th>
 
-                                        <th class="text-end"
+                                        <th t-if="not semplificata" class="text-end"
                                             style="width: 10% !important; border-right: 1px solid #dee2e6 !important;">
                                             Q.tà
                                         </th>
 
-                                        <th class="text-end"
+                                        <th t-if="not semplificata" class="text-end"
                                             style="width: 13% !important; border-right: 1px solid #dee2e6 !important;">
                                             Prezzo
                                         </th>
 
-                                        <th class="text-end"
+                                        <th t-if="not semplificata" class="text-end"
                                             style="width: 7% !important; border-right: 1px solid #dee2e6 !important;">
                                             IVA
                                         </th>
@@ -148,37 +148,40 @@
 
                                     <tr>
                                         <td class="text-start" style="border-right: 1px solid #dee2e6 !important;">
-                                            <div t-attf-style="height: #{'30' if len(line.name) &lt;= 75 else '45'}px !important;"
+                                            <div t-attf-style="height: #{line._get_line_height()}px !important;"
                                                  t-foreach="lines" t-as="line">
                                                 <span t-field="line.name"/>
                                             </div>
                                         </td>
 
-                                        <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
-                                            <div t-attf-style="height: #{'30' if len(line.name) &lt;= 75 else '45'}px !important;"
+                                        <td t-if="not semplificata"
+                                            class="text-end" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div t-attf-style="height: #{line._get_line_height()}px !important;"
                                                  t-foreach="lines" t-as="line">
                                                 <span t-field="line.quantity"/>
                                                 <span t-field="line.product_uom_id" groups="uom.group_uom"/>
                                             </div>
                                         </td>
 
-                                        <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
-                                            <div t-attf-style="height: #{'30' if len(line.name) &lt;= 75 else '45'}px !important;"
+                                        <td t-if="not semplificata"
+                                            class="text-end" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div t-attf-style="height: #{line._get_line_height()}px !important;"
                                                  t-foreach="lines" t-as="line">
                                                 <span class="text-nowrap" t-field="line.price_unit"
                                                       t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                             </div>
                                         </td>
 
-                                        <td class="text-end" style="border-right: 1px solid #dee2e6 !important;">
-                                            <div t-attf-style="height: #{'30' if len(line.name) &lt;= 75 else '45'}px !important;"
+                                        <td t-if="not semplificata"
+                                            class="text-end" style="border-right: 1px solid #dee2e6 !important;">
+                                            <div t-attf-style="height: #{line._get_line_height()}px !important;"
                                                  t-foreach="lines" t-as="line">
                                                 <span t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"/>
                                             </div>
                                         </td>
 
                                         <td class="text-end o_price_total">
-                                            <div t-attf-style="height: #{'30' if len(line.name) &lt;= 75 else '45'}px !important;"
+                                            <div t-attf-style="height: #{line._get_line_height()}px !important;"
                                                  t-foreach="lines" t-as="line">
                                                 <span class="text-nowrap" t-field="line.price_subtotal"
                                                       groups="account.group_show_line_subtotals_tax_excluded"/>
@@ -328,10 +331,42 @@
     <template id="report_invoice_with_payments">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
+                <t t-set="semplificata" t-value="False"/>
                 <t t-set="lang" t-value="o.partner_id.lang"/>
                 <t t-if="o._get_name_invoice_report() == 'account.report_invoice_document'"
                    t-call="nciavarella_custom.report_fattura" t-lang="lang"/>
             </t>
         </t>
     </template>
+
+    <template id="report_fattura_semplificata">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="semplificata" t-value="True"/>
+                <t t-set="lang" t-value="o.partner_id.lang"/>
+                <t t-if="o._get_name_invoice_report() == 'account.report_invoice_document'"
+                   t-call="nciavarella_custom.report_fattura" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="account.account_invoices" model="ir.actions.report">
+        <field name="name">Fatture</field>
+    </record>
+
+    <record id="report_fattura_semplificata_action" model="ir.actions.report">
+        <field name="name">Fatture semplificate</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">nciavarella_custom.report_fattura_semplificata</field>
+        <field name="report_file">nciavarella_custom.report_fattura_semplificata</field>
+        <field name="print_report_name">(object._get_report_base_filename())</field>
+        <field name="attachment">
+            (object.state == 'posted') and ((object._get_move_display_name()).replace('/', '.') + '.pdf')
+        </field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="groups_id"
+               eval="[(4, ref('account.group_account_invoice')), (4, ref('account.group_account_readonly'))]"/>
+    </record>
 </odoo>

@@ -240,7 +240,9 @@ class AccountMove(models.Model):
         if account_invoices_id:
             account_invoices_id = account_invoices_id.sudo()
             data = {
-                "attachment": "(object.state == 'posted') and ((object._get_move_display_name()).replace('/','.')+'.pdf')"
+                "attachment": (
+                    "(object.state == 'posted') and ((object._get_move_display_name()).replace('/','.')+'.pdf')"
+                )
             }
             report = "nciavarella_custom.report_fattura"
 
@@ -307,6 +309,14 @@ class AccountMove(models.Model):
         template_values["buyer_info"] = get_vat_values(buyer)
 
         return template_values
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    def _get_line_height(self):
+        self.ensure_one()
+        return len(self.name) <= 75 and "30" or "45"
 
 
 class AccountMoveDownPayment(models.Model):
