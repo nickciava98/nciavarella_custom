@@ -39,12 +39,12 @@
                                     </th>
 
                                     <th class="text-start"
-                                        style="width: 75% !important; border-right: 1px solid #dee2e6 !important;">
+                                        style="width: 70% !important; border-right: 1px solid #dee2e6 !important;">
                                         Descrizione
                                     </th>
 
                                     <th class="text-end"
-                                        style="width: 10% !important;">
+                                        style="width: 15% !important;">
                                         Importo
                                     </th>
                                 </tr>
@@ -105,11 +105,11 @@
 
                     <table class="table table-bordered">
                         <tr>
-                            <td class="text-start" style="vertical-align: middle !important; width: 90% !important;">
+                            <td class="text-start" style="vertical-align: middle !important; width: 85% !important;">
                                 <strong>Totale</strong>
                             </td>
 
-                            <td class="text-end" style="vertical-align: middle !important; width: 10% !important;">
+                            <td class="text-end" style="vertical-align: middle !important; width: 15% !important;">
                                 <span class="text-nowrap"
                                       t-out="sum(docs.mapped('amount_company_currency_signed'))"
                                       t-options="{'widget': 'monetary', 'display_currency': docs[0].currency_id}"/>
