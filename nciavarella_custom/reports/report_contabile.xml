@@ -55,7 +55,7 @@
                                     <t t-set="pagamenti"
                                        t-value="docs.filtered(lambda d: d.date.strftime('%B %Y').capitalize() == data)"/>
 
-                                    <tr t-if="len(date) &gt; 1">
+                                    <tr t-if="len(date) &gt; 1" style="page-break-inside: auto;">
                                         <td class="text-start" style="border-right: 1px solid #dee2e6 !important;"/>
 
                                         <td class="text-start" style="border-right: 1px solid #dee2e6 !important;">
@@ -65,7 +65,7 @@
                                         <td class="text-end" style="border-right: 1px solid #dee2e6 !important;"/>
                                     </tr>
 
-                                    <tr t-foreach="pagamenti" t-as="doc">
+                                    <tr t-foreach="pagamenti" t-as="doc" style="page-break-inside: auto;">
                                         <t t-set="invoices" t-value="doc.reconciled_invoice_ids.sorted(key=lambda i: (i.invoice_date, i.invoice_date_due, i.name), reverse=True)"/>
 
                                         <td class="text-start" style="border-right: 1px solid #dee2e6 !important;">
@@ -74,8 +74,16 @@
 
                                         <td class="text-start" style="border-right: 1px solid #dee2e6 !important;">
                                             <div>
-                                                <span t-out="'&lt;br/&gt;'.join(invoices.mapped('display_name'))"
-                                                      t-options="{'widget': 'html'}"/>
+                                                <div t-foreach="invoices" t-as="invoice">
+                                                    <span t-field="invoice.display_name"/>
+
+                                                    <div t-foreach="invoice.invoice_line_ids.sorted(key=lambda l: l.sequence)" t-as="line"
+                                                         style="margin-left: 12px;">
+                                                        <span t-field="line.name"/>
+                                                        -
+                                                        <span t-field="line.price_total"/>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </td>
 

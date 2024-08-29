@@ -20,6 +20,8 @@
 
             <xpath expr="//filter[@name='month']" position="after">
                 <filter name="competenza" string="Competenza" date="competenza"/>
+                <filter name="ieri" string="Ieri"
+                        domain="[('date', '=', (datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]"/>
                 <filter name="oggi" string="Oggi"
                         domain="[('date', '=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
                 <filter name="mese_competenza_corrente" string="Mese competenza corrente"

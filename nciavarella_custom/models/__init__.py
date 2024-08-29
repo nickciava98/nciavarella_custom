@@ -3,6 +3,7 @@ from . import account_edi_document
 from . import account_move
 from . import account_tax
 from . import activity_costs
+from . import product_template
 from . import project_project
 from . import project_task
 from . import project_task_type

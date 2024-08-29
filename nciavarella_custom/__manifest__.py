@@ -5,7 +5,7 @@
     "license": "OPL-1",
     "author": "Niccolò Ciavarella",
     "category": "",
-    "version": "16.0.0.25",
+    "version": "16.0.0.26",
     "website": "http://www.nciavarella.me",
     "depends": [
         "l10n_it_edi",
@@ -31,6 +31,7 @@
         "views/account_move_views.xml",
         "views/account_tax_views.xml",
         "views/activity_costs_views.xml",
+        "views/product_template_views.xml",
         "views/project_project_views.xml",
         "views/project_task_views.xml",
         "views/res_bank_views.xml",
