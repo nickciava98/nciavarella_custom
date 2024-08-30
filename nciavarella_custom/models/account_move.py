@@ -316,7 +316,7 @@ class AccountMoveLine(models.Model):
 
     def _get_line_height(self):
         self.ensure_one()
-        return len(self.name) <= 75 and "30" or "45"
+        return len(self.name) <= 85 and "30" or "45"
 
     def _update_sequence(self):
         self.ensure_one()
