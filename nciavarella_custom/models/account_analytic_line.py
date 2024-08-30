@@ -133,7 +133,9 @@ class AccountAnalyticLine(models.Model):
         locale.setlocale(locale.LC_ALL, "it_IT.UTF-8")
         module_path = modules.module.get_resource_path("nciavarella_custom", "static/xlsx_data")
         periodi = " - ".join(list(dict.fromkeys([
-            f"{line.mese_competenza} {line.anno_competenza}" for line in self
+            f"{dict(self._fields['mese_competenza']._description_selection(self.env)).get(line.mese_competenza)} "
+            f"{line.anno_competenza}"
+            for line in self
         ])))
         file_name = f"{module_path}/Prospetto Ore {periodi}.xlsx"
 
