@@ -39,6 +39,11 @@ class AccountAnalyticLine(models.Model):
         ondelete="restrict",
         string="Invoice"
     )
+    invoice_value = fields.Monetary(
+        currency_field="currency_id",
+        related="invoice_id.amount_total",
+        store=True
+    )
     is_confirmed = fields.Boolean(
         default=False,
         string="Confirmed?"
@@ -101,6 +106,13 @@ class AccountAnalyticLine(models.Model):
         store=True,
         string="Competenza"
     )
+
+    def open_invoice_action(self):
+        action = self.env["ir.actions.act_window"]._for_xml_id("account.action_move_out_invoice_type")
+        action["res_id"] = self.invoice_id.id
+        action["view_mode"] = "form"
+        action["views"] = [(False, "form")]
+        return action
 
     @api.depends("date")
     def _compute_competenza(self):

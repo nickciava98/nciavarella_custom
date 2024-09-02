@@ -55,6 +55,7 @@
 
             <xpath expr="//field[@name='project_id']" position="attributes">
                 <attribute name="options">{'no_create': True}</attribute>
+                <attribute name="optional">show</attribute>
             </xpath>
 
             <xpath expr="//field[@name='task_id']" position="attributes">
@@ -64,6 +65,51 @@
             <xpath expr="//tree/field[@name='unit_amount']" position="before">
                 <field name="currency_id" invisible="True"/>
                 <field name="valore" sum="Valore" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_timesheet_hr_timesheet_line_form_inherit" model="ir.ui.view">
+        <field name="name">hr.timesheet.hr.timesheet.line.form.inherit</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="open_invoice_action" type="object" class="oe_stat_button"
+                            attrs="{'invisible': [('is_invoiced', '=', False)]}" icon="fa-euro">
+                        <field name="is_invoiced" invisible="True"/>
+                        <field name="invoice_value" widget="statinfo" string="Fatturato"/>
+                    </button>
+                </div>
+
+                <field name="is_confirmed" invisible="True"/>
+                <widget name="web_ribbon" title="Confermato" bg_color="bg-success"
+                        attrs="{'invisible': [('is_confirmed', '=', False)]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='task_id']" position="after">
+                <field name="anno_competenza"/>
+                <field name="mese_competenza"/>
+            </xpath>
+
+            <xpath expr="//field[@name='date']" position="after">
+                <field name="time_start" required="True" widget="timesheet_uom"/>
+                <field name="time_end" required="True" widget="timesheet_uom"/>
+            </xpath>
+
+            <xpath expr="//field[@name='project_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='task_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='unit_amount']" position="before">
+                <field name="currency_id" invisible="True"/>
+                <field name="valore"/>
             </xpath>
         </field>
     </record>
