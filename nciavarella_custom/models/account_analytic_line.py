@@ -127,6 +127,10 @@ class AccountAnalyticLine(models.Model):
                 year=int(line.anno_competenza), month=int(line.mese_competenza), day=1
             ) or fields.Date.today()
 
+    def conferma_action(self):
+        for line in self:
+            line.is_confirmed = True
+
     def pulizia_xlsx_data_action(self):
         path = modules.module.get_resource_path("nciavarella_custom", "static/xlsx_data")
 
@@ -138,6 +142,7 @@ class AccountAnalyticLine(models.Model):
 
             try:
                 shutil.rmtree(p)
+
             except OSError:
                 os.remove(p)
 

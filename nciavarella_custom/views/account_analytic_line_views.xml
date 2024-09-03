@@ -40,6 +40,14 @@
                 <attribute name="editable">top</attribute>
             </xpath>
 
+            <xpath expr="//field" position="before">
+                <header>
+                    <button name="conferma_action" type="object" string="Conferma"/>
+                    <button name="esporta_prospetto_excel_action" type="object" string="Esporta Prospetto Excel"/>
+                    <button name="link_invoice_timesheet_action" type="object" string="Collega Fattura"/>
+                </header>
+            </xpath>
+
             <xpath expr="//field[@name='date']" position="before">
                 <field name="is_invoiced" optional="show"/>
                 <field name="invoice_id" optional="hide" readonly="True" force_save="1"/>
@@ -114,13 +122,15 @@
         </field>
     </record>
 
-    <record id="link_invoice_timesheet_action" model="ir.actions.server">
-        <field name="name">Link Invoice</field>
+    <record id="conferma_action" model="ir.actions.server">
+        <field name="name">Conferma</field>
         <field name="model_id" ref="model_account_analytic_line"/>
         <field name="binding_model_id" ref="model_account_analytic_line"/>
         <field name="type">ir.actions.server</field>
+        <field name="sequence">3</field>
         <field name="state">code</field>
-        <field name="code">action = records.link_invoice_timesheet_action()</field>
+        <field name="code">action = records.conferma_action()</field>
+        <field name="groups_id" eval="[(5, 0), (4, ref('base.group_no_one'))]"/>
     </record>
 
     <record id="download_excel_action" model="ir.actions.server">
@@ -128,7 +138,20 @@
         <field name="model_id" ref="model_account_analytic_line"/>
         <field name="binding_model_id" ref="model_account_analytic_line"/>
         <field name="type">ir.actions.server</field>
+        <field name="sequence">4</field>
         <field name="state">code</field>
         <field name="code">action = records.esporta_prospetto_excel_action()</field>
+        <field name="groups_id" eval="[(5, 0), (4, ref('base.group_no_one'))]"/>
+    </record>
+
+    <record id="link_invoice_timesheet_action" model="ir.actions.server">
+        <field name="name">Link Invoice</field>
+        <field name="model_id" ref="model_account_analytic_line"/>
+        <field name="binding_model_id" ref="model_account_analytic_line"/>
+        <field name="type">ir.actions.server</field>
+        <field name="sequence">5</field>
+        <field name="state">code</field>
+        <field name="code">action = records.link_invoice_timesheet_action()</field>
+        <field name="groups_id" eval="[(5, 0), (4, ref('base.group_no_one'))]"/>
     </record>
 </odoo>
