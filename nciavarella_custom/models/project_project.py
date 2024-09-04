@@ -9,6 +9,10 @@ class ProjectProject(models.Model):
         default=.0,
         string="Tariffa Oraria"
     )
+    conferma_automatica = fields.Boolean(
+        default=False,
+        string="Conferma Automatica?"
+    )
 
     def _get_task_domain(self):
         return [("project_id", "=", self.id), ("active", "in", (True, False))]

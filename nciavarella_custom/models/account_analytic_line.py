@@ -45,7 +45,9 @@ class AccountAnalyticLine(models.Model):
         store=True
     )
     is_confirmed = fields.Boolean(
-        default=False,
+        compute="_compute_is_confirmed",
+        store=True,
+        readonly=False,
         string="Confirmed?"
     )
     time_start = fields.Float(
@@ -106,6 +108,17 @@ class AccountAnalyticLine(models.Model):
         store=True,
         string="Competenza"
     )
+
+    @api.depends("project_id", "project_id.conferma_automatica", "task_id", "task_id.conferma_automatica")
+    def _compute_is_confirmed(self):
+        for line in self:
+            line.is_confirmed = False
+
+            if line.project_id:
+                line.is_confirmed = line.project_id.conferma_automatica
+
+            if line.task_id:
+                line.is_confirmed = line.task_id.conferma_automatica
 
     def open_invoice_action(self):
         action = self.env["ir.actions.act_window"]._for_xml_id("account.action_move_out_invoice_type")

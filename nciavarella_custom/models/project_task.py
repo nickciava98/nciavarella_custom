@@ -4,9 +4,37 @@ from odoo import models, fields, api
 class ProjectTask(models.Model):
     _inherit = "project.task"
 
+    currency_id = fields.Many2one(
+        "res.currency",
+        related="project_id.currency_id",
+        store=True
+    )
+    tariffa_oraria = fields.Monetary(
+        currency_field="currency_id",
+        compute="_compute_tariffa_oraria",
+        store=True,
+        readonly=False,
+        string="Tariffa Oraria"
+    )
+    conferma_automatica = fields.Boolean(
+        compute="_compute_conferma_automatica",
+        store=True,
+        readonly=False,
+        string="Conferma Automatica?"
+    )
     active = fields.Boolean(
         copy=False
     )
+
+    @api.depends("project_id", "project_id.tariffa_oraria")
+    def _compute_tariffa_oraria(self):
+        for task in self:
+            task.tariffa_oraria = task.project_id and task.project_id.tariffa_oraria or .0
+
+    @api.depends("project_id", "project_id.conferma_automatica")
+    def _compute_conferma_automatica(self):
+        for task in self:
+            task.conferma_automatica = task.project_id and task.project_id.conferma_automatica or False
 
     @api.onchange("stage_id")
     def _onchange_stage_id(self):

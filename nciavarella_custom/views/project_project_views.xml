@@ -66,6 +66,10 @@
                 <field name="currency_id" invisible="True"/>
                 <field name="tariffa_oraria"/>
             </xpath>
+
+            <xpath expr="//group[@name='extra_settings']" position="inside">
+                <field name="conferma_automatica"/>
+            </xpath>
         </field>
     </record>
 </odoo>

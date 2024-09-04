@@ -9,6 +9,12 @@
                 <attribute name="title">Completato</attribute>
                 <attribute name="bg_color">bg-success</attribute>
             </xpath>
+
+            <xpath expr="//field[@name='user_ids']" position="after">
+                <field name="currency_id" invisible="True"/>
+                <field name="tariffa_oraria"/>
+                <field name="conferma_automatica"/>
+            </xpath>
         </field>
     </record>
 
