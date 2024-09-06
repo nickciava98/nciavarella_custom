@@ -35,7 +35,8 @@ class ProjectTask(models.Model):
     default_tipo_attivita = fields.Selection(
         selection=TIPO_ATTIVITA_SELECTION,
         default="programmazione",
-        string="Tipo Attività"
+        copy=True,
+        string="Tipo Attività Predefinita"
     )
     active = fields.Boolean(
         copy=False
