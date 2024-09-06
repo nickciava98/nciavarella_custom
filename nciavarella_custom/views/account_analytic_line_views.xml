@@ -70,6 +70,14 @@
                 <attribute name="options">{'no_create': True}</attribute>
             </xpath>
 
+            <xpath expr="//field[@name='task_id']" position="after">
+                <field name="tipo_attivita" required="True"/>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="widget">section_and_note_text</attribute>
+            </xpath>
+
             <xpath expr="//tree/field[@name='unit_amount']" position="before">
                 <field name="currency_id" invisible="True"/>
                 <field name="valore" sum="Valore" optional="show"/>

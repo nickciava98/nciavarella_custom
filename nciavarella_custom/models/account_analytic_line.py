@@ -9,6 +9,7 @@ import pytz
 from decimal import Decimal
 
 from odoo import modules, models, fields, api, exceptions, _
+from odoo.addons.nciavarella_custom.models.project_task import TIPO_ATTIVITA_SELECTION
 
 
 class AccountAnalyticLine(models.Model):
@@ -65,6 +66,13 @@ class AccountAnalyticLine(models.Model):
         group_operator="max",
         string="Time End"
     )
+    tipo_attivita = fields.Selection(
+        selection=TIPO_ATTIVITA_SELECTION,
+        compute="_compute_tipo_attivita",
+        store=True,
+        readonly=False,
+        string="Tipo Attività"
+    )
     unit_amount = fields.Float(
         compute="_compute_unit_amount",
         store=True,
@@ -108,6 +116,11 @@ class AccountAnalyticLine(models.Model):
         store=True,
         string="Competenza"
     )
+
+    @api.depends("task_id", "task_id.default_tipo_attivita")
+    def _compute_tipo_attivita(self):
+        for line in self:
+            line.tipo_attivita = line.task_id and line.task_id.default_tipo_attivita or "consulenza"
 
     @api.depends("project_id", "project_id.conferma_automatica", "task_id", "task_id.conferma_automatica")
     def _compute_is_confirmed(self):

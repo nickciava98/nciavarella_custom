@@ -1,6 +1,16 @@
 from odoo import models, fields, api
 
 
+TIPO_ATTIVITA_SELECTION = [
+    ("analisi", "Analisi"),
+    ("assistenza", "Assistenza"),
+    ("collaudo", "Collaudo"),
+    ("consulenza", "Consulenza"),
+    ("installazione_parametrizzazione", "Installazione e Parametrizzazione"),
+    ("programmazione", "Programmazione")
+]
+
+
 class ProjectTask(models.Model):
     _inherit = "project.task"
 
@@ -21,6 +31,11 @@ class ProjectTask(models.Model):
         store=True,
         readonly=False,
         string="Conferma Automatica?"
+    )
+    default_tipo_attivita = fields.Selection(
+        selection=TIPO_ATTIVITA_SELECTION,
+        default="programmazione",
+        string="Tipo Attività"
     )
     active = fields.Boolean(
         copy=False
