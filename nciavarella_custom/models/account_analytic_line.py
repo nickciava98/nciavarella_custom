@@ -233,9 +233,10 @@ class AccountAnalyticLine(models.Model):
         worksheet.write(0, 0, "Data", formats.get("header_format"))
         worksheet.write(0, 1, "Dalle", formats.get("header_format_center"))
         worksheet.write(0, 2, "Alle", formats.get("header_format_center"))
-        worksheet.write(0, 3, "Descrizione", formats.get("header_format"))
-        worksheet.write(0, 4, "Ore impiegate", formats.get("header_format_right"))
-        worksheet.write(0, 5, "Valore monetario", formats.get("header_format_right"))
+        worksheet.write(0, 3, "Tipo Attività", formats.get("header_format"))
+        worksheet.write(0, 4, "Descrizione", formats.get("header_format"))
+        worksheet.write(0, 5, "Ore impiegate", formats.get("header_format_right"))
+        worksheet.write(0, 6, "Valore monetario", formats.get("header_format_right"))
 
         row = 1
 
@@ -252,7 +253,7 @@ class AccountAnalyticLine(models.Model):
                 tot_valore += "0"
 
             worksheet.merge_range(
-                row, 0, row, 5, f"{progetto.name} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
+                row, 0, row, 6, f"{progetto.name} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
                 formats.get("header_format")
             )
             lavori = righe.mapped("task_id")
@@ -271,7 +272,7 @@ class AccountAnalyticLine(models.Model):
                     tot_valore += "0"
 
                 worksheet.merge_range(
-                    row, 0, row, 5, f"{lavoro.name} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
+                    row, 0, row, 6, f"{lavoro.name} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
                     formats.get("header_format")
                 )
                 row += 1
@@ -286,13 +287,15 @@ class AccountAnalyticLine(models.Model):
                         row, 2, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_end * 60, 60)),
                         formats.get("text_center")
                     )
-                    worksheet.write(row, 3, riga.name, formats.get("text_format"))
-                    worksheet.write(row, 4, riga.unit_amount, formats.get("qty_format"))
-                    worksheet.write(row, 5, riga.valore, formats.get("currency_format"))
+                    tipo_attivita = dict(TIPO_ATTIVITA_SELECTION).get(riga.tipo_attivita)
+                    worksheet.write(row, 3, tipo_attivita, formats.get("text_format"))
+                    worksheet.write(row, 4, riga.name, formats.get("text_format"))
+                    worksheet.write(row, 5, riga.unit_amount, formats.get("qty_format"))
+                    worksheet.write(row, 6, riga.valore, formats.get("currency_format"))
 
                     row += 1
 
-        worksheet.set_column(0, 5, 30)
+        worksheet.set_column(0, 6, 30)
         workbook.close()
 
         with open(file_name, "rb") as file:

@@ -106,8 +106,13 @@
             </xpath>
 
             <xpath expr="//field[@name='task_id']" position="after">
+                <field name="tipo_attivita" required="True"/>
                 <field name="anno_competenza"/>
                 <field name="mese_competenza"/>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="invisible">True</attribute>
             </xpath>
 
             <xpath expr="//field[@name='date']" position="after">
@@ -126,6 +131,29 @@
             <xpath expr="//field[@name='unit_amount']" position="before">
                 <field name="currency_id" invisible="True"/>
                 <field name="valore"/>
+            </xpath>
+
+            <xpath expr="//sheet" position="inside">
+                <group>
+                    <field name="employee_id" required="True"/>
+                </group>
+
+                <label for="name" class="mb-1"/>
+                <div class="w-100">
+                    <field name="name" widget="section_and_note_text"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_timesheet_timesheet_view_tree_user_inherit" model="ir.ui.view">
+        <field name="name">hr.timesheet.timesheet.view.tree.user.inherit</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.timesheet_view_tree_user"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
             </xpath>
         </field>
     </record>
