@@ -71,7 +71,7 @@
             </xpath>
 
             <xpath expr="//field[@name='task_id']" position="after">
-                <field name="tipo_attivita" required="True"/>
+                <field name="tipo_attivita" required="True" optional="show"/>
             </xpath>
 
             <xpath expr="//field[@name='name']" position="attributes">
