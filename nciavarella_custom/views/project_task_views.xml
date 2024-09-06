@@ -14,6 +14,7 @@
                 <field name="currency_id" invisible="True"/>
                 <field name="tariffa_oraria"/>
                 <field name="conferma_automatica"/>
+                <field name="default_tipo_attivita" required="True"/>
             </xpath>
         </field>
     </record>
