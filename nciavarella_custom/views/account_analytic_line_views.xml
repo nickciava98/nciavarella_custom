@@ -26,6 +26,8 @@
                         domain="[('date', '=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
                 <filter name="mese_competenza_corrente" string="Mese competenza corrente"
                         domain="[('mese_competenza', '=', datetime.datetime.now().strftime('%m')), ('anno_competenza', '=', datetime.datetime.now().strftime('%Y'))]"/>
+                <filter name="confermato" string="Confermato" domain="[('is_confirmed', '=', True)]"/>
+                <filter name="non_confermato" string="Non Confermato" domain="[('is_confirmed', '=', False)]"/>
             </xpath>
         </field>
     </record>
