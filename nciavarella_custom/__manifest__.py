@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 {
     "name": "nciavarella Custom",
     "summary": "nciavarella customizations",
     "license": "OPL-1",
     "author": "Niccolò Ciavarella",
     "category": "",
-    "version": "16.0.0.35",
+    "version": "16.0.0.36",
     "website": "http://www.nciavarella.me",
     "depends": [
         "l10n_it_edi",

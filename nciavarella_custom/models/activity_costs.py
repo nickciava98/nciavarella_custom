@@ -11,7 +11,7 @@ class ActivityCosts(models.Model):
     _order = "name desc"
 
     name = fields.Char(
-        default=str(datetime.datetime.now().year),
+        default=lambda self: fields.Date.context_today(self).strftime("%Y"),
         size=4,
         tracking=True,
         copy=False,
@@ -44,6 +44,7 @@ class ActivityCosts(models.Model):
         string="Saldo rimanente"
     )
     tax_id = fields.Float(
+        default=.0,
         tracking=True,
         copy=True,
         string="Imposta sostitutiva",
@@ -54,6 +55,7 @@ class ActivityCosts(models.Model):
         string="Imposta sostitutiva (Saldo)"
     )
     correzione_saldo_imposta = fields.Float(
+        default=.0,
         string="Correzione imposta sostitutiva (Saldo)"
     )
     total_taxes_down_payment = fields.Float(
@@ -61,6 +63,7 @@ class ActivityCosts(models.Model):
         string="Imposta sostitutiva (Acconto)"
     )
     correzione_acconto_imposta = fields.Float(
+        default=.0,
         string="Correzione imposta sostitutiva (Acconto)"
     )
     total_stamp_taxes = fields.Float(
@@ -68,6 +71,7 @@ class ActivityCosts(models.Model):
         string="Imposte di bollo"
     )
     welfare_id = fields.Float(
+        default=.0,
         tracking=True,
         copy=True,
         string="Gestione Separata INPS"
@@ -77,6 +81,7 @@ class ActivityCosts(models.Model):
         string="Gestione Separata INPS (Saldo)"
     )
     correzione_saldo_inps = fields.Float(
+        default=.0,
         string="Correzione Gestione Separata INPS (Saldo)"
     )
     total_welfare_down_payment = fields.Float(
@@ -84,6 +89,7 @@ class ActivityCosts(models.Model):
         string="Gestione Separata INPS (Acconto)"
     )
     correzione_acconto_inps = fields.Float(
+        default=.0,
         string="Correzione Gestione Separata INPS (Acconto)"
     )
     year_cash_flow = fields.Float(
@@ -124,7 +130,7 @@ class ActivityCosts(models.Model):
         "account.payment",
         "activity_costs_account_payment_rel",
         compute="_compute_payment_ids",
-        store=True
+        store=False
     )
     line_ids = fields.One2many(
         "activity.costs.line",
@@ -341,13 +347,13 @@ class ActivityCostsLine(models.Model):
     )
     total = fields.Float(
         compute="_compute_total",
-        store=True,
+        store=False,
         string="Totale"
     )
     currency_id = fields.Many2one(
         "res.currency",
         related="activity_cost_id.currency_id",
-        store=True
+        store=False
     )
     cert_unica = fields.Boolean(
         default=False,
