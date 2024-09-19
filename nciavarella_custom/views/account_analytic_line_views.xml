@@ -30,6 +30,11 @@
                 <separator/>
                 <filter name="non_confermato" string="Non Confermato" domain="[('is_confirmed', '=', False)]"/>
             </xpath>
+
+            <xpath expr="//group" position="inside">
+                <filter string="Tipo Attività" name="groupby_tipo_attivita" domain="[]"
+                        context="{'group_by': 'tipo_attivita'}"/>
+            </xpath>
         </field>
     </record>
     
