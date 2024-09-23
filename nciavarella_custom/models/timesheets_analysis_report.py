@@ -30,11 +30,16 @@ class TimesheetAnalysisReport(models.Model):
         readonly=True,
         string="Anno Competenza"
     )
+    competenza = fields.Date(
+        readonly=True,
+        string="Competenza"
+    )
 
     @api.model
     def _select(self):
         return super()._select() + """,
             A.valore AS valore,
             A.mese_competenza AS mese_competenza,
-            A.anno_competenza AS anno_competenza
+            A.anno_competenza AS anno_competenza,
+            A.competenza AS competenza
         """

@@ -1,0 +1,34 @@
+<odoo>
+    <record id="hr_timesheet_hr_timesheet_report_search_inherit" model="ir.ui.view">
+        <field name="name">hr.timesheet.hr.timesheet.report.search.inherit</field>
+        <field name="model">timesheets.analysis.report</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_report_search"/>
+        
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date']" position="after">
+                <field name="mese_competenza"/>
+                <field name="anno_competenza"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='month']" position="after">
+                <filter name="competenza" string="Competenza" date="competenza"/>
+                <filter name="mese_competenza_corrente" string="Mese competenza corrente"
+                        domain="[('mese_competenza', '=', datetime.datetime.now().strftime('%m')), ('anno_competenza', '=', datetime.datetime.now().strftime('%Y'))]"/>
+                <filter name="trimestre_competenza_corrente" string="Trimestre competenza corrente"
+                        domain="[('mese_competenza', 'in', (datetime.datetime.now().strftime('%m'), (datetime.datetime.now() - relativedelta(months=1)).strftime('%m'), (datetime.datetime.now() - relativedelta(months=2)).strftime('%m'))), ('anno_competenza', '=', datetime.datetime.now().strftime('%Y'))]"/>
+                <filter name="anno_competenza_corrente" string="Anno competenza corrente"
+                        domain="[('anno_competenza', '=', datetime.datetime.now().strftime('%Y'))]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_timesheet.timesheet_action_report_by_project" model="ir.actions.act_window">
+        <field name="context">
+            {'search_default_trimestre_competenza_corrente': True,
+             'group_by': [],
+             'pivot_measures': ['unit_amount', 'valore'],
+             'pivot_column_groupby': ['anno_competenza', 'mese_competenza'],
+             'pivot_row_groupby': ['project_id']}
+        </field>
+    </record>
+</odoo>

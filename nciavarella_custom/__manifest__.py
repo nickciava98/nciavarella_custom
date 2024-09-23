@@ -4,7 +4,7 @@
     "license": "OPL-1",
     "author": "Niccolò Ciavarella",
     "category": "",
-    "version": "16.0.0.36",
+    "version": "16.0.0.37",
     "website": "http://www.nciavarella.me",
     "depends": [
         "l10n_it_edi",
@@ -37,6 +37,7 @@
         "views/res_company_views.xml",
         "views/res_config_settings_views.xml",
         "views/res_partner_views.xml",
+        "views/timesheet_analysis_report_views.xml",
         "reports/external_layout_standard.xml",
         "reports/hr_timesheet_report.xml",
         "reports/report_bilancio.xml",
