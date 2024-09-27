@@ -54,7 +54,7 @@
                                     <td colspan="2">
                                         <strong>Causale</strong>
 
-                                        <div style="height: 130px !important;">
+                                        <div style="height: 145px !important;">
                                             <span t-out="o.narration"/>
                                         </div>
                                     </td>
@@ -109,7 +109,7 @@
                     </div>
 
                     <div class="page">
-                        <div class="mb-3" style="height: 620px !important;">
+                        <div class="mb-3" style="height: 605px !important;">
                             <table t-if="o.invoice_line_ids" class="table table-borderless"
                                    style="height: 100% !important; border: 1px solid #dee2e6 !important; border-top: 1px solid #dee2e6 !important;">
                                 <thead style="border-bottom: 2px solid black !important; border-top: 1px solid #dee2e6 !important;">
