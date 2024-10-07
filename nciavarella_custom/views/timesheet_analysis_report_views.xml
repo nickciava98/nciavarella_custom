@@ -24,11 +24,13 @@
 
     <record id="hr_timesheet.timesheet_action_report_by_project" model="ir.actions.act_window">
         <field name="context">
-            {'search_default_trimestre_competenza_corrente': True,
-             'group_by': [],
-             'pivot_measures': ['unit_amount', 'valore'],
-             'pivot_column_groupby': ['anno_competenza', 'mese_competenza'],
-             'pivot_row_groupby': ['project_id']}
+            {
+                'search_default_trimestre_competenza_corrente': True,
+                'group_by': [],
+                'pivot_measures': ['unit_amount', 'valore'],
+                'pivot_column_groupby': ['anno_competenza', 'mese_competenza'],
+                'pivot_row_groupby': ['project_id']
+            }
         </field>
     </record>
 </odoo>

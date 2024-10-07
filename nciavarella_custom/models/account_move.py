@@ -1,10 +1,10 @@
 import datetime
-import math
 import html2text
 
-from odoo import models, fields, api, exceptions
-from odoo.tools import format_date, float_repr
 from textwrap import shorten
+
+from odoo import models, fields, api, exceptions, SUPERUSER_ID
+from odoo.tools import format_date, float_repr, float_compare, float_is_zero
 
 
 class AccountMove(models.Model):
@@ -66,6 +66,23 @@ class AccountMove(models.Model):
         string="Timesheet Entries"
     )
 
+    def action_invoice_sent(self):
+        action = super().action_invoice_sent()
+        default_partner_ids = [self.partner_id.id]
+        allowed_partner_ids = [self.partner_id.id] + self.partner_id.child_ids.ids
+
+        if "context" in action:
+            action["context"]["default_partner_ids"] = default_partner_ids
+            action["context"]["allowed_partner_ids"] = allowed_partner_ids
+
+        else:
+            action["context"] = {
+                "default_partner_ids": default_partner_ids,
+                "allowed_partner_ids": allowed_partner_ids
+            }
+
+        return action
+
     def write(self, vals):
         if "progressivo_invio" in vals:
             invoices = self.search(
@@ -103,8 +120,8 @@ class AccountMove(models.Model):
 
     @api.depends("state")
     def _compute_show_reset_to_draft_button(self):
-        for line in self:
-            line.show_reset_to_draft_button = True if line.state != "draft" else False
+        for move in self:
+            move.show_reset_to_draft_button = move.state != "draft"
 
     def _post(self, soft=True):
         posted = super()._post(soft=soft)
@@ -140,30 +157,31 @@ class AccountMove(models.Model):
 
     @api.depends("invoice_line_ids", "invoice_line_ids.tax_ids")
     def _compute_tax_ids(self):
-        for line in self:
-            line.tax_ids = line.invoice_line_ids.tax_ids.ids \
-                if line.invoice_line_ids and line.invoice_line_ids.mapped("tax_ids") \
-                else False
+        for move in self:
+            move.tax_ids = (
+                (move.invoice_line_ids and move.invoice_line_ids.mapped("tax_ids"))
+                and move.invoice_line_ids.tax_ids.ids or False
+            )
 
     @api.depends("invoice_date")
     def _compute_down_payment_id(self):
-        for line in self:
-            line.down_payment_id = False
+        for move in self:
+            move.down_payment_id = False
 
-            if line.invoice_date:
+            if move.invoice_date:
                 down_payment_ids = self.env["account.move.down.payment"].search(
-                    [("date_from", "<=", line.invoice_date.strftime("%Y-%m-%d")),
-                     ("date_to", ">=", line.invoice_date.strftime("%Y-%m-%d"))]
+                    [("date_from", "<=", move.invoice_date.strftime("%Y-%m-%d")),
+                     ("date_to", ">=", move.invoice_date.strftime("%Y-%m-%d"))]
                 )
 
                 if down_payment_ids:
                     down_payment_id = down_payment_ids.filtered(
-                        lambda d: d.date_from.strftime("%Y") == line.invoice_date.strftime("%Y")
-                                  or d.date_to.strftime("%Y") == line.invoice_date.strftime("%Y")
+                        lambda d: d.date_from.strftime("%Y") == move.invoice_date.strftime("%Y")
+                                  or d.date_to.strftime("%Y") == move.invoice_date.strftime("%Y")
                     )
 
                     if down_payment_id:
-                        line.down_payment_id = down_payment_id[0]
+                        move.down_payment_id = down_payment_id[0]
 
     def update_invoice_down_payment_action(self):
         self.with_context(no_create_write=True)._compute_invoice_down_payment()
@@ -172,18 +190,19 @@ class AccountMove(models.Model):
                  "l10n_it_stamp_duty", "invoice_line_ids", "invoice_line_ids.quantity", "invoice_line_ids.price_unit",
                  "invoice_line_ids.tax_ids")
     def _compute_invoice_down_payment(self):
-        for line in self:
-            line.invoice_down_payment = .0
+        for move in self:
+            move.invoice_down_payment = .0
 
-            if line.move_type in ("out_invoice", "out_receipt") and line.invoice_date and line.down_payment_id:
-                line.invoice_down_payment = line.down_payment_id.down_payment * line.amount_total \
-                    if not line.down_payment_id.stamp_duty \
-                    else line.down_payment_id.down_payment * line.amount_total + line.l10n_it_stamp_duty
+            if move.move_type in ("out_invoice", "out_receipt") and move.invoice_date and move.down_payment_id:
+                move.invoice_down_payment = (
+                    not move.down_payment_id.stamp_duty and move.down_payment_id.down_payment * move.amount_total
+                    or move.down_payment_id.down_payment * move.amount_total + move.l10n_it_stamp_duty
+                )
 
     @api.depends("amount_total", "invoice_down_payment")
     def _compute_cash_flow(self):
-        for line in self:
-            line.cash_flow = line.amount_total - line.invoice_down_payment
+        for move in self:
+            move.cash_flow = move.amount_total - move.invoice_down_payment
 
     def name_get(self):
         result = []
@@ -215,8 +234,7 @@ class AccountMove(models.Model):
 
         return self._search(domain + args, limit=limit, access_rights_uid=name_get_uid)
 
-    def _l10n_it_edi_prepare_fatturapa_line_details(
-            self, reverse_charge_refund=False, is_downpayment=False, convert_to_euros=True):
+    def _l10n_it_edi_prepare_fatturapa_line_details(self, reverse_charge_refund=False, is_downpayment=False, convert_to_euros=True):
         invoice_lines = super()._l10n_it_edi_prepare_fatturapa_line_details(
             reverse_charge_refund=reverse_charge_refund,
             is_downpayment=is_downpayment,
@@ -234,7 +252,7 @@ class AccountMove(models.Model):
 
     @api.model
     def update_account_move_report_name(self):
-        self = self.sudo()
+        self = self.with_user(SUPERUSER_ID)
         account_invoices_id = self.env.ref(xml_id="account.account_invoices", raise_if_not_found=False)
 
         if account_invoices_id:
@@ -406,6 +424,7 @@ class AccountMoveDownPayment(models.Model):
 from odoo.addons.account_edi.models.account_move import AccountMove as AccountMoveEdi
 from odoo.addons.account.models.account_move import AccountMove as AccountMoveOdoo
 
+
 def _post(self, soft=True):
     posted = AccountMoveOdoo._post(self=self, soft=soft)
     today = datetime.datetime.today().strftime("%Y-%m-%d")
@@ -436,8 +455,8 @@ def _post(self, soft=True):
         raise exceptions.ValidationError(message)
 
     invoices_b = posted.filtered(
-        lambda i: i.amount_total >= 77.47
-                  and math.isclose(i.l10n_it_stamp_duty, .0)
+        lambda i: float_compare(i.amount_total, 77.47, precision_digits=2) >= 0
+                  and float_is_zero(i.l10n_it_stamp_duty, precision_digits=2)
                   and i.move_type in ("out_invoice", "out_refund")
     )
 
@@ -446,17 +465,21 @@ def _post(self, soft=True):
 
         if len(invoices_b) == 1:
             message += "la fattura "
+
         else:
             message += "le fatture:\n"
 
         message += "\n".join(invoices_b.mapped("name"))
+
         raise exceptions.ValidationError(message)
 
     return posted
 
+
 def button_draft(self):
     res = AccountMoveOdoo.button_draft(self=self)
     return res
+
 
 def _get_move_display_name(self, show_ref=False):
     self.ensure_one()
@@ -486,12 +509,15 @@ def _get_move_display_name(self, show_ref=False):
 
     return name + (f" ({shorten(self.ref, width=50)})" if show_ref and self.ref else "")
 
+
 def _get_report_base_filename(self):
     return _get_move_display_name(self=self, show_ref=False)
+
 
 def _get_mail_template(self):
     if all(move.move_type == "out_refund" for move in self):
         template = "account.email_template_edi_credit_note"
+
     else:
         today = fields.Date.today()
         template = "nciavarella_custom.modello_notifica_emissione_fattura"
@@ -499,11 +525,13 @@ def _get_mail_template(self):
         if all(move.move_type == "out_invoice" and move.payment_state == "not_paid" and move.invoice_date_due == today
                for move in self):
             template = "nciavarella_custom.modello_notifica_scadenza_pagamento"
+
         elif all(move.move_type == "out_invoice" and move.payment_state == "not_paid" and move.invoice_date_due < today
                for move in self):
             template = "nciavarella_custom.modello_stato_fattura_emessa"
 
     return template
+
 
 def action_invoice_print(self):
     if any(not move.is_invoice(include_receipts=True) for move in self):
@@ -511,7 +539,7 @@ def action_invoice_print(self):
 
     self.filtered(lambda inv: not inv.is_move_sent).write({"is_move_sent": True})
 
-    return self.env.ref(xml_id="nciavarella_custom.report_fatture", raise_if_not_found=False).report_action(self)
+    return self.env.ref("account.account_invoices", False).report_action(self)
 
 AccountMoveEdi._post = _post
 AccountMoveEdi.button_draft = button_draft

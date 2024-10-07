@@ -13,4 +13,12 @@
             </xpath>
         </field>
     </record>
+
+    <record id="account.product_product_action_sellable" model="ir.actions.act_window">
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="account.product_product_action_purchasable" model="ir.actions.act_window">
+        <field name="view_mode">tree,form</field>
+    </record>
 </odoo>

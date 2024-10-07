@@ -1,0 +1,40 @@
+<odoo>
+    <record id="account_view_account_payment_search_inherit" model="ir.ui.view">
+        <field name="name">account.view.account.payment.search.inherit</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_search"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='date']" position="after">
+                <filter name="anno_corrente" string="Quest'anno"
+                        domain="[('date', '&gt;=', datetime.datetime.now().strftime('%Y') + '-01-01'), ('date', '&lt;=', datetime.datetime.now().strftime('%Y') + '-12-31')]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account.action_account_payments" model="ir.actions.act_window">
+        <field name="view_mode">tree,form</field>
+        <field name="context">
+            {
+                'default_payment_type': 'inbound',
+                'default_partner_type': 'customer',
+                'search_default_inbound_filter': 1,
+                'default_move_journal_types': ('bank', 'cash'),
+                'search_default_anno_corrente': True
+            }
+        </field>
+    </record>
+
+    <record id="account.action_account_payments_payable" model="ir.actions.act_window">
+        <field name="view_mode">tree,form</field>
+        <field name="context">
+            {
+                'default_payment_type': 'outbound',
+                'default_partner_type': 'supplier',
+                'search_default_outbound_filter': 1,
+                'default_move_journal_types': ('bank', 'cash'),
+                'search_default_anno_corrente': True
+            }
+        </field>
+    </record>
+</odoo>

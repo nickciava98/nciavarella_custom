@@ -1,16 +1,4 @@
 <odoo>
-    <record id="view_project_kanban_inherit" model="ir.ui.view">
-        <field name="name">view.project.kanban.inherit</field>
-        <field name="model">project.project</field>
-        <field name="inherit_id" ref="project.view_project_kanban"/>
-
-        <field name="arch" type="xml">
-            <xpath expr="//kanban" position="attributes">
-                <attribute name="action">view_project_form</attribute>
-            </xpath>
-        </field>
-    </record>
-
     <record id="project_project_view_form_simplified_inherit" model="ir.ui.view">
         <field name="name">project.project.view.form.simplified.inherit</field>
         <field name="model">project.project</field>
@@ -71,5 +59,13 @@
                 <field name="conferma_automatica"/>
             </xpath>
         </field>
+    </record>
+
+    <record id="project.open_view_project_all" model="ir.actions.act_window">
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="project.menu_project_management" model="ir.ui.menu">
+        <field name="groups_id" eval="[(5, 0), (4, ref('base.group_no_one'))]"/>
     </record>
 </odoo>

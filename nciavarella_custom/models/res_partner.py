@@ -1,10 +1,10 @@
 import re
 
-from odoo.exceptions import UserError
 from stdnum.it import codicefiscale, iva
 from collections import defaultdict
 
-from odoo import api, fields, models, _
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 
 class ResPartner(models.Model):

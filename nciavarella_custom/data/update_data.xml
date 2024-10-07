@@ -2,4 +2,5 @@
     <function name="update_data" model="activity.costs"/>
     <function name="update_it_address_format" model="res.country"/>
     <function name="update_sequence" model="account.move.line"/>
+    <function name="update_views" model="ir.ui.view"/>
 </odoo>

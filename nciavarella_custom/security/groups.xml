@@ -8,12 +8,4 @@
         <field name="name">Users</field>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
     </record>
-
-    <record id="hr_timesheet.timesheet_menu_activity_all" model="ir.ui.menu">
-        <field name="groups_id" eval="[(5, 0), (4, ref('base.group_no_one'))]"/>
-    </record>
-
-    <record id="hr_timesheet.menu_hr_activity_analysis" model="ir.ui.menu">
-        <field name="groups_id" eval="[(5, 0), (4, ref('base.group_no_one'))]"/>
-    </record>
 </odoo>

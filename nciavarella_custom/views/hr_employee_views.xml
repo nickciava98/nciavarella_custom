@@ -1,0 +1,5 @@
+<odoo>
+    <record id="hr.open_view_employee_list_my" model="ir.actions.act_window">
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

@@ -24,6 +24,11 @@ class ProjectProject(models.Model):
 
     def action_view_tasks(self):
         action = super().action_view_tasks()
+        action["view_mode"] = "tree,form"
+        action["views"] = [
+            (self.env.ref("project.view_task_tree2", False).id, "tree"),
+            (self.env.ref("project.view_task_form2", False).id, "form")
+        ]
         action["domain"] = self._get_task_domain()
 
         return action
