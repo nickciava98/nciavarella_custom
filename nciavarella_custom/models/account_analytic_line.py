@@ -318,7 +318,7 @@ class AccountAnalyticLine(models.Model):
     @api.depends("task_id", "task_id.tariffa_oraria", "unit_amount")
     def _compute_valore(self):
         for line in self:
-            line.valore = line.project_id and line.project_id.tariffa_oraria * line.unit_amount or .0
+            line.valore = line.task_id and line.task_id.tariffa_oraria * line.unit_amount or .0
 
     @api.depends("create_date")
     def _compute_time_start(self):
