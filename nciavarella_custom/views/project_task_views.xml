@@ -19,6 +19,20 @@
         </field>
     </record>
 
+    <record id="project_view_task_tree2_inherit" model="ir.ui.view">
+        <field name="name">project.view.task.tree2.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sequence']" position="attributes">
+                <attribute name="invisible">False</attribute>
+                <attribute name="readonly">False</attribute>
+                <attribute name="widget">handle</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record id="project_task_type_tree_inherit" model="ir.ui.view">
         <field name="name">project.task.type.tree.inherit</field>
         <field name="model">project.task.type</field>

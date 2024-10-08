@@ -13,6 +13,7 @@ TIPO_ATTIVITA_SELECTION = [
 
 class ProjectTask(models.Model):
     _inherit = "project.task"
+    _order = "sequence asc"
 
     currency_id = fields.Many2one(
         "res.currency",
