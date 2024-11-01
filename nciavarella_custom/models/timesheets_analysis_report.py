@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.addons.nciavarella_custom.models.account_analytic_line import MESE_COMPETENZA_SELECTION
 
 
 class TimesheetAnalysisReport(models.Model):
@@ -11,18 +12,7 @@ class TimesheetAnalysisReport(models.Model):
         string="Valore"
     )
     mese_competenza = fields.Selection(
-        [("01", "Gennaio"),
-         ("02", "Febbraio"),
-         ("03", "Marzo"),
-         ("04", "Aprile"),
-         ("05", "Maggio"),
-         ("06", "Giugno"),
-         ("07", "Luglio"),
-         ("08", "Agosto"),
-         ("09", "Settembre"),
-         ("10", "Ottobre"),
-         ("11", "Novembre"),
-         ("12", "Dicembre")],
+        selection=MESE_COMPETENZA_SELECTION,
         readonly=True,
         string="Mese Competenza"
     )

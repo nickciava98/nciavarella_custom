@@ -12,6 +12,22 @@ from odoo import modules, models, fields, api, exceptions, _
 from odoo.addons.nciavarella_custom.models.project_task import TIPO_ATTIVITA_SELECTION
 
 
+MESE_COMPETENZA_SELECTION = [
+    ("01", "Gennaio"),
+    ("02", "Febbraio"),
+    ("03", "Marzo"),
+    ("04", "Aprile"),
+    ("05", "Maggio"),
+    ("06", "Giugno"),
+    ("07", "Luglio"),
+    ("08", "Agosto"),
+    ("09", "Settembre"),
+    ("10", "Ottobre"),
+    ("11", "Novembre"),
+    ("12", "Dicembre")
+]
+
+
 class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"
     _order = "date desc, time_start desc, id desc"
@@ -88,18 +104,7 @@ class AccountAnalyticLine(models.Model):
         string="Valore"
     )
     mese_competenza = fields.Selection(
-        [("01", "Gennaio"),
-         ("02", "Febbraio"),
-         ("03", "Marzo"),
-         ("04", "Aprile"),
-         ("05", "Maggio"),
-         ("06", "Giugno"),
-         ("07", "Luglio"),
-         ("08", "Agosto"),
-         ("09", "Settembre"),
-         ("10", "Ottobre"),
-         ("11", "Novembre"),
-         ("12", "Dicembre")],
+        selection=MESE_COMPETENZA_SELECTION,
         compute="_compute_competenza",
         store=True,
         readonly=False,

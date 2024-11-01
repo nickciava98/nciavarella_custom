@@ -13,11 +13,11 @@
             <xpath expr="//filter[@name='month']" position="after">
                 <filter name="competenza" string="Competenza" date="competenza"/>
                 <filter name="mese_competenza_corrente" string="Mese competenza corrente"
-                        domain="[('mese_competenza', '=', datetime.datetime.now().strftime('%m')), ('anno_competenza', '=', datetime.datetime.now().strftime('%Y'))]"/>
+                        domain="[('mese_competenza', '=', context_today().strftime('%m')), ('anno_competenza', '=', context_today().strftime('%Y'))]"/>
                 <filter name="trimestre_competenza_corrente" string="Trimestre competenza corrente"
-                        domain="[('mese_competenza', 'in', (datetime.datetime.now().strftime('%m'), (datetime.datetime.now() - relativedelta(months=1)).strftime('%m'), (datetime.datetime.now() - relativedelta(months=2)).strftime('%m'))), ('anno_competenza', '=', datetime.datetime.now().strftime('%Y'))]"/>
+                        domain="[('mese_competenza', 'in', [context_today().strftime('%m'), (context_today() - relativedelta(months=1)).strftime('%m'), (context_today() - relativedelta(months=2)).strftime('%m')]), ('anno_competenza', '=', context_today().strftime('%Y'))]"/>
                 <filter name="anno_competenza_corrente" string="Anno competenza corrente"
-                        domain="[('anno_competenza', '=', datetime.datetime.now().strftime('%Y'))]"/>
+                        domain="[('anno_competenza', '=', context_today().strftime('%Y'))]"/>
             </xpath>
         </field>
     </record>

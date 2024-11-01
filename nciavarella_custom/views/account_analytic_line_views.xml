@@ -21,11 +21,11 @@
             <xpath expr="//filter[@name='month']" position="after">
                 <filter name="competenza" string="Competenza" date="competenza"/>
                 <filter name="ieri" string="Ieri"
-                        domain="[('date', '=', (datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                        domain="[('date', '=', (context_today() - relativedelta(days=1)).strftime('%Y-%m-%d'))]"/>
                 <filter name="oggi" string="Oggi"
-                        domain="[('date', '=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
+                        domain="[('date', '=', context_today().strftime('%Y-%m-%d'))]"/>
                 <filter name="mese_competenza_corrente" string="Mese competenza corrente"
-                        domain="[('mese_competenza', '=', datetime.datetime.now().strftime('%m')), ('anno_competenza', '=', datetime.datetime.now().strftime('%Y'))]"/>
+                        domain="[('mese_competenza', '=', context_today().strftime('%m')), ('anno_competenza', '=', context_today().strftime('%Y'))]"/>
                 <separator/>
                 <filter name="confermato" string="Confermato" domain="[('is_confirmed', '=', True)]"/>
                 <separator/>
