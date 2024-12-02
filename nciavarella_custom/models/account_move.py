@@ -1,10 +1,6 @@
-import datetime
 import html2text
 
-from textwrap import shorten
-
 from odoo import models, fields, api, exceptions, SUPERUSER_ID
-from odoo.tools import format_date, float_repr, float_compare, float_is_zero
 
 
 class AccountMove(models.Model):
@@ -71,34 +67,30 @@ class AccountMove(models.Model):
         default_partner_ids = [self.partner_id.id]
         allowed_partner_ids = [self.partner_id.id] + self.partner_id.child_ids.ids
 
-        if "context" in action:
-            action["context"]["default_partner_ids"] = default_partner_ids
-            action["context"]["allowed_partner_ids"] = allowed_partner_ids
-
-        else:
-            action["context"] = {
-                "default_partner_ids": default_partner_ids,
-                "allowed_partner_ids": allowed_partner_ids
-            }
+        action["context"].update({
+            "default_partner_ids": default_partner_ids,
+            "allowed_partner_ids": allowed_partner_ids
+        })
 
         return action
 
-    def write(self, vals):
-        if "progressivo_invio" in vals:
+    @api.constrains("progressivo_invio")
+    def _constrains_progressivo_invio(self):
+        invoice_names = ""
+
+        for move in self.filtered("progressivo_invio"):
             invoices = self.search(
-                [("id", "!=", self.id), ("progressivo_invio", "=", vals.get("progressivo_invio"))]
+                [("id", "!=", move.id), ("progressivo_invio", "=", move.progressivo_invio)]
             )
 
             if invoices:
-                invoice_names = "\n".join(invoices.mapped("name"))
+                invoice_names += "\n".join(invoices.mapped("name"))
 
-                raise exceptions.ValidationError(
-                    f"Il Progressivo invio deve essere univoco!\n"
-                    f"Lo stesso progressivo è stato trovato nelle seguenti fatture:\n"
-                    f"{invoice_names}"
-                )
-
-        return super().write(vals)
+        raise exceptions.ValidationError(
+            f"Il Progressivo invio deve essere univoco!\n"
+            f"Lo stesso progressivo è stato trovato nelle seguenti fatture:\n"
+            f"{invoice_names}"
+        )
 
     def button_draft(self):
         res = super().button_draft()
@@ -145,7 +137,7 @@ class AccountMove(models.Model):
                 "description": description,
                 "type": "binary"
             })
-            now = datetime.datetime.now()
+            now = fields.Datetime.now()
             body = (
                 f"Fattura elettronica generata il {now.strftime('%d/%m/%Y')} "
                 f"alle {now.strftime('%H:%M')} "
@@ -168,20 +160,26 @@ class AccountMove(models.Model):
         for move in self:
             move.down_payment_id = False
 
-            if move.invoice_date:
-                down_payment_ids = self.env["account.move.down.payment"].search(
-                    [("date_from", "<=", move.invoice_date.strftime("%Y-%m-%d")),
-                     ("date_to", ">=", move.invoice_date.strftime("%Y-%m-%d"))]
-                )
+            if not move.invoice_date:
+                continue
 
-                if down_payment_ids:
-                    down_payment_id = down_payment_ids.filtered(
-                        lambda d: d.date_from.strftime("%Y") == move.invoice_date.strftime("%Y")
-                                  or d.date_to.strftime("%Y") == move.invoice_date.strftime("%Y")
-                    )
+            down_payment_ids = self.env["account.move.down.payment"].search(
+                [("date_from", "<=", move.invoice_date.strftime("%Y-%m-%d")),
+                 ("date_to", ">=", move.invoice_date.strftime("%Y-%m-%d"))]
+            )
 
-                    if down_payment_id:
-                        move.down_payment_id = down_payment_id[0]
+            if not down_payment_ids:
+                continue
+
+            down_payment_id = down_payment_ids.filtered(
+                lambda d: d.date_from.strftime("%Y") == move.invoice_date.strftime("%Y")
+                          or d.date_to.strftime("%Y") == move.invoice_date.strftime("%Y")
+            )
+
+            if not down_payment_id:
+                continue
+
+            move.down_payment_id = down_payment_id[0]
 
     def update_invoice_down_payment_action(self):
         self.with_context(no_create_write=True)._compute_invoice_down_payment()
@@ -234,7 +232,8 @@ class AccountMove(models.Model):
 
         return self._search(domain + args, limit=limit, access_rights_uid=name_get_uid)
 
-    def _l10n_it_edi_prepare_fatturapa_line_details(self, reverse_charge_refund=False, is_downpayment=False, convert_to_euros=True):
+    def _l10n_it_edi_prepare_fatturapa_line_details(self, reverse_charge_refund=False, is_downpayment=False,
+                                                    convert_to_euros=True):
         invoice_lines = super()._l10n_it_edi_prepare_fatturapa_line_details(
             reverse_charge_refund=reverse_charge_refund,
             is_downpayment=is_downpayment,
@@ -275,14 +274,10 @@ class AccountMove(models.Model):
     @api.model
     def get_view(self, view_id=None, view_type="form", **options):
         res = super().get_view(view_id, view_type, **options)
-        invoice_report_nopayment_id = self.env.ref(
-            xml_id="account.account_invoices_without_payment", raise_if_not_found=False
-        )
+        invoice_report_nopayment_id = self.env.ref("account.account_invoices_without_payment", False)
 
         if invoice_report_nopayment_id and invoice_report_nopayment_id.binding_model_id:
-            invoice_report_nopayment_id.write({
-                "binding_model_id": False
-            })
+            invoice_report_nopayment_id.write({"binding_model_id": False})
 
         return res
 
@@ -327,223 +322,3 @@ class AccountMove(models.Model):
         template_values["buyer_info"] = get_vat_values(buyer)
 
         return template_values
-
-
-class AccountMoveLine(models.Model):
-    _inherit = "account.move.line"
-
-    def _get_line_height(self):
-        self.ensure_one()
-        return len(self.name) <= 87 and "30" or "45"
-
-    def _update_sequence(self):
-        self.ensure_one()
-
-        if self.product_id and self.product_id.product_tmpl_id and self.product_id.product_tmpl_id.bollo:
-            self.sequence = 99
-
-    @api.model
-    def update_sequence(self):
-        for line in self.search([("product_id", "!=", False), ("product_id.product_tmpl_id.bollo", "=", True)]):
-            line.sequence = 99
-
-    def write(self, vals):
-        res = super().write(vals)
-
-        if "product_id" in vals:
-            for line in self:
-                line._update_sequence()
-
-        return res
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        lines = super().create(vals_list)
-
-        for line in lines:
-            line._update_sequence()
-
-        return lines
-
-class AccountMoveDownPayment(models.Model):
-    _name = "account.move.down.payment"
-    _description = "Invoice Down Payment"
-
-    date_from = fields.Date(
-        string="Date From"
-    )
-    date_to = fields.Date(
-        string="Date To"
-    )
-    down_payment = fields.Float(
-        string="Down Payment"
-    )
-    stamp_duty = fields.Boolean(
-        string="Stamp Duty"
-    )
-
-    _sql_constraints = [
-        ("unique_dates", "UNIQUE(date_from, date_to)", "Date From and Date To must be unique!")
-    ]
-
-    def remove_record(self):
-        def format_numbers(number):
-            number_splited = str(number).split(".")
-
-            if len(number_splited) == 1:
-                return "%.02f" % number
-
-            cents = number_splited[1]
-
-            if len(cents) > 8:
-                return "%.08f" % number
-
-            return float_repr(number, max(2, len(cents)))
-
-        move_ids = self.env["account.move"].search([("down_payment_id", "=", self.id)])
-
-        if not move_ids:
-            self.env.cr.execute(
-                "DELETE FROM account_move_down_payment_res_config_settings_rel "
-                f"WHERE account_move_down_payment_id = {self.id}"
-            )
-            self.env.cr.commit()
-            self.unlink()
-            self.env.cr.commit()
-            return
-
-        config = (f"{self.date_from} > {self.date_to}: {format_numbers(self.down_payment * 100).replace('.', ',')}% "
-                  f"({'con' if self.stamp_duty else 'senza'} Bollo)")
-        fatture = '\n- '.join(move_ids.mapped("name"))
-
-        raise exceptions.ValidationError(
-            f"Impossibile eliminare la configurazione {config} perché associata a:\n- {fatture}"
-        )
-
-
-from odoo.addons.account_edi.models.account_move import AccountMove as AccountMoveEdi
-from odoo.addons.account.models.account_move import AccountMove as AccountMoveOdoo
-
-
-def _post(self, soft=True):
-    posted = AccountMoveOdoo._post(self=self, soft=soft)
-    today = datetime.datetime.today().strftime("%Y-%m-%d")
-    invoices_d = posted.filtered(
-        lambda i: i.move_type in ("out_invoice", "out_refund")
-                  and (i.invoice_date.strftime("%Y-%m-%d") != today or not i.invoice_date)
-    )
-
-    if invoices_d:
-        for invoice_d in invoices_d:
-            invoice_d.write({
-                "invoice_date": today
-            })
-
-    invoices_pi = posted.filtered(
-        lambda i: not i.progressivo_invio and i.move_type in ("out_invoice", "out_refund")
-    )
-
-    if invoices_pi:
-        message = "Progressivo invio mancante per "
-
-        if len(invoices_pi) == 1:
-            message += "la fattura "
-        else:
-            message += "le fatture:\n"
-
-        message += "\n".join(invoices_pi.mapped("name"))
-        raise exceptions.ValidationError(message)
-
-    invoices_b = posted.filtered(
-        lambda i: float_compare(i.amount_total, 77.47, precision_digits=2) >= 0
-                  and float_is_zero(i.l10n_it_stamp_duty, precision_digits=2)
-                  and i.move_type in ("out_invoice", "out_refund")
-    )
-
-    if invoices_b:
-        message = "Bollo mancante per "
-
-        if len(invoices_b) == 1:
-            message += "la fattura "
-
-        else:
-            message += "le fatture:\n"
-
-        message += "\n".join(invoices_b.mapped("name"))
-
-        raise exceptions.ValidationError(message)
-
-    return posted
-
-
-def button_draft(self):
-    res = AccountMoveOdoo.button_draft(self=self)
-    return res
-
-
-def _get_move_display_name(self, show_ref=False):
-    self.ensure_one()
-    name = {
-        "out_invoice": "Fattura",
-        "out_refund": "Nota di credito",
-        "in_invoice": "Fattura fornitore",
-        "in_refund": "Nota di credito fornitore",
-        "out_receipt": "Ricevuta",
-        "in_receipt": "Ricevuta fornitore",
-        "entry": "Bozza"
-    }[self.move_type]
-    name += " "
-
-    if not self.name or self.name == "/":
-        name += "in bozza"
-
-    else:
-        name += f"n. {self.name}"
-
-        if self.env.context.get("input_full_display_name"):
-            if self.partner_id:
-                name += f", {self.partner_id.name}"
-
-            if self.date:
-                name += f", {format_date(self.env, self.date)}"
-
-    return name + (f" ({shorten(self.ref, width=50)})" if show_ref and self.ref else "")
-
-
-def _get_report_base_filename(self):
-    return _get_move_display_name(self=self, show_ref=False)
-
-
-def _get_mail_template(self):
-    if all(move.move_type == "out_refund" for move in self):
-        template = "account.email_template_edi_credit_note"
-
-    else:
-        today = fields.Date.today()
-        template = "nciavarella_custom.modello_notifica_emissione_fattura"
-
-        if all(move.move_type == "out_invoice" and move.payment_state == "not_paid" and move.invoice_date_due == today
-               for move in self):
-            template = "nciavarella_custom.modello_notifica_scadenza_pagamento"
-
-        elif all(move.move_type == "out_invoice" and move.payment_state == "not_paid" and move.invoice_date_due < today
-               for move in self):
-            template = "nciavarella_custom.modello_stato_fattura_emessa"
-
-    return template
-
-
-def action_invoice_print(self):
-    if any(not move.is_invoice(include_receipts=True) for move in self):
-        raise exceptions.UserError("Possono essere stampate solo le fatture")
-
-    self.filtered(lambda inv: not inv.is_move_sent).write({"is_move_sent": True})
-
-    return self.env.ref("account.account_invoices", False).report_action(self)
-
-AccountMoveEdi._post = _post
-AccountMoveEdi.button_draft = button_draft
-AccountMoveOdoo._get_move_display_name = _get_move_display_name
-AccountMoveOdoo._get_report_base_filename = _get_report_base_filename
-AccountMoveOdoo._get_mail_template = _get_mail_template
-AccountMoveOdoo.action_invoice_print = action_invoice_print
