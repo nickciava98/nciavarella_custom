@@ -1,8 +1,8 @@
 from odoo import models, fields
 
 
-class AccountInvoiceSend(models.TransientModel):
-    _inherit = "account.invoice.send"
+class MailComposeMessage(models.TransientModel):
+    _inherit = "mail.compose.message"
 
     def _partner_ids_domain(self):
         return [("id", "in", self.env.context.get("allowed_partner_ids", []))]
