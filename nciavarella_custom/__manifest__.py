@@ -4,8 +4,8 @@
     "license": "OPL-1",
     "author": "Niccolò Ciavarella",
     "category": "",
-    "version": "16.0.0.45",
-    "website": "http://www.nciavarella.me",
+    "version": "16.0.0.46",
+    "website": "https://www.nciavarella.me",
     "depends": [
         "l10n_it_edi",
         "partner_firstname",
@@ -23,7 +23,6 @@
         "security/groups.xml",
         "data/account_report.xml",
         "data/invoice_it_template.xml",
-        "data/ir_cron.xml",
         "data/mail_template.xml",
         "data/update_data.xml",
         "views/account_analytic_line_views.xml",

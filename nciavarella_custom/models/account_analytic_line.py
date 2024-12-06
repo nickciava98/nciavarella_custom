@@ -7,6 +7,7 @@ import base64
 import pytz
 
 from decimal import Decimal
+from io import BytesIO
 
 from odoo import modules, models, fields, api, exceptions, _
 from odoo.addons.nciavarella_custom.models.project_task import TIPO_ATTIVITA_SELECTION
@@ -162,33 +163,17 @@ class AccountAnalyticLine(models.Model):
         for line in self:
             line.is_confirmed = True
 
-    def pulizia_xlsx_data_action(self):
-        path = modules.module.get_resource_path("nciavarella_custom", "static/xlsx_data")
-
-        for files in os.listdir(path):
-            if "temp" in files:
-                continue
-
-            p = os.path.join(path, files)
-
-            try:
-                shutil.rmtree(p)
-
-            except OSError:
-                os.remove(p)
-
     def esporta_prospetto_excel_action(self):
         locale.setlocale(locale.LC_ALL, "it_IT.UTF-8")
-        module_path = modules.module.get_resource_path("nciavarella_custom", "static/xlsx_data")
-        periodi = " - ".join(list(dict.fromkeys([
+        file_data = BytesIO()
+        periodi = " - ".join(list(set([
             f"{dict(self._fields['mese_competenza']._description_selection(self.env)).get(line.mese_competenza)} "
             f"{line.anno_competenza}"
             for line in self
         ])))
-        file_name = f"{module_path}/Prospetto Ore {periodi}.xlsx"
 
         def _get_workbook():
-            workbook = xlsxwriter.Workbook(file_name, {"in_memory": True})
+            workbook = xlsxwriter.Workbook(file_data, {"constant_memory": True})
             header_format = workbook.add_format({"bold": True})
             header_format.set_align("vcenter")
             header_format_right = workbook.add_format({
@@ -233,7 +218,7 @@ class AccountAnalyticLine(models.Model):
             return workbook, formats
 
         workbook, formats = _get_workbook()
-        worksheet = workbook.add_worksheet()
+        worksheet = workbook.add_worksheet(name="Progetto > Task")
 
         worksheet.write(0, 0, "Data", formats.get("header_format"))
         worksheet.write(0, 1, "Dalle", formats.get("header_format_center"))
@@ -301,22 +286,91 @@ class AccountAnalyticLine(models.Model):
                     row += 1
 
         worksheet.set_column(0, 6, 30)
+
+        worksheet = workbook.add_worksheet(name="Giorno")
+
+        worksheet.write(0, 0, "Data", formats.get("header_format"))
+        worksheet.write(0, 1, "Dalle", formats.get("header_format_center"))
+        worksheet.write(0, 2, "Alle", formats.get("header_format_center"))
+        worksheet.write(0, 3, "Tipo Attività", formats.get("header_format"))
+        worksheet.write(0, 4, "Descrizione", formats.get("header_format"))
+        worksheet.write(0, 5, "Ore impiegate", formats.get("header_format_right"))
+        worksheet.write(0, 6, "Valore monetario", formats.get("header_format_right"))
+
+        tot_ore = str(sum(self.mapped("unit_amount")))
+
+        if len(tot_ore.split(".")[1]) == 1:
+            tot_ore += "0"
+
+        tot_valore = str(sum(self.mapped("valore")))
+
+        if len(tot_valore.split(".")[1]) == 1:
+            tot_valore += "0"
+
+        worksheet.merge_range(
+            1, 0, 1, 6, f"{periodi} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
+            formats.get("header_format")
+        )
+
+        righe_raggruppate = self.read_group(
+            domain=[("id", "in", self.ids)],
+            fields=["id"],
+            groupby=["date:day"],
+            lazy=False
+        )
+        row = 2
+
+        for riga_raggruppata in righe_raggruppate:
+            righe = self.search(riga_raggruppata["__domain"])
+            giorno = righe[0].date
+            tot_ore = str(sum(righe.mapped("unit_amount")))
+
+            if len(tot_ore.split(".")[1]) == 1:
+                tot_ore += "0"
+
+            tot_valore = str(sum(righe.mapped("valore")))
+
+            if len(tot_valore.split(".")[1]) == 1:
+                tot_valore += "0"
+
+            worksheet.merge_range(
+                row, 0, row, 6, f"{giorno.strftime('%d/%m/%Y')} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
+                formats.get("header_format")
+            )
+            row += 1
+
+            for riga in righe.sorted(key=lambda l: l.time_start, reverse=True)[::-1]:
+                worksheet.write(row, 0, riga.date.strftime("%d/%m/%Y"), formats.get("text_format"))
+                worksheet.write(
+                    row, 1, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_start * 60, 60)),
+                    formats.get("text_center")
+                )
+                worksheet.write(
+                    row, 2, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_end * 60, 60)),
+                    formats.get("text_center")
+                )
+                tipo_attivita = dict(TIPO_ATTIVITA_SELECTION).get(riga.tipo_attivita)
+                worksheet.write(row, 3, tipo_attivita, formats.get("text_format"))
+                worksheet.write(row, 4, riga.name, formats.get("text_format"))
+                worksheet.write(row, 5, riga.unit_amount, formats.get("qty_format"))
+                worksheet.write(row, 6, riga.valore, formats.get("currency_format"))
+
+                row += 1
+
+        worksheet.set_column(0, 6, 30)
         workbook.close()
+        file_data.seek(0)
 
-        with open(file_name, "rb") as file:
-            file_base64 = base64.b64encode(file.read())
-
+        file_base64 = base64.b64encode(file_data.read())
         attachment_id = self.env["ir.attachment"].create({
-            "name": f"{file_name.split('/')[-1]}",
+            "name": f"Prospetto Ore {periodi}.xlsx",
             "type": "binary",
             "datas": file_base64
         })
-        base_url = self.env["ir.config_parameter"].get_param("web.base.url")
-        url = f"{base_url}/web/content/{attachment_id.id}?download=true"
 
         return {
             "type": "ir.actions.act_url",
-            "url": url,
+            "url": f"/web/content/{attachment_id.id}?download=true",
             "target": "new"
         }
 
