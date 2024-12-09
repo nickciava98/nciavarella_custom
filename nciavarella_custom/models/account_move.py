@@ -86,11 +86,12 @@ class AccountMove(models.Model):
             if invoices:
                 invoice_names += "\n".join(invoices.mapped("name"))
 
-        raise exceptions.ValidationError(
-            f"Il Progressivo invio deve essere univoco!\n"
-            f"Lo stesso progressivo è stato trovato nelle seguenti fatture:\n"
-            f"{invoice_names}"
-        )
+        if bool(invoice_names):
+            raise exceptions.ValidationError(
+                f"Il Progressivo invio deve essere univoco!\n"
+                f"Lo stesso progressivo è stato trovato nelle seguenti fatture:\n"
+                f"{invoice_names}"
+            )
 
     def button_draft(self):
         res = super().button_draft()
