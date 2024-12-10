@@ -1,6 +1,4 @@
 import datetime
-import os.path
-import shutil
 import xlsxwriter
 import locale
 import base64
@@ -67,6 +65,9 @@ class AccountAnalyticLine(models.Model):
         store=True,
         readonly=False,
         string="Confirmed?"
+    )
+    doc_cliente = fields.Char(
+        string="Doc. Cliente"
     )
     time_start = fields.Float(
         default=_get_time_start,
@@ -220,13 +221,14 @@ class AccountAnalyticLine(models.Model):
         workbook, formats = _get_workbook()
         worksheet = workbook.add_worksheet(name="Progetto > Task")
 
-        worksheet.write(0, 0, "Data", formats.get("header_format"))
-        worksheet.write(0, 1, "Dalle", formats.get("header_format_center"))
-        worksheet.write(0, 2, "Alle", formats.get("header_format_center"))
-        worksheet.write(0, 3, "Tipo Attività", formats.get("header_format"))
-        worksheet.write(0, 4, "Descrizione", formats.get("header_format"))
-        worksheet.write(0, 5, "Ore impiegate", formats.get("header_format_right"))
-        worksheet.write(0, 6, "Valore monetario", formats.get("header_format_right"))
+        worksheet.write(0, 0, "N. Doc.", formats.get("header_format"))
+        worksheet.write(0, 1, "Data", formats.get("header_format"))
+        worksheet.write(0, 2, "Dalle", formats.get("header_format_center"))
+        worksheet.write(0, 3, "Alle", formats.get("header_format_center"))
+        worksheet.write(0, 4, "Tipo Attività", formats.get("header_format"))
+        worksheet.write(0, 5, "Descrizione", formats.get("header_format"))
+        worksheet.write(0, 6, "Ore impiegate", formats.get("header_format_right"))
+        worksheet.write(0, 7, "Valore monetario", formats.get("header_format_right"))
 
         row = 1
 
@@ -243,7 +245,7 @@ class AccountAnalyticLine(models.Model):
                 tot_valore += "0"
 
             worksheet.merge_range(
-                row, 0, row, 6, f"{progetto.name} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
+                row, 0, row, 7, f"{progetto.name} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
                 formats.get("header_format")
             )
             lavori = righe.mapped("task_id")
@@ -262,40 +264,42 @@ class AccountAnalyticLine(models.Model):
                     tot_valore += "0"
 
                 worksheet.merge_range(
-                    row, 0, row, 6, f"{lavoro.name} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
+                    row, 0, row, 7, f"{lavoro.name} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
                     formats.get("header_format")
                 )
                 row += 1
 
                 for riga in righe.sorted(key=lambda l: l.date, reverse=True)[::-1]:
-                    worksheet.write(row, 0, riga.date.strftime("%d/%m/%Y"), formats.get("text_format"))
+                    worksheet.write(row, 0, riga.doc_cliente or "/", formats.get("text_format"))
+                    worksheet.write(row, 1, riga.date.strftime("%d/%m/%Y"), formats.get("text_format"))
                     worksheet.write(
-                        row, 1, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_start * 60, 60)),
+                        row, 2, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_start * 60, 60)),
                         formats.get("text_center")
                     )
                     worksheet.write(
-                        row, 2, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_end * 60, 60)),
+                        row, 3, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_end * 60, 60)),
                         formats.get("text_center")
                     )
                     tipo_attivita = dict(TIPO_ATTIVITA_SELECTION).get(riga.tipo_attivita)
-                    worksheet.write(row, 3, tipo_attivita, formats.get("text_format"))
-                    worksheet.write(row, 4, riga.name, formats.get("text_format"))
-                    worksheet.write(row, 5, riga.unit_amount, formats.get("qty_format"))
-                    worksheet.write(row, 6, riga.valore, formats.get("currency_format"))
+                    worksheet.write(row, 4, tipo_attivita, formats.get("text_format"))
+                    worksheet.write(row, 5, riga.name, formats.get("text_format"))
+                    worksheet.write(row, 6, riga.unit_amount, formats.get("qty_format"))
+                    worksheet.write(row, 7, riga.valore, formats.get("currency_format"))
 
                     row += 1
 
-        worksheet.set_column(0, 6, 30)
+        worksheet.set_column(0, 7, 30)
 
         worksheet = workbook.add_worksheet(name="Giorno")
 
-        worksheet.write(0, 0, "Data", formats.get("header_format"))
-        worksheet.write(0, 1, "Dalle", formats.get("header_format_center"))
-        worksheet.write(0, 2, "Alle", formats.get("header_format_center"))
-        worksheet.write(0, 3, "Tipo Attività", formats.get("header_format"))
-        worksheet.write(0, 4, "Descrizione", formats.get("header_format"))
-        worksheet.write(0, 5, "Ore impiegate", formats.get("header_format_right"))
-        worksheet.write(0, 6, "Valore monetario", formats.get("header_format_right"))
+        worksheet.write(0, 0, "N. Doc.", formats.get("header_format"))
+        worksheet.write(0, 1, "Data", formats.get("header_format"))
+        worksheet.write(0, 2, "Dalle", formats.get("header_format_center"))
+        worksheet.write(0, 3, "Alle", formats.get("header_format_center"))
+        worksheet.write(0, 4, "Tipo Attività", formats.get("header_format"))
+        worksheet.write(0, 5, "Descrizione", formats.get("header_format"))
+        worksheet.write(0, 6, "Ore impiegate", formats.get("header_format_right"))
+        worksheet.write(0, 7, "Valore monetario", formats.get("header_format_right"))
 
         tot_ore = str(sum(self.mapped("unit_amount")))
 
@@ -308,7 +312,7 @@ class AccountAnalyticLine(models.Model):
             tot_valore += "0"
 
         worksheet.merge_range(
-            1, 0, 1, 6, f"{periodi} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
+            1, 0, 1, 7, f"{periodi} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
             formats.get("header_format")
         )
 
@@ -334,30 +338,31 @@ class AccountAnalyticLine(models.Model):
                 tot_valore += "0"
 
             worksheet.merge_range(
-                row, 0, row, 6, f"{giorno.strftime('%d/%m/%Y')} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
+                row, 0, row, 7, f"{giorno.strftime('%d/%m/%Y')} ({Decimal(tot_ore):n} Ore) [{Decimal(tot_valore):n} €]",
                 formats.get("header_format")
             )
             row += 1
 
             for riga in righe.sorted(key=lambda l: l.time_start, reverse=True)[::-1]:
-                worksheet.write(row, 0, riga.date.strftime("%d/%m/%Y"), formats.get("text_format"))
+                worksheet.write(row, 0, riga.doc_cliente or "/", formats.get("text_format"))
+                worksheet.write(row, 1, riga.date.strftime("%d/%m/%Y"), formats.get("text_format"))
                 worksheet.write(
-                    row, 1, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_start * 60, 60)),
+                    row, 2, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_start * 60, 60)),
                     formats.get("text_center")
                 )
                 worksheet.write(
-                    row, 2, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_end * 60, 60)),
+                    row, 3, "{0:02.0f}:{1:02.0f}".format(*divmod(riga.time_end * 60, 60)),
                     formats.get("text_center")
                 )
                 tipo_attivita = dict(TIPO_ATTIVITA_SELECTION).get(riga.tipo_attivita)
-                worksheet.write(row, 3, tipo_attivita, formats.get("text_format"))
-                worksheet.write(row, 4, riga.name, formats.get("text_format"))
-                worksheet.write(row, 5, riga.unit_amount, formats.get("qty_format"))
-                worksheet.write(row, 6, riga.valore, formats.get("currency_format"))
+                worksheet.write(row, 4, tipo_attivita, formats.get("text_format"))
+                worksheet.write(row, 5, riga.name, formats.get("text_format"))
+                worksheet.write(row, 6, riga.unit_amount, formats.get("qty_format"))
+                worksheet.write(row, 7, riga.valore, formats.get("currency_format"))
 
                 row += 1
 
-        worksheet.set_column(0, 6, 30)
+        worksheet.set_column(0, 7, 30)
         workbook.close()
         file_data.seek(0)
 

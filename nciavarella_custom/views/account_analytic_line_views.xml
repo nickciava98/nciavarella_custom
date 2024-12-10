@@ -11,6 +11,7 @@
 
             <xpath expr="//field[@name='date']" position="before">
                 <field name="name"/>
+                <field name="doc_cliente"/>
             </xpath>
 
             <xpath expr="//field[@name='date']" position="after">
@@ -61,6 +62,7 @@
                 <field name="is_invoiced" optional="show"/>
                 <field name="invoice_id" optional="hide" readonly="True" force_save="1"/>
                 <field name="is_confirmed" optional="show"/>
+                <field name="doc_cliente" optional="show"/>
                 <field name="anno_competenza" optional="hide"/>
                 <field name="mese_competenza" optional="hide"/>
             </xpath>
@@ -127,6 +129,7 @@
             <xpath expr="//field[@name='date']" position="after">
                 <field name="time_start" required="True" widget="timesheet_uom"/>
                 <field name="time_end" required="True" widget="timesheet_uom"/>
+                <field name="doc_cliente"/>
             </xpath>
 
             <xpath expr="//field[@name='project_id']" position="attributes">

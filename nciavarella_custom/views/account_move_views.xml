@@ -19,7 +19,10 @@
 
             <xpath expr="//group[@id='header_right_group']//field[@name='invoice_date_due']" position="attributes">
                 <attribute name="attrs">
-                    {'invisible': [('invoice_payment_term_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}
+                    {
+                        'invisible': [('invoice_payment_term_id', '!=', False)],
+                        'readonly': [('state', '!=', 'draft')]
+                    }
                 </attribute>
             </xpath>
 
@@ -80,16 +83,8 @@
             <xpath expr="//page[@name='other_info']" position="before">
                 <page name="timesheet_entries" string="Timesheet Entries"
                       attrs="{'invisible': [('analytic_line_ids', '=', [])]}">
-                    <field name="analytic_line_ids" widget="one2many" readonly="True" force_save="1">
-                        <tree limit="1000">
-                            <field name="date"/>
-                            <field name="project_id"/>
-                            <field name="task_id" widget="task_with_hours"/>
-                            <field name="name"/>
-                            <field name="unit_amount" widget="timesheet_uom" sum="Total"
-                                   decoration-danger="unit_amount &gt; 24"/>
-                        </tree>
-                    </field>
+                    <field name="analytic_line_ids" widget="one2many" readonly="True" force_save="1"
+                           context="{'tree_view_ref': 'hr_timesheet.hr_timesheet_line_tree', 'form_view_ref': 'hr_timesheet.hr_timesheet_line_form'}"/>
                 </page>
             </xpath>
         </field>
