@@ -62,6 +62,27 @@ class AccountMove(models.Model):
         string="Timesheet Entries"
     )
 
+    @api.model
+    def web_read_group(self, domain, fields, groupby, limit=None, offset=0, orderby=False,
+                       lazy=True, expand=False, expand_limit=None, expand_orderby=False):
+        orderby = self._order.replace(", ", ",")
+        # lazy = False
+        # expand = True
+        # expand_limit = 12
+
+        return super().web_read_group(
+            domain,
+            fields,
+            groupby,
+            offset,
+            limit,
+            orderby,
+            lazy,
+            expand,
+            expand_limit,
+            expand_orderby
+        )
+
     def action_invoice_sent(self):
         action = super().action_invoice_sent()
         default_partner_ids = [self.partner_id.id]
