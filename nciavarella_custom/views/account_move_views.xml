@@ -281,26 +281,6 @@
         </field>
     </record>
 
-    <record id="l10n_it_edi_move_in_tree_inherit" model="ir.ui.view">
-        <field name="name">l10n.it.edi.move.in.tree.inherit</field>
-        <field name="model">account.move</field>
-        <field name="inherit_id" ref="l10n_it_edi.view_in_bill_tree_inherit"/>
-
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='edi_state']" position="attributes">
-                <attribute name="invisible">True</attribute>
-            </xpath>
-
-            <xpath expr="//field[@name='edi_blocking_level']" position="attributes">
-                <attribute name="invisible">True</attribute>
-            </xpath>
-
-            <xpath expr="//field[@name='edi_error_message']" position="attributes">
-                <attribute name="invisible">True</attribute>
-            </xpath>
-        </field>
-    </record>
-
     <record id="account.action_move_out_invoice_type" model="ir.actions.act_window">
         <field name="view_mode">tree,form</field>
         <field name="context">
