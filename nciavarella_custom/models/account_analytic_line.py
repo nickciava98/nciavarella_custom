@@ -126,7 +126,7 @@ class AccountAnalyticLine(models.Model):
     trimestre = fields.Integer(
         compute="_compute_trimestre",
         store=True,
-        sting="Trimestre"
+        string="Trimestre"
     )
 
     @api.depends("date")
