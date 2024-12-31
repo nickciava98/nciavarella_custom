@@ -24,6 +24,10 @@ class TimesheetAnalysisReport(models.Model):
         readonly=True,
         string="Competenza"
     )
+    trimestre = fields.Integer(
+        readonly=True,
+        string="Trimestre"
+    )
 
     @api.model
     def _select(self):
@@ -31,5 +35,6 @@ class TimesheetAnalysisReport(models.Model):
             A.valore AS valore,
             A.mese_competenza AS mese_competenza,
             A.anno_competenza AS anno_competenza,
-            A.competenza AS competenza
+            A.competenza AS competenza,
+            A.trimestre AS trimestre
         """

@@ -123,6 +123,16 @@ class AccountAnalyticLine(models.Model):
         store=True,
         string="Competenza"
     )
+    trimestre = fields.Integer(
+        compute="_compute_trimestre",
+        store=True,
+        sting="Trimestre"
+    )
+
+    @api.depends("date")
+    def _compute_trimestre(self):
+        for line in self:
+            line.trimestre = (line.date.month - 1) // 3 + 1
 
     @api.depends("task_id", "task_id.default_tipo_attivita")
     def _compute_tipo_attivita(self):

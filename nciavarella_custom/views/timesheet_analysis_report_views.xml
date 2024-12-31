@@ -8,14 +8,15 @@
             <xpath expr="//field[@name='date']" position="after">
                 <field name="mese_competenza"/>
                 <field name="anno_competenza"/>
+                <field name="trimestre"/>
             </xpath>
 
             <xpath expr="//filter[@name='month']" position="after">
                 <filter name="competenza" string="Competenza" date="competenza"/>
+                <filter name="trimestre_corrente" string="Trimestre Corrente"
+                        domain="[('trimestre', '=', (context_today().month - 1) // 3 + 1), ('anno_competenza', '=', context_today().strftime('%Y'))]"/>
                 <filter name="mese_competenza_corrente" string="Mese competenza corrente"
                         domain="[('mese_competenza', '=', context_today().strftime('%m')), ('anno_competenza', '=', context_today().strftime('%Y'))]"/>
-                <filter name="trimestre_competenza_corrente" string="Trimestre competenza corrente"
-                        domain="[('mese_competenza', 'in', [context_today().strftime('%m'), (context_today() - relativedelta(months=1)).strftime('%m'), (context_today() - relativedelta(months=2)).strftime('%m')]), ('anno_competenza', '=', context_today().strftime('%Y'))]"/>
                 <filter name="anno_competenza_corrente" string="Anno competenza corrente"
                         domain="[('anno_competenza', '=', context_today().strftime('%Y'))]"/>
             </xpath>
@@ -25,7 +26,7 @@
     <record id="hr_timesheet.timesheet_action_report_by_project" model="ir.actions.act_window">
         <field name="context">
             {
-                'search_default_trimestre_competenza_corrente': True,
+                'search_default_trimestre_corrente': True,
                 'group_by': [],
                 'pivot_measures': ['unit_amount', 'valore'],
                 'pivot_column_groupby': ['anno_competenza', 'mese_competenza'],
