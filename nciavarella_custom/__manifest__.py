@@ -4,7 +4,7 @@
     "license": "OPL-1",
     "author": "Niccolò Ciavarella",
     "category": "",
-    "version": "16.0.0.49",
+    "version": "16.0.0.50",
     "website": "https://www.nciavarella.me",
     "depends": [
         "l10n_it_edi",
