@@ -5,8 +5,6 @@
                 <t t-set="document_info">
                     <span class="text-muted">
                         Documento privo di valenza fiscale ai sensi dell’art. 21 del DPR 633/72.
-                        L’originale è disponibile all’indirizzo telematico fornito oppure
-                        nell'Area Riservata dell’Agenzia delle Entrate.
                     </span>
                 </t>
 
