@@ -128,6 +128,48 @@ class AccountAnalyticLine(models.Model):
         store=True,
         string="Trimestre"
     )
+    doc_cliente_required = fields.Boolean(
+        compute="_compute_doc_cliente_required"
+    )
+    netto_presunto = fields.Monetary(
+        currency_field="currency_id",
+        group_operator="sum",
+        compute="_compute_netto_presunto",
+        store=True,
+        string="Netto Presunto"
+    )
+
+    @api.depends("date", "valore")
+    def _compute_netto_presunto(self):
+        for line in self:
+            invoice_down_payment = .0
+
+            if line.date:
+                down_payment_ids = self.env["account.move.down.payment"].search(
+                    [("date_from", "<=", line.date.strftime("%Y-%m-%d")),
+                     ("date_to", ">=", line.date.strftime("%Y-%m-%d"))]
+                )
+
+                if down_payment_ids:
+                    down_payment_id = down_payment_ids.filtered(
+                        lambda d: d.date_from.strftime("%Y") == line.date.strftime("%Y")
+                                  or d.date_to.strftime("%Y") == line.date.strftime("%Y")
+                    )
+
+                    if down_payment_id:
+                        down_payment_id = down_payment_id[0]
+                        invoice_down_payment = (
+                            not down_payment_id.stamp_duty and down_payment_id.down_payment * line.valore
+                            or down_payment_id.down_payment * line.valore + 2
+                        )
+
+            line.netto_presunto = line.valore - invoice_down_payment
+
+    @api.depends("is_confirmed", "project_id", "project_id.conferma_automatica", "task_id",
+                 "task_id.conferma_automatica")
+    def _compute_doc_cliente_required(self):
+        for line in self:
+            line.doc_cliente_required = not line._get_conferma_automatica() and line.is_confirmed
 
     @api.depends("date")
     def _compute_trimestre(self):
@@ -139,16 +181,23 @@ class AccountAnalyticLine(models.Model):
         for line in self:
             line.tipo_attivita = line.task_id and line.task_id.default_tipo_attivita or "consulenza"
 
+    def _get_conferma_automatica(self):
+        self.ensure_one()
+
+        conferma_automatica = False
+
+        if self.project_id:
+            conferma_automatica = self.project_id.conferma_automatica
+
+        if self.task_id:
+            conferma_automatica = self.task_id.conferma_automatica
+
+        return conferma_automatica
+
     @api.depends("project_id", "project_id.conferma_automatica", "task_id", "task_id.conferma_automatica")
     def _compute_is_confirmed(self):
         for line in self:
-            line.is_confirmed = False
-
-            if line.project_id:
-                line.is_confirmed = line.project_id.conferma_automatica
-
-            if line.task_id:
-                line.is_confirmed = line.task_id.conferma_automatica
+            line.is_confirmed = line._get_conferma_automatica()
 
     def open_invoice_action(self):
         action = self.env["ir.actions.act_window"]._for_xml_id("account.action_move_out_invoice_type")
@@ -173,6 +222,13 @@ class AccountAnalyticLine(models.Model):
     def conferma_action(self):
         for line in self:
             line.is_confirmed = True
+
+    @api.onchange("doc_cliente")
+    def _onchange_doc_cliente(self):
+        if self._get_conferma_automatica():
+            return
+
+        self.is_confirmed = bool(self.doc_cliente)
 
     def esporta_prospetto_excel_action(self):
         locale.setlocale(locale.LC_ALL, "it_IT.UTF-8")

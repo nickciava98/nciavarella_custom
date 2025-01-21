@@ -96,6 +96,7 @@
             <xpath expr="//tree/field[@name='unit_amount']" position="before">
                 <field name="currency_id" invisible="True"/>
                 <field name="valore" sum="Valore" optional="show"/>
+                <field name="netto_presunto" sum="Netto Presunto" optional="hide"/>
             </xpath>
         </field>
     </record>
@@ -148,6 +149,7 @@
             <xpath expr="//field[@name='unit_amount']" position="before">
                 <field name="currency_id" invisible="True"/>
                 <field name="valore"/>
+                <field name="netto_presunto"/>
             </xpath>
 
             <xpath expr="//sheet" position="inside">

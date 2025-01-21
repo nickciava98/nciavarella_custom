@@ -11,6 +11,12 @@ class TimesheetAnalysisReport(models.Model):
         readonly=True,
         string="Valore"
     )
+    netto_presunto = fields.Monetary(
+        currency_field="currency_id",
+        group_operator="sum",
+        readonly=True,
+        string="Netto Presunto"
+    )
     mese_competenza = fields.Selection(
         selection=MESE_COMPETENZA_SELECTION,
         readonly=True,
@@ -33,6 +39,7 @@ class TimesheetAnalysisReport(models.Model):
     def _select(self):
         return super()._select() + """,
             A.valore AS valore,
+            A.netto_presunto AS netto_presunto,
             A.mese_competenza AS mese_competenza,
             A.anno_competenza AS anno_competenza,
             A.competenza AS competenza,

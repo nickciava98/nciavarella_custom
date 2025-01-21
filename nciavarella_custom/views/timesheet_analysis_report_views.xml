@@ -28,7 +28,7 @@
             {
                 'search_default_trimestre_corrente': True,
                 'group_by': [],
-                'pivot_measures': ['unit_amount', 'valore'],
+                'pivot_measures': ['unit_amount', 'valore', 'netto_presunto'],
                 'pivot_column_groupby': ['anno_competenza', 'mese_competenza'],
                 'pivot_row_groupby': ['project_id']
             }
