@@ -4,14 +4,15 @@
     "license": "OPL-1",
     "author": "Niccolò Ciavarella",
     "category": "",
-    "version": "16.0.0.59",
+    "version": "16.0.0.60",
     "website": "https://www.nciavarella.me",
     "depends": [
         "l10n_it_edi",
         "partner_firstname",
         "hr_timesheet",
         "project",
-        "onlyoffice_odoo"
+        "onlyoffice_odoo",
+        "auto_backup"
     ],
     "assets": {
         "web.assets_backend": [
