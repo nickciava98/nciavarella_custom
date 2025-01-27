@@ -19,9 +19,7 @@ class DbBackup(models.Model):
         to_compute_ids = self.filtered(lambda r: r.method == "local")
 
         for record in self.filtered(lambda r: r.method == "sftp"):
-            record.name = (
-                f"ftps://{record.sftp_user}@{record.sftp_host}:{record.sftp_port}/{record.folder}".replace("//", "/")
-            )
+            record.name = f"ftps://{record.sftp_user}@{record.sftp_host}:{record.sftp_port}{record.folder}"
 
         return super(DbBackup, to_compute_ids)._compute_name()
 
