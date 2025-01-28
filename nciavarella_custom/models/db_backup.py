@@ -28,7 +28,7 @@ class DbBackup(models.Model):
         successful_ids = self.browse()
 
         for record in self.filtered(lambda r: r.method == "local"):
-            filename = record.filename(datetime.now(), ext=record.backup_format)
+            filename = record.filename(fields.Datetime.now(), ext=record.backup_format)
 
             with record.backup_log():
                 try:
